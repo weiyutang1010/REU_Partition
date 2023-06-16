@@ -1,10 +1,10 @@
 from collections import defaultdict
 from heapq import nlargest
+from score import paired, unpaired
 import numpy as np
 
 _allowed_pairs = {"AU", "UA", "CG", "GC", "GU", "UG"}
-paired_sc = -1
-unpaired_sc = .1
+SMALL_NUM = -1000000
 
 def partition_bu_log(x):
     """Bottom Up Approach"""
@@ -19,35 +19,29 @@ def partition_bu_log(x):
         for i in range(n - span + 1):
             j = i + span - 1
 
-            Q[i, j] = Q[i, j-1] + (-unpaired_sc)
+            Q[i, j] = Q[i, j-1] + (-unpaired(x, j))
             for k in range(i, j):
                 if x[k] + x[j] in _allowed_pairs:
-                    Q[i, j] = np.logaddexp(Q[i, j], Q[i, k-1] + Q[k+1,j-1] + (-paired_sc))
+                    Q[i, j] = np.logaddexp(Q[i, j], Q[i, k-1] + Q[k+1,j-1] + (-paired(x, k, j)))
 
     return np.exp(Q[0, n-1])
 
 def partition_lr_log(x):
     """Left to Right"""
     n = len(x)
-    Q = [defaultdict(float) for _ in range(n+1)]
+    Q = [defaultdict(lambda: SMALL_NUM) for _ in range(n+1)]
 
     for j in range(1, n+1):
         Q[j-1][j] = 0.
 
     for j in range(1, n+1):
         for i in Q[j-1]:
-            if i in Q[j]:
-                Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired_sc))
-            else:
-                Q[j][i] = Q[j-1][i] + (-unpaired_sc)
+            Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x, j)))
 
             # x is 0-indexed
             if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
                 for k in Q[i-2]:
-                    if k in Q[j]:
-                        Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired_sc))
-                    else:
-                        Q[j][k] = Q[i-2][k] + Q[j-1][i] + (-paired_sc)
+                    Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x, i-1, j)))
 
     return np.exp(Q[n][1])
 
@@ -71,7 +65,7 @@ def beam_prune(Q, j, b):
 def linear_partition_log(x, b):
     """Left to Right + Beam Pruning"""
     n = len(x)
-    Q = [defaultdict(float) for _ in range(n+1)]
+    Q = [defaultdict(lambda: SMALL_NUM) for _ in range(n+1)]
 
     for j in range(1, n+1):
         Q[j-1][j] = 0.
@@ -79,18 +73,13 @@ def linear_partition_log(x, b):
     # O(nb^2)
     for j in range(1, n+1):
         for i in Q[j-1]:
-            if i in Q[j]:
-                Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired_sc))
-            else:
-                Q[j][i] = Q[j-1][i] + (-unpaired_sc)
+            Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x, j)))
 
             # x is 0-indexed
             if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
                 for k in Q[i-2]:
-                    if k in Q[j]:
-                        Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired_sc))
-                    else:
-                        Q[j][k] = Q[i-2][k] + Q[j-1][i] + (-paired_sc)
+                    Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x, i-1, j)))
+
 
         beam_prune(Q, j, b)
 

@@ -1,10 +1,9 @@
 from collections import defaultdict
 from heapq import nlargest
+from score import paired, unpaired
 import numpy as np
 
 _allowed_pairs = {"AU", "UA", "CG", "GC", "GU", "UG"}
-paired_sc = -1
-unpaired_sc = .1
 
 def partition_bu(x):
     """Bottom Up Approach"""
@@ -19,10 +18,10 @@ def partition_bu(x):
         for i in range(n - span + 1):
             j = i + span - 1
 
-            Q[i, j] = Q[i, j-1] * np.exp(-unpaired_sc)
+            Q[i, j] = Q[i, j-1] * np.exp(-unpaired(x, j))
             for k in range(i, j):
                 if x[k] + x[j] in _allowed_pairs:
-                    Q[i, j] += Q[i, k-1] * Q[k+1,j-1] * np.exp(-paired_sc)
+                    Q[i, j] += Q[i, k-1] * Q[k+1,j-1] * np.exp(-paired(x, k, j))
 
     return Q[0, n-1]
 
@@ -36,12 +35,12 @@ def partition_lr(x):
 
     for j in range(1, n+1):
         for i in Q[j-1]:
-            Q[j][i] += Q[j-1][i] * np.exp(-unpaired_sc)
+            Q[j][i] += Q[j-1][i] * np.exp(-unpaired(x, j))
 
             # x is 0-indexed
             if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
                 for k in Q[i-2]:
-                    Q[j][k] += Q[i-2][k] * Q[j-1][i] * np.exp(-paired_sc)
+                    Q[j][k] += Q[i-2][k] * Q[j-1][i] * np.exp(-paired(x, i-1, j))
 
     return Q[n][1]
 
@@ -73,12 +72,12 @@ def linear_partition(x, b):
     # O(nb^2)
     for j in range(1, n+1):
         for i in Q[j-1]:
-            Q[j][i] += Q[j-1][i] * np.exp(-unpaired_sc)
+            Q[j][i] += Q[j-1][i] * np.exp(-unpaired(x, j))
 
             # x is 0-indexed
             if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
                 for k in Q[i-2]:
-                    Q[j][k] += Q[i-2][k] * Q[j-1][i] * np.exp(-paired_sc)
+                    Q[j][k] += Q[i-2][k] * Q[j-1][i] * np.exp(-paired(x, i-1, j))
 
         beam_prune(Q, j, b)
 
