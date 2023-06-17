@@ -3,9 +3,19 @@ from itertools import product
 from linear_partition import partition_lr
 from score import paired, unpaired
 import numpy as np
+import math
 
 _allowed_pairs = {"AU", "UA", "CG", "GC", "GU", "UG"}
 SMALL_NUM = -1000000
+
+sequences = {}
+
+# Generate catesian product of input, https://docs.python.org/3/library/itertools.html#itertools.product
+def generate_sequences(*args, n):
+    pools = [tuple(pool) for pool in args] * n
+    sequences[n] = [[]]
+    for pool in pools:
+        sequences[n] = [x+[y] for x in sequences[n] for y in pool]
 
 def probability(seq, X):
     prob = 1
@@ -15,17 +25,20 @@ def probability(seq, X):
     return prob
 
 def verifier(X):
-    # Let X be a distribution
+    # O(4^n * n^3)
     n = len(X)
     weighted_sum = 0
-
-    for seq in product('ACGU', repeat=n):
+    
+    if n not in sequences:
+        generate_sequences('ACGU', n=n)
+        
+    for seq in sequences[n]:
         weighted_sum += probability(seq, X) * partition_lr(seq)
 
     return weighted_sum
 
 def expected_partition(X):
-    """Left to Right"""
+    """Left to Right O(n^3)"""
     n = len(X)
     Q = [defaultdict(float) for _ in range(n+1)]
 
@@ -49,6 +62,7 @@ def expected_partition(X):
     return Q[n][1]
 
 def expected_partition_log(X):
+    """O(n^3)"""
     n = len(X)
     Q = [defaultdict(lambda: SMALL_NUM) for _ in range(n+1)]
 
@@ -71,44 +85,41 @@ def expected_partition_log(X):
 
     return np.exp(Q[n][1])
 
-def test():
-    test_distribution_1 = [
-        { 'A' : 0.2, 'C' : 0.3, 'G' : 0.1, 'U' : 0.4},
-        { 'A' : 0.3, 'C' : 0.3, 'G' : 0.1, 'U' : 0.3},
-    ]
+def generate_test_case(n):
+    test_distribution = []
 
-    test_distribution_2 = [
-        { 'A' : 0.2, 'C' : 0.3, 'G' : 0.1, 'U' : 0.4},
-        { 'A' : 0.3, 'C' : 0.3, 'G' : 0.1, 'U' : 0.3},
-        { 'A' : 0.5, 'C' : 0.2, 'G' : 0.2, 'U' : 0.1},
-        { 'A' : 0.3, 'C' : 0.1, 'G' : 0.5, 'U' : 0.1},
-    ]
+    for _ in range(n):
+        # generate random number that sums to 1: https://stackoverflow.com/a/8068956
+        rand = np.concatenate((np.random.sample(3), np.array([1., 0.])), axis=0)
+        rand.sort()
 
-    test_distribution_3 = [
-        { 'A' : 0.5, 'C' : 0.2, 'G' : 0.2, 'U' : 0.1},
-        { 'A' : 0.2, 'C' : 0.3, 'G' : 0.1, 'U' : 0.4},
-        { 'A' : 0.3, 'C' : 0.3, 'G' : 0.1, 'U' : 0.3},
-        { 'A' : 0.5, 'C' : 0.2, 'G' : 0.2, 'U' : 0.1},
-        { 'A' : 0.3, 'C' : 0.3, 'G' : 0.1, 'U' : 0.3},
-        { 'A' : 0.3, 'C' : 0.1, 'G' : 0.5, 'U' : 0.1},
-    ]
+        test_distribution.append({
+            'A': rand[1] - rand[0],
+            'C': rand[2] - rand[1],
+            'G': rand[3] - rand[2],
+            'U': rand[4] - rand[3]
+        })
 
-    print("Test 1")
-    print("Expected Partition: \t\t", expected_partition(test_distribution_1))
-    print("Expected Partition (log): \t", expected_partition_log(test_distribution_1))
-    print("Verifier: \t\t\t", verifier(test_distribution_1))
-    print()
+    return test_distribution
 
-    print("Test 2")
-    print("Expected Partition: \t\t", expected_partition(test_distribution_2))
-    print("Expected Partition (log): \t", expected_partition_log(test_distribution_2))
-    print("Verifier: \t\t\t", verifier(test_distribution_2))
-    print()
 
-    print("Test 3")
-    print("Expected Partition: \t\t", expected_partition(test_distribution_3))
-    print("Expected Partition (log): \t", expected_partition_log(test_distribution_3))
-    print("Verifier: \t\t\t", verifier(test_distribution_3))
+def test(n, t):
+    np.random.seed(42)
+
+    for _ in range(t):
+        test_distribution = generate_test_case(n)
+        exp = expected_partition(test_distribution)
+        exp_log = expected_partition_log(test_distribution)
+        ans = verifier(test_distribution)
+
+        if not math.isclose(exp, ans):
+            print(f"Wrong Value! expected partition       = {exp}, verifier = {ans}")
+
+        if not math.isclose(exp_log, ans):
+            print(f"Wrong Value! expected partition (log) = {exp}, verifier = {ans}")
+
+    print(f"Completed test cases of n = {n}, t = {t}")
 
 if __name__ == "__main__":
-    test()
+    for n in range(1, 21):
+        test(n, 1)
