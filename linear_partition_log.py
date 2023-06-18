@@ -19,10 +19,10 @@ def partition_bu_log(x):
         for i in range(n - span + 1):
             j = i + span - 1
 
-            Q[i, j] = Q[i, j-1] + (-unpaired(x, j))
+            Q[i, j] = Q[i, j-1] + (-unpaired(x[j]))
             for k in range(i, j):
                 if x[k] + x[j] in _allowed_pairs:
-                    Q[i, j] = np.logaddexp(Q[i, j], Q[i, k-1] + Q[k+1,j-1] + (-paired(x, k, j)))
+                    Q[i, j] = np.logaddexp(Q[i, j], Q[i, k-1] + Q[k+1,j-1] + (-paired(x[k], x[j])))
 
     return np.exp(Q[0, n-1])
 
@@ -36,12 +36,12 @@ def partition_lr_log(x):
 
     for j in range(1, n+1):
         for i in Q[j-1]:
-            Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x, j)))
+            Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x[j-1])))
 
             # x is 0-indexed
             if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
                 for k in Q[i-2]:
-                    Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x, i-1, j)))
+                    Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x[i-2], x[j-1])))
 
     return np.exp(Q[n][1])
 
@@ -73,12 +73,12 @@ def linear_partition_log(x, b):
     # O(nb^2)
     for j in range(1, n+1):
         for i in Q[j-1]:
-            Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x, j)))
+            Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x[j-1])))
 
             # x is 0-indexed
             if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
                 for k in Q[i-2]:
-                    Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x, i-1, j)))
+                    Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x[i-2], x[j-1])))
 
 
         beam_prune(Q, j, b)

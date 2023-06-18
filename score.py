@@ -1,10 +1,11 @@
-import numpy as np
+def paired(c1, c2):
+    if c1 + c2 in ["CG", "GC"]:
+        return -1
+    else:
+        return -2
 
-paired_sc = -1
-unpaired_sc = .1
-
-def paired(x, i, j):
-    return paired_sc
-
-def unpaired(x, i):
-    return unpaired_sc
+def unpaired(c):
+    if c == 'A' or c == 'G':
+        return .2
+    else:
+        return .1
