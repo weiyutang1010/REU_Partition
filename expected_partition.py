@@ -82,7 +82,7 @@ def expected_partition_log(X):
                         paired_sc = np.logaddexp(paired_sc, np.log(X[i-2][c1]) + np.log(X[j-1][c2]) + (-paired(c1, c2)))
                     Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + paired_sc)
 
-    return np.exp(Q[n][1])
+    return Q[n][1]
 
 def generate_test_case(n):
     test_distribution = []
@@ -120,5 +120,4 @@ def test(n, t):
     print(f"Completed test cases of n = {n}, t = {t}")
 
 if __name__ == "__main__":
-    for n in range(1, 10):
-        test(n, 10)
+    test(0, 0)

@@ -1,11 +1,9 @@
 def paired(c1, c2):
-    if c1 + c2 in ["CG", "GC"]:
-        return -1
+    _allowed_pairs = {"CG": -3, "GC": -3, "AU": -2, "UA":-2, "GU": -1, "UG":-1}
+    if c1 + c2 in _allowed_pairs:
+        return _allowed_pairs[c1 + c2]
     else:
-        return -2
+        return 100
 
 def unpaired(c):
-    if c == 'A' or c == 'G':
-        return .2
-    else:
-        return .1
+    return 1.
