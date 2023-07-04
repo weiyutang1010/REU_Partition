@@ -58,7 +58,7 @@ def expected_partition(X):
                         paired_sc += X[i-2][c1] * X[j-1][c2] * np.exp(-paired(c1, c2))
                     Q[j][k] += Q[i-2][k] * Q[j-1][i] * paired_sc
 
-    return Q[n][1]
+    return Q
 
 def expected_partition_log(X):
     """O(n^3)"""
@@ -82,7 +82,7 @@ def expected_partition_log(X):
                         paired_sc = np.logaddexp(paired_sc, np.log(X[i-2][c1]) + np.log(X[j-1][c2]) + (-paired(c1, c2)))
                     Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + paired_sc)
 
-    return Q[n][1]
+    return Q
 
 def generate_test_case(n):
     test_distribution = []
@@ -111,13 +111,13 @@ def test(n, t):
         exp_log = expected_partition_log(test_distribution)
         ans = verifier(test_distribution)
 
-        if not math.isclose(exp, ans):
+        if not math.isclose(exp[n][1], ans):
             print(f"Wrong Value! expected partition       = {exp}, verifier = {ans}")
 
-        if not math.isclose(exp_log, ans):
+        if not math.isclose(np.exp(exp_log[n][1]), ans):
             print(f"Wrong Value! expected partition (log) = {exp}, verifier = {ans}")
 
     print(f"Completed test cases of n = {n}, t = {t}")
 
 if __name__ == "__main__":
-    test(0, 0)
+    test(5, 100)
