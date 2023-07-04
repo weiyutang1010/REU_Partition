@@ -67,7 +67,7 @@ def partition_lr(x):
 def partition_lr_log(x):
     """Left to Right"""
     n = len(x)
-    Q = [defaultdict(lambda: float('1e-12')) for _ in range(n+1)]
+    Q = [defaultdict(lambda: float('-1e12')) for _ in range(n+1)]
 
     for j in range(1, n+1):
         Q[j-1][j] = 0.
@@ -77,7 +77,7 @@ def partition_lr_log(x):
             Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x[j-1])))
 
             # x is 0-indexed
-            if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
+            if i >= 2 and x[i-2] + x[j-1] in _allowed_pairs:
                 for k in Q[i-2]:
                     Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x[i-2], x[j-1])))
 
@@ -125,7 +125,7 @@ def linear_partition(x, b):
 def linear_partition_log(x, b):
     """Left to Right + Beam Pruning"""
     n = len(x)
-    Q = [defaultdict(lambda: float('1e-12')) for _ in range(n+1)]
+    Q = [defaultdict(lambda: float('-1e12')) for _ in range(n+1)]
 
     for j in range(1, n+1):
         Q[j-1][j] = 0.

@@ -1,6 +1,6 @@
 from collections import defaultdict
 from itertools import product
-from linear_partition import partition_lr
+from inside_partition import partition_lr
 from score import paired, unpaired
 import numpy as np
 import math
@@ -36,7 +36,7 @@ def verifier(X):
 
     return weighted_sum
 
-def expected_partition(X):
+def expected_inside_partition(X):
     """Left to Right O(n^3)"""
     n = len(X)
     Q = [defaultdict(float) for _ in range(n+1)]
@@ -60,7 +60,7 @@ def expected_partition(X):
 
     return Q
 
-def expected_partition_log(X):
+def expected_inside_partition_log(X):
     """O(n^3)"""
     n = len(X)
     Q = [defaultdict(lambda: SMALL_NUM) for _ in range(n+1)]
@@ -102,13 +102,13 @@ def generate_test_case(n):
     return test_distribution
 
 
-def test(n, t):
+def test_inside(n, t):
     np.random.seed()
 
     for _ in range(t):
         test_distribution = generate_test_case(n)
-        exp = expected_partition(test_distribution)
-        exp_log = expected_partition_log(test_distribution)
+        exp = expected_inside_partition(test_distribution)
+        exp_log = expected_inside_partition_log(test_distribution)
         ans = verifier(test_distribution)
 
         if not math.isclose(exp[n][1], ans):
@@ -120,4 +120,4 @@ def test(n, t):
     print(f"Completed test cases of n = {n}, t = {t}")
 
 if __name__ == "__main__":
-    test(5, 100)
+    test_inside(5, 100)
