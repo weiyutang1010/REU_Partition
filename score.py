@@ -3,7 +3,7 @@ def paired(c1, c2):
     if c1 + c2 in _allowed_pairs:
         return _allowed_pairs[c1 + c2]
     else:
-        return 100
+        return 1000
 
 def unpaired(c):
     return 1.

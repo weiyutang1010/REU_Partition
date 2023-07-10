@@ -95,10 +95,10 @@ def test_count(n ,t):
 
         # Verifying
         all_structs = kbest(seq, 100000)
-        num_pairs = [defaultdict(float) for _ in range(n+1)]
+        num_pairs = [defaultdict(float) for _ in range(len(seq)+1)]
         for num_p, struct in all_structs:
             stack = []
-            for j in range(n):
+            for j in range(len(seq)):
                 if struct[j] == '(':
                     stack.append(j)
                 elif struct[j] == ')':
@@ -108,13 +108,28 @@ def test_count(n ,t):
         if p != num_pairs:
             print("Wrong Value!")
 
+            print(seq)
+            print()
+
+            print("Q: ")
+            for i, x in enumerate(Q):
+                print(i, dict(x))
+            print()
+
+            print("Q_hat: ")
+            for i, x in enumerate(Q_hat):
+                print(i, dict(x))
+            print()
+
             print("p: ")
             for i, x in enumerate(p):
                 print(i, dict(x))
+            print()
 
             print("ans: ")
             for i, x in enumerate(num_pairs):
                 print(i, dict(x))
+            print()
 
     print(f"Completed test cases of n = {n}, t = {t}")
 
@@ -175,7 +190,6 @@ def test_prob(n, t):
 
     print(f"Completed test cases of n = {n}, t = {t}")
 
-
 def main():
     test_sequences = [
         "ACAGU",
@@ -185,8 +199,9 @@ def main():
     for seq in test_sequences:
         n = len(seq)
         print(seq)
-        # Q ,Q_hat, p = inside_outside(seq, partition_lr, outside_forward_prob)
-        Q ,Q_hat, p = inside_outside(seq, partition_lr_log, outside_forward_prob_log)
+        # Q ,Q_hat, p = inside_outside(seq, inside_count, outside_forward_count)
+        Q ,Q_hat, p = inside_outside(seq, partition_lr, outside_forward_prob)
+        # Q ,Q_hat, p = inside_outside(seq, partition_lr_log, outside_forward_prob_log)
         all_structs = kbest(seq, 1000000)
 
         pairs_prob = [defaultdict(float) for _ in range(n+1)]
@@ -207,7 +222,7 @@ def main():
                     delta_G += unpaired(seq[j])
 
             for i, j in pairs:
-                pairs_prob[j+1][i+1] += np.exp(-delta_G / RT) / np.exp(Q[n][1])
+                pairs_prob[j+1][i+1] += np.exp(-delta_G / RT) / Q[n][1]
 
         # Inside partition
         print("Inside Partition: ")
@@ -235,7 +250,7 @@ def main():
         close = True
         for j, x in enumerate(pairs_prob):
             for i in x:
-                if not math.isclose(pairs_prob[j][i], np.exp(p[j][i])):
+                if not math.isclose(pairs_prob[j][i], p[j][i]):
                     close = False
                     break
         print(f"is close: {close}")
@@ -244,7 +259,7 @@ def main():
         print()
 
 if __name__ == '__main__':
-    t = 1000
+    t = 100
     for n in range(1, 11):
         # test_count(n, t)
         test_prob(n, t)
