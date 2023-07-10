@@ -59,10 +59,9 @@ def expected_outside_verifier(Q, X):
 
         for j in range(n+1):
             for i in range(1, j):
-                p_verify[j][i] += p[j][i]
+                p_verify[j][i] += prob * p[j][i]
 
     return p_verify
-
 
 def expected_inside_partition(X):
     """Left to Right O(n^3)"""
@@ -187,7 +186,7 @@ def test_outside(n, t):
         print_dicts("Verify", p_verify)
 
 if __name__ == "__main__":
-    np.random.seed(42)
+    # np.random.seed(42)
     # for n in range(10):
-    #     test_inside(n, 100)
+        # test_inside(n, 100)
     test_outside(2, 1)
