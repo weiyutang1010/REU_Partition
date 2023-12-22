@@ -5,6 +5,25 @@ import numpy as np
 
 _allowed_pairs = {"AU", "UA", "CG", "GC", "GU", "UG"}
 
+def inside_count(x):
+    """Left to Right"""
+    n = len(x)
+    Q = [defaultdict(float) for _ in range(n+1)]
+
+    for j in range(1, n+1):
+        Q[j-1][j] = 1.
+
+    for j in range(1, n+1):
+        for i in Q[j-1]:
+            Q[j][i] += Q[j-1][i]
+
+            # x is 0-indexed
+            if i > 1 and x[i-2] + x[j-1] in _allowed_pairs:
+                for k in Q[i-2]:
+                    Q[j][k] += Q[i-2][k] * Q[j-1][i]
+
+    return Q
+
 def partition_bu(x):
     """Bottom Up Approach"""
     n = len(x)

@@ -1,8 +1,8 @@
 from collections import defaultdict
 from itertools import product
-from inside_partition import partition_lr
-from outside_partition import inside_outside, outside_forward_prob
+from inside_outside import inside_outside, inside_count, inside_prob, inside_prob_log, outside_forward_count, outside_forward_prob, outside_forward_prob_log
 from score import paired, unpaired
+from util import print_dicts, generate_sequences, generate_rand_distribution, probability, verify_dicts, RNA
 import numpy as np
 import math
 
@@ -10,58 +10,62 @@ RT = 1.
 _allowed_pairs = {"AU", "UA", "CG", "GC", "GU", "UG"}
 sequences = {}
 
-def print_dicts(text, array):
-    # Print a list of dicts
-    print(text)
-    for i, x in enumerate(array):
-        print(i, dict(x))
-    print()
 
-# Generate catesian product of input, https://docs.python.org/3/library/itertools.html#itertools.product
-def generate_sequences(*args, n):
-    pools = [tuple(pool) for pool in args] * n
-    sequences[n] = [[]]
-    for pool in pools:
-        sequences[n] = [x+[y] for x in sequences[n] for y in pool]
-
-def probability(seq, X):
-    prob = 1
-    for idx, c in enumerate(seq):
-        prob *= X[idx][c]
-
-    return prob
-
-def expected_inside_verifier(X):
-    # O(4^n * n^3)
-    n = len(X)
-    weighted_sum = 0
-    
-    if n not in sequences:
-        generate_sequences('ACGU', n=n)
-        
-    for seq in sequences[n]:
-        weighted_sum += probability(seq, X) * partition_lr(seq)[n][1]
-
-    return weighted_sum
-
-def expected_outside_verifier(Q, X):
+def expected_verifier(X, inside_func, outside_func):
     # O(4^n * n^3)
     n = len(X)
     p = [defaultdict(float) for _ in range(n+1)]
 
     if n not in sequences:
-        generate_sequences('ACGU', n=n)
+        # Generate all 4^n sequences
+        sequences[n] = generate_sequences('ACGU', n=n)
         
+    Q_verify = [defaultdict(float) for _ in range(n+1)]
+    Q_hat_verify = [defaultdict(float) for _ in range(n+1)]
     p_verify = [defaultdict(float) for _ in range(n+1)]
+    
     for seq in sequences[n]:
         prob = probability(seq, X)
-        Q, Q_hat, p = inside_outside(seq, partition_lr, outside_forward_prob)
+        Q, Q_hat, p = inside_outside(RNA(seq), inside_func, outside_func)
+        
+        for j, x in enumerate(Q):
+            for i, value in x.items():
+                Q_verify[j][i] += prob * value
 
-        for j in range(n+1):
-            for i in range(1, j):
-                p_verify[j][i] += prob * p[j][i]
+        for j, x in enumerate(Q_hat):
+            for i, value in x.items():
+                Q_hat_verify[j][i] += prob * value
 
-    return p_verify
+        for j, x in enumerate(p):
+            for i, value in x.items():
+                p_verify[j][i] += prob * value
+
+    return Q_verify, Q_hat_verify, p_verify
+
+
+def expected_inside_count(X):
+    n = len(X)
+    Q = [defaultdict(float) for _ in range(n+1)]
+
+    for j in range(1, n+1):
+        Q[j-1][j] = 1.
+
+    for j in range(1, n+1):
+        for i in Q[j-1]:
+            unpaired_sc = 0. # calculate weighted unpaired score
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc += X[j][c]
+            Q[j][i] += Q[j-1][i] * unpaired_sc
+
+            if i >= 2:
+                paired_sc = 0.
+                for c1, c2 in _allowed_pairs: # calculate weighted paired score
+                    paired_sc += X[i-1][c1] * X[j][c2]
+
+                for k in Q[i-2]:
+                    Q[j][k] += Q[i-2][k] * Q[j-1][i] * paired_sc
+
+    return Q
 
 def expected_inside_partition(X):
     """Left to Right O(n^3)"""
@@ -74,14 +78,14 @@ def expected_inside_partition(X):
     for j in range(1, n+1):
         for i in Q[j-1]:
             unpaired_sc = 0. # calculate weighted unpaired score
-            for c in X[j-1]: # c is {A, C, G, U}
-                unpaired_sc += X[j-1][c] * np.exp(-unpaired(c))
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc += X[j][c] * np.exp(-unpaired(c))
             Q[j][i] += Q[j-1][i] * unpaired_sc
 
             if i > 1:
                 paired_sc = 0.
                 for c1, c2 in _allowed_pairs: # calculate weighted paired score
-                    paired_sc += X[i-2][c1] * X[j-1][c2] * np.exp(-paired(c1, c2))
+                    paired_sc += X[i-1][c1] * X[j][c2] * np.exp(-paired(c1, c2))
 
                 for k in Q[i-2]:
                     Q[j][k] += Q[i-2][k] * Q[j-1][i] * paired_sc
@@ -89,31 +93,33 @@ def expected_inside_partition(X):
     return Q
 
 def expected_inside_partition_log(X):
-    """O(n^3)"""
+    """X is 1-indexed"""
     n = len(X)
     Q = [defaultdict(lambda: float('-1e12')) for _ in range(n+1)]
 
     for j in range(1, n+1):
         Q[j-1][j] = 0.
 
+    Q[0][1] = 0.
     for j in range(1, n+1):
         for i in Q[j-1]:
             unpaired_sc = float('-1e12') # calculate weighted unpaired score
-            for c in X[j-1]: # c is {A, C, G, U}
-                unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j-1][c]) + (-unpaired(c)))
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][c]) + (-unpaired(c)))
             Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + unpaired_sc)
 
-            if i > 1:
+            if i >= 2:
                 paired_sc = float('-1e12') # calculate weighted paired score
                 for c1, c2 in _allowed_pairs:
-                    paired_sc = np.logaddexp(paired_sc, np.log(X[i-2][c1]) + np.log(X[j-1][c2]) + (-paired(c1, c2)))
+                    paired_sc = np.logaddexp(paired_sc, np.log(X[i-1][c1]) + np.log(X[j][c2]) + (-paired(c1, c2)))
                 
                 for k in Q[i-2]:
                     Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + paired_sc)
 
     return Q
 
-def expected_outside_partition(Q, X):
+
+def expected_outside_count(Q, X):
     n = len(X)
     Q_hat = [defaultdict(float) for _ in range(n+1)]
     Q_hat[n][1] = 1.
@@ -123,14 +129,39 @@ def expected_outside_partition(Q, X):
     for j in range(n, 0, -1):
         for i in Q[j-1]:
             unpaired_sc = 0. # calculate weighted unpaired score
-            for c in X[j-1]: # c is {A, C, G, U}
-                unpaired_sc += X[j-1][c] * np.exp(-unpaired(c) / RT)
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc += X[j][c]
             Q_hat[j-1][i] += Q_hat[j][i] * unpaired_sc
 
             if i >= 2:
                 paired_sc = 0.
                 for c1, c2 in _allowed_pairs: # calculate weighted paired score
-                    paired_sc += X[i-2][c1] * X[j-1][c2] * np.exp(-paired(c1, c2) / RT)
+                    paired_sc += X[i-1][c1] * X[j][c2]
+
+                for k in Q[i-2]:
+                    Q_hat[i-2][k] += Q_hat[j][k] * Q[j-1][i] * paired_sc
+                    Q_hat[j-1][i] += Q_hat[j][k] * Q[i-2][k] * paired_sc
+                    p[j][i-1] += (Q_hat[j][k] * Q[i-2][k] * Q[j-1][i] * paired_sc)
+
+    return Q_hat, p
+
+def expected_outside_partition(Q, X):
+    n = len(X)
+    Q_hat = [defaultdict(float) for _ in range(n+1)]
+    Q_hat[n][1] = 1.
+    p = [defaultdict(float) for _ in range(n+1)]
+
+    for j in range(n, 0, -1):
+        for i in Q[j-1]:
+            unpaired_sc = 0. # calculate weighted unpaired score
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc += X[j][c] * np.exp(-unpaired(c) / RT)
+            Q_hat[j-1][i] += Q_hat[j][i] * unpaired_sc
+
+            if i >= 2:
+                paired_sc = 0.
+                for c1, c2 in _allowed_pairs: # calculate weighted paired score
+                    paired_sc += X[i-1][c1] * X[j][c2] * np.exp(-paired(c1, c2) / RT)
 
                 for k in Q[i-2]:
                     Q_hat[i-2][k] += Q_hat[j][k] * Q[j-1][i] * paired_sc
@@ -139,54 +170,110 @@ def expected_outside_partition(Q, X):
 
     return Q_hat, p
 
-def generate_test_case(n):
-    test_distribution = []
+def expected_outside_partition_log(Q, X):
+    n = len(X)
+    Q_hat = [defaultdict(lambda: float('-1e12')) for _ in range(n+1)]
+    Q_hat[n][1] = 0.
+    p = [defaultdict(lambda: float('-1e12')) for _ in range(n+1)]
 
-    for _ in range(n):
-        # generate random numbers that sum to 1: https://stackoverflow.com/a/8068956
-        rand = np.concatenate((np.random.sample(3), np.array([1., 0.])), axis=0)
-        rand.sort()
+    for j in range(n, 0, -1):
+        for i in Q[j-1]:
+            unpaired_sc = float('-1e12')  # calculate weighted unpaired score
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][c]) + (-unpaired(c) / RT))
+            Q_hat[j-1][i] = np.logaddexp(Q_hat[j-1][i], Q_hat[j][i] + unpaired_sc)
 
-        test_distribution.append({
-            'A': rand[1] - rand[0],
-            'C': rand[2] - rand[1],
-            'G': rand[3] - rand[2],
-            'U': rand[4] - rand[3]
-        })
+            if i >= 2:
+                paired_sc = float('-1e12') # calculate weighted paired score
+                for c1, c2 in _allowed_pairs:
+                    paired_sc = np.logaddexp(paired_sc, np.log(X[i-1][c1]) + np.log(X[j][c2]) + (-paired(c1, c2) / RT))
 
-    return test_distribution
+                for k in Q[i-2]:
+                    Q_hat[i-2][k] = np.logaddexp(Q_hat[i-2][k], Q_hat[j][k] + Q[j-1][i] + paired_sc)
+                    Q_hat[j-1][i] = np.logaddexp(Q_hat[j-1][i], Q_hat[j][k] + Q[i-2][k] + paired_sc)
+                    p[j][i-1] = np.logaddexp(p[j][i-1], Q_hat[j][k] + Q[i-2][k] + Q[j-1][i] + paired_sc - Q[n][1])
 
-def test_inside(n, t):
+    return Q_hat, p
+
+def test_expected_count(n, t):
     for _ in range(t):
-        test_distribution = generate_test_case(n)
-        exp = expected_inside_partition(test_distribution)
-        exp_log = expected_inside_partition_log(test_distribution)
-        ans = expected_inside_verifier(test_distribution)
+        X = RNA(generate_rand_distribution(n))
+        
+        Q = expected_inside_count(X)
+        Q_hat, p = expected_outside_count(Q, X)
 
-        if not math.isclose(exp[n][1], ans):
-            print(f"Wrong Value! expected partition       = {exp}, verifier = {ans}")
+        Q_verify, Q_hat_verify, p_verify = expected_verifier(X, inside_count, outside_forward_count)
+    
+        if not verify_dicts(Q, Q_verify) or \
+           not verify_dicts(Q_hat, Q_hat_verify) or \
+           not verify_dicts(p, p_verify):
+            print_dicts("Distribution", X)
+            print_dicts("Q", Q)
+            print_dicts("Q verify", Q_verify)
+            print_dicts("Q_hat", Q_hat)
+            print_dicts("Q_hat verify", Q_hat_verify)
+            print_dicts("p", p)
+            print_dicts("p verify", p_verify)
+        
+    print(f"Completed test cases of n = {n}, t = {t}")
 
-        if not math.isclose(np.exp(exp_log[n][1]), ans):
-            print(f"Wrong Value! expected partition (log) = {exp}, verifier = {ans}")
+def test_expected_partition(n, t):
+    for _ in range(t):
+        X = RNA(generate_rand_distribution(n))
+        X = RNA([{'A': .25, 'C': .25, 'G': .25, 'U': .25} for i in range(n)])
+
+        Q = expected_inside_partition(X)
+        Q_hat, p = expected_outside_partition(Q, X)
+        
+
+        # TODO: Take exp of (Q_log and Q_hat_log) and compare to Q and Q_hat
+        print_dicts("Distribution", X.seq)
+        print_dicts("Q", Q)
+        print_dicts("Q_hat", Q_hat)
 
     print(f"Completed test cases of n = {n}, t = {t}")
 
-def test_outside(n, t):
+def test_expected_partition_log(n, t):
     for _ in range(t):
-        # test_distribution = generate_test_case(n)
-        test_distribution = [{'A': .25, 'C': .25, 'G': .25, 'U': .25} for _ in range(n)]
-        Q = expected_inside_partition(test_distribution)
-        Q_hat, p = expected_outside_partition(Q, test_distribution)
-        p_verify = expected_outside_verifier(Q, test_distribution)
+        X = RNA(generate_rand_distribution(n))
+        X = RNA([{'A': .25, 'C': .25, 'G': .25, 'U': .25}, {'A': .25, 'C': .25, 'G': .25, 'U': .25}])
 
-        print_dicts("Test Distribution", test_distribution)
-        print_dicts("Expected Partition (Inside)", Q)
-        print_dicts("Expected Partition (Outside)", Q_hat)
-        print_dicts("Expected Pairing Probability", p)
-        print_dicts("Verify", p_verify)
+        Q = expected_inside_partition_log(X)
+        Q_hat, p = expected_outside_partition_log(Q, X)
+        
+        Q_verify, Q_hat_verify, p_verify = expected_verifier(X, inside_prob_log, outside_forward_prob_log)
+
+        if not verify_dicts(Q, Q_verify) or \
+           not verify_dicts(Q_hat, Q_hat_verify):
+        #    not verify_dicts(p, p_verify):
+            print_dicts("Distribution", X.seq)
+            print_dicts("Q", Q)
+            # print_dicts("Q verify", Q_verify)
+            print_dicts("Q_hat", Q_hat)
+            # print_dicts("Q_hat verify", Q_hat_verify)
+
+    print(f"Completed test cases of n = {n}, t = {t}")
+
+def main():
+    # X = RNA(generate_rand_distribution(n))
+    X = RNA([{'A': .25, 'C': .25, 'G': .25, 'U': .25} for i in range(2)])
+
+    Q = expected_inside_partition(X)
+    Q_hat, p = expected_outside_partition(Q, X)
+    
+    Q_verify, Q_hat_verify, p_verify = expected_verifier(X, inside_prob, outside_forward_prob)
+
+    print_dicts("Distribution", X.seq)
+    print_dicts("Q", Q)
+    print_dicts("Q verify", Q_verify)
+    print_dicts("Q_hat", Q_hat)
+    print_dicts("Q_hat verify", Q_hat_verify)
+
 
 if __name__ == "__main__":
-    # np.random.seed(42)
-    # for n in range(10):
-        # test_inside(n, 100)
-    test_outside(2, 1)
+    # for n in range(2, 3):
+    #     test_expected_partition(n, 1)
+    #     test_expected_partition_log(n, 1)
+        # test_expected_count(n, 10)
+    test_expected_partition_log(2, 1)
+    # main()
