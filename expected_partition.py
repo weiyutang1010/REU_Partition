@@ -77,10 +77,16 @@ def expected_inside_partition(X):
 
     for j in range(1, n+1):
         for i in Q[j-1]:
+<<<<<<< HEAD
             unpaired_sc = 0.
             # calculate weighted unpaired score
             for c in X[j]: # c is {A, C, G, U} 
                 unpaired_sc += X[j][c] * np.exp(-unpaired(c)) 
+=======
+            unpaired_sc = 0. # calculate weighted unpaired score
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc += X[j][c] * np.exp(-unpaired(c))
+>>>>>>> e6479a6a0cb90352549f4db2942c1790761af1ec
             Q[j][i] += Q[j-1][i] * unpaired_sc
 
             if i > 1:
@@ -104,10 +110,16 @@ def expected_inside_partition_log(X):
     Q[0][1] = 0.
     for j in range(1, n+1):
         for i in Q[j-1]:
+<<<<<<< HEAD
             # unpaired_sc = float('-1e12') # calculate weighted unpaired score
             # for c in X[j]: # c is {A, C, G, U}
             #     unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][c]) + (-unpaired(c)))
             unpaired_sc = -unpaired('A')
+=======
+            unpaired_sc = float('-1e12') # calculate weighted unpaired score
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][c]) + (-unpaired(c)))
+>>>>>>> e6479a6a0cb90352549f4db2942c1790761af1ec
             Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + unpaired_sc)
 
             if i >= 2:
@@ -140,6 +152,34 @@ def expected_outside_count(Q, X):
                 paired_sc = 0.
                 for c1, c2 in _allowed_pairs: # calculate weighted paired score
                     paired_sc += X[i-1][c1] * X[j][c2]
+<<<<<<< HEAD
+=======
+
+                for k in Q[i-2]:
+                    Q_hat[i-2][k] += Q_hat[j][k] * Q[j-1][i] * paired_sc
+                    Q_hat[j-1][i] += Q_hat[j][k] * Q[i-2][k] * paired_sc
+                    p[j][i-1] += (Q_hat[j][k] * Q[i-2][k] * Q[j-1][i] * paired_sc)
+
+    return Q_hat, p
+
+def expected_outside_partition(Q, X):
+    n = len(X)
+    Q_hat = [defaultdict(float) for _ in range(n+1)]
+    Q_hat[n][1] = 1.
+    p = [defaultdict(float) for _ in range(n+1)]
+
+    for j in range(n, 0, -1):
+        for i in Q[j-1]:
+            unpaired_sc = 0. # calculate weighted unpaired score
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc += X[j][c] * np.exp(-unpaired(c) / RT)
+            Q_hat[j-1][i] += Q_hat[j][i] * unpaired_sc
+
+            if i >= 2:
+                paired_sc = 0.
+                for c1, c2 in _allowed_pairs: # calculate weighted paired score
+                    paired_sc += X[i-1][c1] * X[j][c2] * np.exp(-paired(c1, c2) / RT)
+>>>>>>> e6479a6a0cb90352549f4db2942c1790761af1ec
 
                 for k in Q[i-2]:
                     Q_hat[i-2][k] += Q_hat[j][k] * Q[j-1][i] * paired_sc
@@ -181,16 +221,23 @@ def expected_outside_partition_log(Q, X):
 
     for j in range(n, 0, -1):
         for i in Q[j-1]:
+<<<<<<< HEAD
             # unpaired_sc = float('-1e12')  # calculate weighted unpaired score
             # for c in X[j]: # c is {A, C, G, U}
             #     unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][c]) + (-unpaired(c) / RT))
             unpaired_sc = -unpaired('A')
+=======
+            unpaired_sc = float('-1e12')  # calculate weighted unpaired score
+            for c in X[j]: # c is {A, C, G, U}
+                unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][c]) + (-unpaired(c) / RT))
+>>>>>>> e6479a6a0cb90352549f4db2942c1790761af1ec
             Q_hat[j-1][i] = np.logaddexp(Q_hat[j-1][i], Q_hat[j][i] + unpaired_sc)
 
             if i >= 2:
                 paired_sc = float('-1e12') # calculate weighted paired score
                 for c1, c2 in _allowed_pairs:
                     paired_sc = np.logaddexp(paired_sc, np.log(X[i-1][c1]) + np.log(X[j][c2]) + (-paired(c1, c2) / RT))
+<<<<<<< HEAD
 
                 for k in Q[i-2]:
                     Q_hat[i-2][k] = np.logaddexp(Q_hat[i-2][k], Q_hat[j][k] + Q[j-1][i] + paired_sc)
@@ -226,6 +273,43 @@ def test_expected_partition(n, t):
         X = RNA(generate_rand_distribution(n))
         X = RNA([{'A': .25, 'C': .25, 'G': .25, 'U': .25} for i in range(n)])
 
+=======
+
+                for k in Q[i-2]:
+                    Q_hat[i-2][k] = np.logaddexp(Q_hat[i-2][k], Q_hat[j][k] + Q[j-1][i] + paired_sc)
+                    Q_hat[j-1][i] = np.logaddexp(Q_hat[j-1][i], Q_hat[j][k] + Q[i-2][k] + paired_sc)
+                    p[j][i-1] = np.logaddexp(p[j][i-1], Q_hat[j][k] + Q[i-2][k] + Q[j-1][i] + paired_sc - Q[n][1])
+
+    return Q_hat, p
+
+def test_expected_count(n, t):
+    for _ in range(t):
+        X = RNA(generate_rand_distribution(n))
+        
+        Q = expected_inside_count(X)
+        Q_hat, p = expected_outside_count(Q, X)
+
+        Q_verify, Q_hat_verify, p_verify = expected_verifier(X, inside_count, outside_forward_count)
+    
+        if not verify_dicts(Q, Q_verify) or \
+           not verify_dicts(Q_hat, Q_hat_verify) or \
+           not verify_dicts(p, p_verify):
+            print_dicts("Distribution", X)
+            print_dicts("Q", Q)
+            print_dicts("Q verify", Q_verify)
+            print_dicts("Q_hat", Q_hat)
+            print_dicts("Q_hat verify", Q_hat_verify)
+            print_dicts("p", p)
+            print_dicts("p verify", p_verify)
+        
+    print(f"Completed test cases of n = {n}, t = {t}")
+
+def test_expected_partition(n, t):
+    for _ in range(t):
+        X = RNA(generate_rand_distribution(n))
+        X = RNA([{'A': .25, 'C': .25, 'G': .25, 'U': .25} for i in range(n)])
+
+>>>>>>> e6479a6a0cb90352549f4db2942c1790761af1ec
         Q = expected_inside_partition(X)
         Q_hat, p = expected_outside_partition(Q, X)
         
@@ -279,6 +363,7 @@ if __name__ == "__main__":
     #     test_expected_partition(n, 1)
     #     test_expected_partition_log(n, 1)
         # test_expected_count(n, 10)
+<<<<<<< HEAD
     # test_expected_partition_log(2, 1)
     # main()
 
@@ -309,3 +394,7 @@ if __name__ == "__main__":
     print_dicts("Q2", Q2)
     print_dicts("Q_hat1", Q_hat1)
     print_dicts("Q_hat2", Q_hat2)
+=======
+    test_expected_partition_log(2, 1)
+    # main()
+>>>>>>> e6479a6a0cb90352549f4db2942c1790761af1ec
