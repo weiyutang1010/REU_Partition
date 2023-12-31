@@ -25,7 +25,7 @@ def paired(c1, c2):
         return 10.
 
 def unpaired(c='A'):
-    return 1.
+    return 1. # for now set every unpaired to same score
 
 def projection_simplex_np_batch(x, z=1): # Tian Shuo's projection code
     x_sorted = np.sort(x, axis=1)[:, ::-1]
@@ -35,7 +35,6 @@ def projection_simplex_np_batch(x, z=1): # Tian Shuo's projection code
     mask = x_sorted > theta 
     csum_mask = np.cumsum(mask, axis=1)
     index = csum_mask[:, -1] - 1
-    # print(f"index.shape: {index.shape}, theta.shape: {theta.shape}")
     x_proj = np.maximum(x.transpose() - theta[np.arange(len(x)), index], 0)
     return x_proj.transpose()
 
@@ -155,7 +154,7 @@ def gradient_descent(rna_struct, lr, num_step, sharpturn):
         Delta_G, grad2 = expected_free_energy(rna_struct, X)
 
         objective_value = Delta_G + log_Q_hat[n-1][0]
-        # print(f'step: {epoch: 4d}, objective value: ', objective_value)
+        print(f'step: {epoch: 4d}, objective value: {objective_value:.8f}')
         log.append(objective_value)
 
         
