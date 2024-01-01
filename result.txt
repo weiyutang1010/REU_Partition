@@ -1,0 +1,90 @@
+id: 1
+(((((......)))))
+UGUAUGGGGGGAUGUG
+Initial: 0.00010, Final: 0.333462, Diff: 0.33337 (exp[inf p(y | x)])
+
+id: 3
+((((((.((((....))))))).)))..........
+UUUUUCAUCUUGAGCAAGAGAAUAAAUAGGGCGGGU
+Initial: 0.00000, Final: 0.000265, Diff: 0.00027 (exp[inf p(y | x)])
+
+id: 8
+((((...)))).
+UAAUUCGAUUAC
+Initial: 0.00932, Final: 0.891884, Diff: 0.88257 (exp[inf p(y | x)])
+
+id: 10
+..........((((....))))((((....))))((((...))))
+GGGGGGGGGAGGUUAAAGAACCUUAAGGGGUUAAAAAAGAAUUUU
+Initial: 0.00000, Final: 0.000019, Diff: 0.00002 (exp[inf p(y | x)])
+
+id: 11
+((((((.((((((((....))))).)).).))))))
+GUGUAUGAUAUUAAGCGGGCUUAACUAGUGAUAUGU
+Initial: 0.00000, Final: 0.196466, Diff: 0.19647 (exp[inf p(y | x)])
+
+id: 15
+(((((.....))..((.........)))))
+UAUGAACAAAUCGGCCAAAAAAAAAGGAUA
+Initial: 0.00000, Final: 0.209913, Diff: 0.20991 (exp[inf p(y | x)])
+
+id: 20
+(((((((.(.(.(.(((((((....)))))))))))))))))
+GUAAAUACUCACACAUAUUCCGGUCGGAAUAUUUAUAUUUGU
+Initial: 0.00000, Final: 0.554229, Diff: 0.55423 (exp[inf p(y | x)])
+
+id: 23
+((....)).((....))
+GAUAAAUCACUAAAUAG
+Initial: 0.00000, Final: 0.840851, Diff: 0.84085 (exp[inf p(y | x)])
+
+id: 26
+..((((((((.....)).))))))..
+CCAUAAUUAUGCCCGAUCAAUUAUAC
+Initial: 0.00000, Final: 0.492563, Diff: 0.49256 (exp[inf p(y | x)])
+
+id: 30
+.(((((((((((...)))))....)))))).
+CAUUAAUAAUAGAGGCUAUUCCCCAUUAAUC
+Initial: 0.00000, Final: 0.599243, Diff: 0.59924 (exp[inf p(y | x)])
+
+id: 33
+.......(.(.(.(.(.((.((.(....).)).)).).).).).)
+GGAAAAAAAGGGAAGUGUUAUAAAGAAGUGUAAAAGAGUGCGCGU
+Initial: 0.00000, Final: 0.000057, Diff: 0.00006 (exp[inf p(y | x)])
+
+id: 40
+..((((((((.....))))((((.....))))))))..
+AGAUAUGGAAGUGAGUUCCCCUUGAAUGAAGGAUAUGA
+Initial: 0.00000, Final: 0.086657, Diff: 0.08666 (exp[inf p(y | x)])
+
+id: 41
+((....)).((....)).((....)).((....))
+GGAAAACCAAUAAACAUAUACAAAUAACCAAAAGG
+Initial: 0.00000, Final: 0.010898, Diff: 0.01090 (exp[inf p(y | x)])
+
+id: 47
+((((......(((((...))).((....)).........)).....))))
+AUAUGGGGGGAUUUUGGGAAAGUUGGGGAAGGGGGGGGGAUGGGGGAUAU
+Initial: 0.00000, Final: 0.000008, Diff: 0.00001 (exp[inf p(y | x)])
+
+id: 57
+((.(..(.(....).(....).)..).(....).))
+AUGAGGUGUGGGGAGAGGGGUGAGGUGUGGGGAGAU
+Initial: 0.00000, Final: 0.000535, Diff: 0.00054 (exp[inf p(y | x)])
+
+id: 65
+.(((((........)((((....))))..)))).......
+AUUUUUGGGGGGGGAAUUAGGGGUAAUGGAAAAGGGGGGG
+Initial: 0.00000, Final: 0.000158, Diff: 0.00016 (exp[inf p(y | x)])
+
+id: 66
+.((.((.((..((.(...).)).))..))....)).
+GUAGUUGAAGGAAGUGGGAGUUGUUGGAAGGGGUAG
+Initial: 0.00000, Final: 0.001205, Diff: 0.00120 (exp[inf p(y | x)])
+
+id: 88
+....((((((((.(....)).).).)))))....
+CCCCUAUAUUUUAGCCCACACACACAUAUACCCC
+Initial: 0.00000, Final: 0.645871, Diff: 0.64587 (exp[inf p(y | x)])
+

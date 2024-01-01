@@ -1,0 +1,2 @@
+python rna_design.py --path pyx_uniform
+python rna_design.py --path pyx_targeted --init targeted
