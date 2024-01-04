@@ -38,7 +38,7 @@ def inside_prob(x):
         for i in Q[j-1]:
             Q[j][i] += Q[j-1][i] * np.exp(-unpaired(x[j]))
 
-            if i > 1 and x[i-1] + x[j] in _allowed_pairs:
+            if i > 1 and j - (i-1) > 3 and x[i-1] + x[j] in _allowed_pairs:
                 for k in Q[i-2]:
                     Q[j][k] += Q[i-2][k] * Q[j-1][i] * np.exp(-paired(x[i-1], x[j]))
 
@@ -47,7 +47,7 @@ def inside_prob(x):
 def inside_prob_log(x):
     """Left to Right"""
     n = len(x)
-    Q = [defaultdict(lambda: float('-1e12')) for _ in range(n+1)]
+    Q = [defaultdict(lambda: float('-1e32')) for _ in range(n+1)]
 
     for j in range(1, n+1):
         Q[j-1][j] = 0.
@@ -56,7 +56,7 @@ def inside_prob_log(x):
         for i in Q[j-1]:
             Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x[j])))
 
-            # x is 0-indexed
+            # x is 1-indexed
             if i >= 2 and x[i-1] + x[j] in _allowed_pairs:
                 for k in Q[i-2]:
                     Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x[i-1], x[j])))

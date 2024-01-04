@@ -1,2 +1,7 @@
-python rna_design.py --path pyx_uniform
-python rna_design.py --path pyx_targeted --init targeted
+python rna_design.py --path pyx_uniform --coupled True
+python rna_design.py --path pyx_uniform_no_coupled
+python rna_design.py --path pyx_targeted --init targeted --coupled True
+
+python3 rna_design.py --path pyx_uniform --coupled True
+python3 rna_design.py --path pyx_uniform_no_coupled
+python3 rna_design.py --path pyx_targeted --init targeted --coupled True
