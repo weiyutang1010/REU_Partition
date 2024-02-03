@@ -7,8 +7,9 @@ import numpy as np
 import math
 from enum import Enum
 from collections import defaultdict
-from util import dicts_to_lists, generate_sequences, generate_rand_structure, generate_rand_distribution, probability, verify_dicts, RNA
 import concurrent.futures
+
+from utils import Mode, params_init, print_distribution
 
 RT = 1.
 nucs = 'ACGU'
@@ -44,6 +45,9 @@ def projection_simplex_np_batch(x, z=1): # Tian Shuo's projection code
     return x_proj.transpose()
 
 def projection_simplex_np_batch_coupled(params, z=1): # Tian Shuo's projection code
+    """
+        Works with coupled mode
+    """
     for idx, x in params.items():
         x = np.array([x])
         x_sorted = np.sort(x, axis=1)[:, ::-1]
@@ -170,37 +174,7 @@ def marginalize(params, X):
             X[i] = np.array([prob[AU], prob[CG], prob[GC] + prob[GU], prob[UA] + prob[UG]])
             X[j] = np.array([prob[UA], prob[GC], prob[CG] + prob[UG], prob[AU] + prob[GU]])
 
-def params_init(rna_struct, init_mode, coupled):
-    """Return n x 6 matrix, each row is probability of CG, GC, AU, UA, GU, UG"""
-    n = len(rna_struct)
 
-    if not coupled:
-        if init_mode == 'uniform':
-            return np.array([[.25, .25, .25, .25] for _ in range(n)])
-
-    params = {}
-    stack = []
-
-    for j, c in enumerate(rna_struct):
-        if c == '(':
-            stack.append(j)
-        elif c == ')':
-            i = stack.pop() # i, j paired
-
-            if init_mode == 'uniform':
-                # params[i, j] = {'CG': 1/6, 'GC': 1/6, 'AU': 1/6, 'UA': 1/6, 'GU': 1/6, 'UG': 1/6}
-                params[i, j] = np.array([1/6, 1/6, 1/6, 1/6, 1/6, 1/6])
-            elif init_mode == 'targeted':
-                if np.random.randint(2):
-                    params[i, j] = np.array([0.49, 0.51, 0., 0., 0., 0.])
-                else:
-                    params[i, j] = np.array([0.51, 0.49, 0., 0., 0., 0.])
-        else:
-            if init_mode == 'uniform' or init_mode == 'targeted': # j unpaired
-                # params[j, j] = {'A': .25, 'C': .25, 'G': .25, 'U': .25}
-                params[j, j] = np.array([.25, .25, .25, .25])
-    
-    return params
 
 def get_intergral_solution(rna_struct, params, n, coupled):
     seq = ['A' for _ in range(n)]
@@ -335,79 +309,92 @@ def gradient_descent(rna_struct, lr, num_step, sharpturn, init, coupled, results
     # plt.title(f'{rna_struct}: n={n}, lr = {lr}, step={len(log)}')
     # plt.show()
 
+# def optimize(line):
+#     rna_id, rna_struct = line
+#     result_filepath = f'results/{result_folder}/{rna_id}.txt'
+
+#     with open(result_filepath, 'w+') as results_file:
+#         results_file.write(f"{rna_struct}\n")
+#         if coupled:
+#             for idx, prob in init[rna_id].items():
+#                 results_file.write(f"{idx[0]} {idx[1]}, {prob}\n")
+#         else:
+#             for i, x in enumerate(init[rna_id]):
+#                 results_file.write(f"{i:2d}: A {x[A]:.2f}, C {x[C]:.2f}, G {x[G]:.2f}, U {x[U]:.2f}\n")
+#         gradient_descent(rna_struct, lr, num_step, sharpturn, initial_distributions[rna_id], coupled, results_file)
+
+
+def optimize(line, initial_distribution, results_folder, mode):
+    rna_id, rna_struct = line
+    result_filepath = f'results/{results_folder}/{rna_id}.txt'
+
+    with open(result_filepath, 'w+') as results_file:
+        mode.print(results_file)
+        print_distribution(initial_distribution, mode, results_file)
+        gradient_descent(rna_struct, mode.lr, mode.num_steps, mode.sharpturn, initial_distribution, mode.coupled, results_file)
 
 def main():
+    np.random.seed(seed=42)
     parser = argparse.ArgumentParser()
     parser.add_argument("--lr", type=float, default=0.01)
     parser.add_argument("--step", type=int, default=2000)
     parser.add_argument("--sharpturn", type=int, default=3)
+    parser.add_argument("--penalty", type=int, default=10)
     parser.add_argument("--init", type=str, default='uniform')
+    parser.add_argument("--obj", type=str, default='pyx_jensen')
     parser.add_argument("--path", type=str, default='temp')
     parser.add_argument("--nocoupled", action='store_true', default=False)
     parser.add_argument("--test", action='store_true', default=False)
+    parser.add_argument("--data", type=str, default='short_eterna.txt')
+    parser.add_argument("--threads", type=int, default=8)
     args = parser.parse_args()
-    print("Args: ", end='')
-    print(args)
 
-    # rna_struct = args.structure
-    lr = args.lr
-    num_step = args.step
-    sharpturn = args.sharpturn
-    init_mode = args.init
+    mode = Mode(args.lr, args.step, args.sharpturn, args.penalty, not args.nocoupled, args.test, args.init, args.obj)
     result_folder = args.path
-    coupled = not args.nocoupled
-    test = args.test
 
-    np.random.seed(seed=42)
+    if args.test:
+        # Set up the results folder
+        if not os.path.exists(f'data/{args.data}'):
+            print("Error: Data File not found.")
+            exit()
 
-    if test:
         if not os.path.exists(f'results/{result_folder}'):
             os.makedirs(f'results/{result_folder}')
 
-        with open('short_eterna.txt', 'r') as data_file:
+        if not os.path.exists(f'results'):
+            os.makedirs(f'results')
+
+        # Read in structures from the data file
+        lines, initial_distributions = [], {}
+
+        with open(f'data/{args.data}', 'r') as data_file:
             lines = data_file.read().split('\n')
             lines = [line.split(' ') for line in lines]
 
-            init = {}
-            for line in lines:
-                rna_id, rna_struct = line
-                init[rna_id] = params_init(rna_struct, init_mode, coupled)
+        for line in lines:
+            rna_id, rna_struct = line
+            initial_distributions[rna_id] = params_init(rna_struct, mode)
 
-            def optimize(line):
-                rna_id, rna_struct = line
-                result_filepath = f'results/{result_folder}/{rna_id}.txt'
+        num_threads = args.threads
+        optimize(lines[0], initial_distributions['8'], result_folder, mode)
+        # with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+        #     futures = [executor.submit(optimize, line) for line in lines]
+        #     concurrent.futures.wait(futures)
 
-                with open(result_filepath, 'w+') as results_file:
-                    results_file.write(f"{rna_struct}\n")
-                    if coupled:
-                        for idx, prob in init[rna_id].items():
-                            results_file.write(f"{idx[0]} {idx[1]}, {prob}\n")
-                    else:
-                        for i, x in enumerate(init[rna_id]):
-                            results_file.write(f"{i:2d}: A {x[A]:.2f}, C {x[C]:.2f}, G {x[G]:.2f}, U {x[U]:.2f}\n")
-                    gradient_descent(rna_struct, lr, num_step, sharpturn, init[rna_id], coupled, results_file)
+        print("All functions have completed.")
+    # else:
+    #     rna_struct = input('Structure: ')
+    #     init = params_init(rna_struct, init_mode, coupled)
 
-            num_threads = 8
-            with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
-                futures = [executor.submit(optimize, line) for line in lines]
-                concurrent.futures.wait(futures)
-
-            print("All functions have completed.")
-    else:
-        rna_struct = input('Structure: ')
-        init = params_init(rna_struct, init_mode, coupled)
-
-        with open('result.txt', 'w+') as results_file:
-            results_file.write(f"{rna_struct}\n")
-            if coupled:
-                for idx, prob in init.items():
-                    results_file.write(f"{idx[0]} {idx[1]}, {prob}\n")
-            else:
-                for i, x in enumerate(init):
-                    results_file.write(f"{i:2d}: A {x[A]:.2f}, C {x[C]:.2f}, G {x[G]:.2f}, U {x[U]:.2f}\n")
-            gradient_descent(rna_struct, lr, num_step, sharpturn, init, coupled, results_file)
-            
-
+    #     with open('result.txt', 'w+') as results_file:
+    #         results_file.write(f"{rna_struct}\n")
+    #         if coupled:
+    #             for idx, prob in init.items():
+    #                 results_file.write(f"{idx[0]} {idx[1]}, {prob}\n")
+    #         else:
+    #             for i, x in enumerate(init):
+    #                 results_file.write(f"{i:2d}: A {x[A]:.2f}, C {x[C]:.2f}, G {x[G]:.2f}, U {x[U]:.2f}\n")
+    #         gradient_descent(rna_struct, lr, num_step, sharpturn, init, coupled, results_file)
 
 if __name__ == '__main__':
     main()
