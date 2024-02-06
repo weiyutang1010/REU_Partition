@@ -1,0 +1,12 @@
+0
+echo '(())' | python rna_design.py --step 2500 --sharpturn 0 --penalty 10 --lr 0.01 --id 0 --obj pyx_noapprox
+1
+echo '(())' | python rna_design.py --step 7000 --sharpturn 0 --penalty 10 --lr 0.001 --id 1 --obj pyx_noapprox
+2
+echo '(())' | python rna_design.py --step 2500 --sharpturn 0 --penalty 0 --lr 0.01 --id 2 --obj pyx_noapprox
+3
+echo '(())' | python rna_design.py --step 7000 --sharpturn 0 --penalty 0 --lr 0.001 --id 3 --obj pyx_noapprox
+4
+echo '(())' | python rna_design.py --step 2500 --sharpturn 0 --penalty 10 --lr 0.01 --id 4 --obj deltaG
+5
+echo '(())' | python rna_design.py --step 1 --sharpturn 0 --penalty 10 --lr 0.01 --id 5 --obj pyx_noapprox

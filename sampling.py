@@ -32,14 +32,9 @@ def next_seq(seq):
     
     idx = n - 1
     seq[idx] = next_char[seq[idx]]
-    while seq[idx] == 'A':
-        if idx == 0:
-            return []
-        
+    while idx > 0 and seq[idx] == 'A':
         idx -= 1
         seq[idx] = next_char[seq[idx]]
-
-    return seq
 
 
 def main(n, sample_sizes, t):

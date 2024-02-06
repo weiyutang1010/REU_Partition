@@ -1,0 +1,1198 @@
+(())
+Learning Rate: 0.01, Number of Steps: 2500, Sharpturn: 0, Penalty: 10, Coupled: True
+Initialization: uniform, Objective: deltaG
+step: 0, objective value: 9.555555555556, seq: CCGG, time: 0.00
+(0, 3): CG 0.1667 GC 0.1667 AU 0.1667 UA 0.1667 GU 0.1667 UG 0.1667
+(1, 2): CG 0.1667 GC 0.1667 AU 0.1667 UA 0.1667 GU 0.1667 UG 0.1667
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.8333 CG 9.8333 AU 10.3333 UA 10.3333 GU 8.5000 UG 8.5000
+0 3 (paired), grad: CG 9.8333 CG 9.8333 AU 10.3333 UA 10.3333 GU 8.5000 UG 8.5000
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.8333 CG 9.8333 AU 10.3333 UA 10.3333 GU 8.5000 UG 8.5000
+0 3 (paired), grad: CG 9.8333 CG 9.8333 AU 10.3333 UA 10.3333 GU 8.5000 UG 8.5000
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.8333 CG 9.8333 AU 10.3333 UA 10.3333 GU 8.5000 UG 8.5000
+0 3 (paired), grad: CG 9.8333 CG 9.8333 AU 10.3333 UA 10.3333 GU 8.5000 UG 8.5000
+
+step: 1, objective value: 9.555555555556, seq: GGUU, time: 0.00
+(0, 3): CG 0.1639 GC 0.1639 AU 0.1589 UA 0.1589 GU 0.1772 UG 0.1772
+(1, 2): CG 0.1639 GC 0.1639 AU 0.1589 UA 0.1589 GU 0.1772 UG 0.1772
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.7378 CG 9.7378 AU 10.3078 UA 10.3078 GU 8.5133 UG 8.5133
+0 3 (paired), grad: CG 9.7378 CG 9.7378 AU 10.3078 UA 10.3078 GU 8.5133 UG 8.5133
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.7378 CG 9.7378 AU 10.3078 UA 10.3078 GU 8.5133 UG 8.5133
+0 3 (paired), grad: CG 9.7378 CG 9.7378 AU 10.3078 UA 10.3078 GU 8.5133 UG 8.5133
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.7378 CG 9.7378 AU 10.3078 UA 10.3078 GU 8.5133 UG 8.5133
+0 3 (paired), grad: CG 9.7378 CG 9.7378 AU 10.3078 UA 10.3078 GU 8.5133 UG 8.5133
+
+step: 2, objective value: 9.484913580247, seq: GGUU, time: 0.00
+(0, 3): CG 0.1617 GC 0.1617 AU 0.1510 UA 0.1510 GU 0.1873 UG 0.1873
+(1, 2): CG 0.1617 GC 0.1617 AU 0.1510 UA 0.1510 GU 0.1873 UG 0.1873
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.6397 CG 9.6397 AU 10.2895 UA 10.2895 GU 8.5256 UG 8.5256
+0 3 (paired), grad: CG 9.6397 CG 9.6397 AU 10.2895 UA 10.2895 GU 8.5256 UG 8.5256
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.6397 CG 9.6397 AU 10.2895 UA 10.2895 GU 8.5256 UG 8.5256
+0 3 (paired), grad: CG 9.6397 CG 9.6397 AU 10.2895 UA 10.2895 GU 8.5256 UG 8.5256
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.6397 CG 9.6397 AU 10.2895 UA 10.2895 GU 8.5256 UG 8.5256
+0 3 (paired), grad: CG 9.6397 CG 9.6397 AU 10.2895 UA 10.2895 GU 8.5256 UG 8.5256
+
+step: 3, objective value: 9.418620471221, seq: GGUU, time: 0.00
+(0, 3): CG 0.1602 GC 0.1602 AU 0.1430 UA 0.1430 GU 0.1969 UG 0.1969
+(1, 2): CG 0.1602 GC 0.1602 AU 0.1430 UA 0.1430 GU 0.1969 UG 0.1969
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.5382 CG 9.5382 AU 10.2790 UA 10.2790 GU 8.5367 UG 8.5367
+0 3 (paired), grad: CG 9.5382 CG 9.5382 AU 10.2790 UA 10.2790 GU 8.5367 UG 8.5367
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.5382 CG 9.5382 AU 10.2790 UA 10.2790 GU 8.5367 UG 8.5367
+0 3 (paired), grad: CG 9.5382 CG 9.5382 AU 10.2790 UA 10.2790 GU 8.5367 UG 8.5367
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.5382 CG 9.5382 AU 10.2790 UA 10.2790 GU 8.5367 UG 8.5367
+0 3 (paired), grad: CG 9.5382 CG 9.5382 AU 10.2790 UA 10.2790 GU 8.5367 UG 8.5367
+
+step: 4, objective value: 9.355653478706, seq: GGUU, time: 0.00
+(0, 3): CG 0.1593 GC 0.1593 AU 0.1347 UA 0.1347 GU 0.2060 UG 0.2060
+(1, 2): CG 0.1593 GC 0.1593 AU 0.1347 UA 0.1347 GU 0.2060 UG 0.2060
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.4323 CG 9.4323 AU 10.2768 UA 10.2768 GU 8.5467 UG 8.5467
+0 3 (paired), grad: CG 9.4323 CG 9.4323 AU 10.2768 UA 10.2768 GU 8.5467 UG 8.5467
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.4323 CG 9.4323 AU 10.2768 UA 10.2768 GU 8.5467 UG 8.5467
+0 3 (paired), grad: CG 9.4323 CG 9.4323 AU 10.2768 UA 10.2768 GU 8.5467 UG 8.5467
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.4323 CG 9.4323 AU 10.2768 UA 10.2768 GU 8.5467 UG 8.5467
+0 3 (paired), grad: CG 9.4323 CG 9.4323 AU 10.2768 UA 10.2768 GU 8.5467 UG 8.5467
+
+step: 5, objective value: 9.294895434849, seq: GGUU, time: 0.00
+(0, 3): CG 0.1592 GC 0.1592 AU 0.1261 UA 0.1261 GU 0.2147 UG 0.2147
+(1, 2): CG 0.1592 GC 0.1592 AU 0.1261 UA 0.1261 GU 0.2147 UG 0.2147
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.3210 CG 9.3210 AU 10.2837 UA 10.2837 GU 8.5556 UG 8.5556
+0 3 (paired), grad: CG 9.3210 CG 9.3210 AU 10.2837 UA 10.2837 GU 8.5556 UG 8.5556
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.3210 CG 9.3210 AU 10.2837 UA 10.2837 GU 8.5556 UG 8.5556
+0 3 (paired), grad: CG 9.3210 CG 9.3210 AU 10.2837 UA 10.2837 GU 8.5556 UG 8.5556
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.3210 CG 9.3210 AU 10.2837 UA 10.2837 GU 8.5556 UG 8.5556
+0 3 (paired), grad: CG 9.3210 CG 9.3210 AU 10.2837 UA 10.2837 GU 8.5556 UG 8.5556
+
+step: 6, objective value: 9.235087141287, seq: GGUU, time: 0.00
+(0, 3): CG 0.1598 GC 0.1598 AU 0.1171 UA 0.1171 GU 0.2231 UG 0.2231
+(1, 2): CG 0.1598 GC 0.1598 AU 0.1171 UA 0.1171 GU 0.2231 UG 0.2231
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.2031 CG 9.2031 AU 10.3006 UA 10.3006 GU 8.5632 UG 8.5632
+0 3 (paired), grad: CG 9.2031 CG 9.2031 AU 10.3006 UA 10.3006 GU 8.5632 UG 8.5632
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.2031 CG 9.2031 AU 10.3006 UA 10.3006 GU 8.5632 UG 8.5632
+0 3 (paired), grad: CG 9.2031 CG 9.2031 AU 10.3006 UA 10.3006 GU 8.5632 UG 8.5632
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.2031 CG 9.2031 AU 10.3006 UA 10.3006 GU 8.5632 UG 8.5632
+0 3 (paired), grad: CG 9.2031 CG 9.2031 AU 10.3006 UA 10.3006 GU 8.5632 UG 8.5632
+
+step: 7, objective value: 9.174767253594, seq: GGUU, time: 0.00
+(0, 3): CG 0.1613 GC 0.1613 AU 0.1077 UA 0.1077 GU 0.2310 UG 0.2310
+(1, 2): CG 0.1613 GC 0.1613 AU 0.1077 UA 0.1077 GU 0.2310 UG 0.2310
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.0772 CG 9.0772 AU 10.3284 UA 10.3284 GU 8.5696 UG 8.5696
+0 3 (paired), grad: CG 9.0772 CG 9.0772 AU 10.3284 UA 10.3284 GU 8.5696 UG 8.5696
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 9.0772 CG 9.0772 AU 10.3284 UA 10.3284 GU 8.5696 UG 8.5696
+0 3 (paired), grad: CG 9.0772 CG 9.0772 AU 10.3284 UA 10.3284 GU 8.5696 UG 8.5696
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 9.0772 CG 9.0772 AU 10.3284 UA 10.3284 GU 8.5696 UG 8.5696
+0 3 (paired), grad: CG 9.0772 CG 9.0772 AU 10.3284 UA 10.3284 GU 8.5696 UG 8.5696
+
+step: 8, objective value: 9.112195756090, seq: GGUU, time: 0.00
+(0, 3): CG 0.1638 GC 0.1638 AU 0.0977 UA 0.0977 GU 0.2385 UG 0.2385
+(1, 2): CG 0.1638 GC 0.1638 AU 0.0977 UA 0.0977 GU 0.2385 UG 0.2385
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.9418 CG 8.9418 AU 10.3681 UA 10.3681 GU 8.5747 UG 8.5747
+0 3 (paired), grad: CG 8.9418 CG 8.9418 AU 10.3681 UA 10.3681 GU 8.5747 UG 8.5747
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.9418 CG 8.9418 AU 10.3681 UA 10.3681 GU 8.5747 UG 8.5747
+0 3 (paired), grad: CG 8.9418 CG 8.9418 AU 10.3681 UA 10.3681 GU 8.5747 UG 8.5747
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 8.9418 CG 8.9418 AU 10.3681 UA 10.3681 GU 8.5747 UG 8.5747
+0 3 (paired), grad: CG 8.9418 CG 8.9418 AU 10.3681 UA 10.3681 GU 8.5747 UG 8.5747
+
+step: 9, objective value: 9.045255964755, seq: GGUU, time: 0.00
+(0, 3): CG 0.1673 GC 0.1673 AU 0.0869 UA 0.0869 GU 0.2457 UG 0.2457
+(1, 2): CG 0.1673 GC 0.1673 AU 0.0869 UA 0.0869 GU 0.2457 UG 0.2457
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.7953 CG 8.7953 AU 10.4212 UA 10.4212 GU 8.5784 UG 8.5784
+0 3 (paired), grad: CG 8.7953 CG 8.7953 AU 10.4212 UA 10.4212 GU 8.5784 UG 8.5784
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.7953 CG 8.7953 AU 10.4212 UA 10.4212 GU 8.5784 UG 8.5784
+0 3 (paired), grad: CG 8.7953 CG 8.7953 AU 10.4212 UA 10.4212 GU 8.5784 UG 8.5784
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 8.7953 CG 8.7953 AU 10.4212 UA 10.4212 GU 8.5784 UG 8.5784
+0 3 (paired), grad: CG 8.7953 CG 8.7953 AU 10.4212 UA 10.4212 GU 8.5784 UG 8.5784
+
+step: 10, objective value: 8.971328492618, seq: GGUU, time: 0.00
+(0, 3): CG 0.1720 GC 0.1720 AU 0.0754 UA 0.0754 GU 0.2526 UG 0.2526
+(1, 2): CG 0.1720 GC 0.1720 AU 0.0754 UA 0.0754 GU 0.2526 UG 0.2526
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.6355 CG 8.6355 AU 10.4892 UA 10.4892 GU 8.5806 UG 8.5806
+0 3 (paired), grad: CG 8.6355 CG 8.6355 AU 10.4892 UA 10.4892 GU 8.5806 UG 8.5806
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.6355 CG 8.6355 AU 10.4892 UA 10.4892 GU 8.5806 UG 8.5806
+0 3 (paired), grad: CG 8.6355 CG 8.6355 AU 10.4892 UA 10.4892 GU 8.5806 UG 8.5806
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 8.6355 CG 8.6355 AU 10.4892 UA 10.4892 GU 8.5806 UG 8.5806
+0 3 (paired), grad: CG 8.6355 CG 8.6355 AU 10.4892 UA 10.4892 GU 8.5806 UG 8.5806
+
+step: 11, objective value: 8.887128657049, seq: GGUU, time: 0.00
+(0, 3): CG 0.1780 GC 0.1780 AU 0.0628 UA 0.0628 GU 0.2591 UG 0.2591
+(1, 2): CG 0.1780 GC 0.1780 AU 0.0628 UA 0.0628 GU 0.2591 UG 0.2591
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.4605 CG 8.4605 AU 10.5736 UA 10.5736 GU 8.5811 UG 8.5811
+0 3 (paired), grad: CG 8.4605 CG 8.4605 AU 10.5736 UA 10.5736 GU 8.5811 UG 8.5811
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.4605 CG 8.4605 AU 10.5736 UA 10.5736 GU 8.5811 UG 8.5811
+0 3 (paired), grad: CG 8.4605 CG 8.4605 AU 10.5736 UA 10.5736 GU 8.5811 UG 8.5811
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 8.4605 CG 8.4605 AU 10.5736 UA 10.5736 GU 8.5811 UG 8.5811
+0 3 (paired), grad: CG 8.4605 CG 8.4605 AU 10.5736 UA 10.5736 GU 8.5811 UG 8.5811
+
+step: 12, objective value: 8.788496266583, seq: GGUU, time: 0.00
+(0, 3): CG 0.1855 GC 0.1855 AU 0.0491 UA 0.0491 GU 0.2654 UG 0.2654
+(1, 2): CG 0.1855 GC 0.1855 AU 0.0491 UA 0.0491 GU 0.2654 UG 0.2654
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.2677 CG 8.2677 AU 10.6767 UA 10.6767 GU 8.5799 UG 8.5799
+0 3 (paired), grad: CG 8.2677 CG 8.2677 AU 10.6767 UA 10.6767 GU 8.5799 UG 8.5799
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.2677 CG 8.2677 AU 10.6767 UA 10.6767 GU 8.5799 UG 8.5799
+0 3 (paired), grad: CG 8.2677 CG 8.2677 AU 10.6767 UA 10.6767 GU 8.5799 UG 8.5799
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 8.2677 CG 8.2677 AU 10.6767 UA 10.6767 GU 8.5799 UG 8.5799
+0 3 (paired), grad: CG 8.2677 CG 8.2677 AU 10.6767 UA 10.6767 GU 8.5799 UG 8.5799
+
+step: 13, objective value: 8.670123420608, seq: GGUU, time: 0.00
+(0, 3): CG 0.1946 GC 0.1946 AU 0.0341 UA 0.0341 GU 0.2713 UG 0.2713
+(1, 2): CG 0.1946 GC 0.1946 AU 0.0341 UA 0.0341 GU 0.2713 UG 0.2713
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.0543 CG 8.0543 AU 10.8005 UA 10.8005 GU 8.5768 UG 8.5768
+0 3 (paired), grad: CG 8.0543 CG 8.0543 AU 10.8005 UA 10.8005 GU 8.5768 UG 8.5768
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 8.0543 CG 8.0543 AU 10.8005 UA 10.8005 GU 8.5768 UG 8.5768
+0 3 (paired), grad: CG 8.0543 CG 8.0543 AU 10.8005 UA 10.8005 GU 8.5768 UG 8.5768
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 8.0543 CG 8.0543 AU 10.8005 UA 10.8005 GU 8.5768 UG 8.5768
+0 3 (paired), grad: CG 8.0543 CG 8.0543 AU 10.8005 UA 10.8005 GU 8.5768 UG 8.5768
+
+step: 14, objective value: 8.525201660093, seq: GGUU, time: 0.00
+(0, 3): CG 0.2054 GC 0.2054 AU 0.0175 UA 0.0175 GU 0.2770 UG 0.2770
+(1, 2): CG 0.2054 GC 0.2054 AU 0.0175 UA 0.0175 GU 0.2770 UG 0.2770
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.8172 CG 7.8172 AU 10.9479 UA 10.9479 GU 8.5716 UG 8.5716
+0 3 (paired), grad: CG 7.8172 CG 7.8172 AU 10.9479 UA 10.9479 GU 8.5716 UG 8.5716
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.8172 CG 7.8172 AU 10.9479 UA 10.9479 GU 8.5716 UG 8.5716
+0 3 (paired), grad: CG 7.8172 CG 7.8172 AU 10.9479 UA 10.9479 GU 8.5716 UG 8.5716
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.8172 CG 7.8172 AU 10.9479 UA 10.9479 GU 8.5716 UG 8.5716
+0 3 (paired), grad: CG 7.8172 CG 7.8172 AU 10.9479 UA 10.9479 GU 8.5716 UG 8.5716
+
+step: 15, objective value: 8.344964224674, seq: GGUU, time: 0.00
+(0, 3): CG 0.2180 GC 0.2180 AU 0.0000 UA 0.0000 GU 0.2820 UG 0.2820
+(1, 2): CG 0.2180 GC 0.2180 AU 0.0000 UA 0.0000 GU 0.2820 UG 0.2820
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5640 CG 7.5640 AU 11.1159 UA 11.1159 GU 8.5640 UG 8.5640
+0 3 (paired), grad: CG 7.5640 CG 7.5640 AU 11.1159 UA 11.1159 GU 8.5640 UG 8.5640
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5640 CG 7.5640 AU 11.1159 UA 11.1159 GU 8.5640 UG 8.5640
+0 3 (paired), grad: CG 7.5640 CG 7.5640 AU 11.1159 UA 11.1159 GU 8.5640 UG 8.5640
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.5640 CG 7.5640 AU 11.1159 UA 11.1159 GU 8.5640 UG 8.5640
+0 3 (paired), grad: CG 7.5640 CG 7.5640 AU 11.1159 UA 11.1159 GU 8.5640 UG 8.5640
+
+step: 16, objective value: 8.128024410176, seq: GGUU, time: 0.00
+(0, 3): CG 0.2230 GC 0.2230 AU 0.0000 UA 0.0000 GU 0.2770 UG 0.2770
+(1, 2): CG 0.2230 GC 0.2230 AU 0.0000 UA 0.0000 GU 0.2770 UG 0.2770
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5540 CG 7.5540 AU 11.1759 UA 11.1759 GU 8.5540 UG 8.5540
+0 3 (paired), grad: CG 7.5540 CG 7.5540 AU 11.1759 UA 11.1759 GU 8.5540 UG 8.5540
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5540 CG 7.5540 AU 11.1759 UA 11.1759 GU 8.5540 UG 8.5540
+0 3 (paired), grad: CG 7.5540 CG 7.5540 AU 11.1759 UA 11.1759 GU 8.5540 UG 8.5540
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.5540 CG 7.5540 AU 11.1759 UA 11.1759 GU 8.5540 UG 8.5540
+0 3 (paired), grad: CG 7.5540 CG 7.5540 AU 11.1759 UA 11.1759 GU 8.5540 UG 8.5540
+
+step: 17, objective value: 8.108024410176, seq: GGUU, time: 0.00
+(0, 3): CG 0.2280 GC 0.2280 AU 0.0000 UA 0.0000 GU 0.2720 UG 0.2720
+(1, 2): CG 0.2280 GC 0.2280 AU 0.0000 UA 0.0000 GU 0.2720 UG 0.2720
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5440 CG 7.5440 AU 11.2359 UA 11.2359 GU 8.5440 UG 8.5440
+0 3 (paired), grad: CG 7.5440 CG 7.5440 AU 11.2359 UA 11.2359 GU 8.5440 UG 8.5440
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5440 CG 7.5440 AU 11.2359 UA 11.2359 GU 8.5440 UG 8.5440
+0 3 (paired), grad: CG 7.5440 CG 7.5440 AU 11.2359 UA 11.2359 GU 8.5440 UG 8.5440
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.5440 CG 7.5440 AU 11.2359 UA 11.2359 GU 8.5440 UG 8.5440
+0 3 (paired), grad: CG 7.5440 CG 7.5440 AU 11.2359 UA 11.2359 GU 8.5440 UG 8.5440
+
+step: 18, objective value: 8.088024410176, seq: GGUU, time: 0.00
+(0, 3): CG 0.2330 GC 0.2330 AU 0.0000 UA 0.0000 GU 0.2670 UG 0.2670
+(1, 2): CG 0.2330 GC 0.2330 AU 0.0000 UA 0.0000 GU 0.2670 UG 0.2670
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5340 CG 7.5340 AU 11.2959 UA 11.2959 GU 8.5340 UG 8.5340
+0 3 (paired), grad: CG 7.5340 CG 7.5340 AU 11.2959 UA 11.2959 GU 8.5340 UG 8.5340
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5340 CG 7.5340 AU 11.2959 UA 11.2959 GU 8.5340 UG 8.5340
+0 3 (paired), grad: CG 7.5340 CG 7.5340 AU 11.2959 UA 11.2959 GU 8.5340 UG 8.5340
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.5340 CG 7.5340 AU 11.2959 UA 11.2959 GU 8.5340 UG 8.5340
+0 3 (paired), grad: CG 7.5340 CG 7.5340 AU 11.2959 UA 11.2959 GU 8.5340 UG 8.5340
+
+step: 19, objective value: 8.068024410176, seq: GGUU, time: 0.00
+(0, 3): CG 0.2380 GC 0.2380 AU 0.0000 UA 0.0000 GU 0.2620 UG 0.2620
+(1, 2): CG 0.2380 GC 0.2380 AU 0.0000 UA 0.0000 GU 0.2620 UG 0.2620
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5240 CG 7.5240 AU 11.3559 UA 11.3559 GU 8.5240 UG 8.5240
+0 3 (paired), grad: CG 7.5240 CG 7.5240 AU 11.3559 UA 11.3559 GU 8.5240 UG 8.5240
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5240 CG 7.5240 AU 11.3559 UA 11.3559 GU 8.5240 UG 8.5240
+0 3 (paired), grad: CG 7.5240 CG 7.5240 AU 11.3559 UA 11.3559 GU 8.5240 UG 8.5240
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.5240 CG 7.5240 AU 11.3559 UA 11.3559 GU 8.5240 UG 8.5240
+0 3 (paired), grad: CG 7.5240 CG 7.5240 AU 11.3559 UA 11.3559 GU 8.5240 UG 8.5240
+
+step: 20, objective value: 8.048024410176, seq: GGUU, time: 0.00
+(0, 3): CG 0.2430 GC 0.2430 AU 0.0000 UA 0.0000 GU 0.2570 UG 0.2570
+(1, 2): CG 0.2430 GC 0.2430 AU 0.0000 UA 0.0000 GU 0.2570 UG 0.2570
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5140 CG 7.5140 AU 11.4159 UA 11.4159 GU 8.5140 UG 8.5140
+0 3 (paired), grad: CG 7.5140 CG 7.5140 AU 11.4159 UA 11.4159 GU 8.5140 UG 8.5140
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5140 CG 7.5140 AU 11.4159 UA 11.4159 GU 8.5140 UG 8.5140
+0 3 (paired), grad: CG 7.5140 CG 7.5140 AU 11.4159 UA 11.4159 GU 8.5140 UG 8.5140
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.5140 CG 7.5140 AU 11.4159 UA 11.4159 GU 8.5140 UG 8.5140
+0 3 (paired), grad: CG 7.5140 CG 7.5140 AU 11.4159 UA 11.4159 GU 8.5140 UG 8.5140
+
+step: 21, objective value: 8.028024410176, seq: GGUU, time: 0.00
+(0, 3): CG 0.2480 GC 0.2480 AU 0.0000 UA 0.0000 GU 0.2520 UG 0.2520
+(1, 2): CG 0.2480 GC 0.2480 AU 0.0000 UA 0.0000 GU 0.2520 UG 0.2520
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5040 CG 7.5040 AU 11.4759 UA 11.4759 GU 8.5040 UG 8.5040
+0 3 (paired), grad: CG 7.5040 CG 7.5040 AU 11.4759 UA 11.4759 GU 8.5040 UG 8.5040
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.5040 CG 7.5040 AU 11.4759 UA 11.4759 GU 8.5040 UG 8.5040
+0 3 (paired), grad: CG 7.5040 CG 7.5040 AU 11.4759 UA 11.4759 GU 8.5040 UG 8.5040
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.5040 CG 7.5040 AU 11.4759 UA 11.4759 GU 8.5040 UG 8.5040
+0 3 (paired), grad: CG 7.5040 CG 7.5040 AU 11.4759 UA 11.4759 GU 8.5040 UG 8.5040
+
+step: 22, objective value: 8.008024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2530 GC 0.2530 AU 0.0000 UA 0.0000 GU 0.2470 UG 0.2470
+(1, 2): CG 0.2530 GC 0.2530 AU 0.0000 UA 0.0000 GU 0.2470 UG 0.2470
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4940 CG 7.4940 AU 11.5359 UA 11.5359 GU 8.4940 UG 8.4940
+0 3 (paired), grad: CG 7.4940 CG 7.4940 AU 11.5359 UA 11.5359 GU 8.4940 UG 8.4940
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4940 CG 7.4940 AU 11.5359 UA 11.5359 GU 8.4940 UG 8.4940
+0 3 (paired), grad: CG 7.4940 CG 7.4940 AU 11.5359 UA 11.5359 GU 8.4940 UG 8.4940
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4940 CG 7.4940 AU 11.5359 UA 11.5359 GU 8.4940 UG 8.4940
+0 3 (paired), grad: CG 7.4940 CG 7.4940 AU 11.5359 UA 11.5359 GU 8.4940 UG 8.4940
+
+step: 23, objective value: 7.988024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2580 GC 0.2580 AU 0.0000 UA 0.0000 GU 0.2420 UG 0.2420
+(1, 2): CG 0.2580 GC 0.2580 AU 0.0000 UA 0.0000 GU 0.2420 UG 0.2420
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4840 CG 7.4840 AU 11.5959 UA 11.5959 GU 8.4840 UG 8.4840
+0 3 (paired), grad: CG 7.4840 CG 7.4840 AU 11.5959 UA 11.5959 GU 8.4840 UG 8.4840
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4840 CG 7.4840 AU 11.5959 UA 11.5959 GU 8.4840 UG 8.4840
+0 3 (paired), grad: CG 7.4840 CG 7.4840 AU 11.5959 UA 11.5959 GU 8.4840 UG 8.4840
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4840 CG 7.4840 AU 11.5959 UA 11.5959 GU 8.4840 UG 8.4840
+0 3 (paired), grad: CG 7.4840 CG 7.4840 AU 11.5959 UA 11.5959 GU 8.4840 UG 8.4840
+
+step: 24, objective value: 7.968024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2630 GC 0.2630 AU 0.0000 UA 0.0000 GU 0.2370 UG 0.2370
+(1, 2): CG 0.2630 GC 0.2630 AU 0.0000 UA 0.0000 GU 0.2370 UG 0.2370
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4740 CG 7.4740 AU 11.6559 UA 11.6559 GU 8.4740 UG 8.4740
+0 3 (paired), grad: CG 7.4740 CG 7.4740 AU 11.6559 UA 11.6559 GU 8.4740 UG 8.4740
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4740 CG 7.4740 AU 11.6559 UA 11.6559 GU 8.4740 UG 8.4740
+0 3 (paired), grad: CG 7.4740 CG 7.4740 AU 11.6559 UA 11.6559 GU 8.4740 UG 8.4740
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4740 CG 7.4740 AU 11.6559 UA 11.6559 GU 8.4740 UG 8.4740
+0 3 (paired), grad: CG 7.4740 CG 7.4740 AU 11.6559 UA 11.6559 GU 8.4740 UG 8.4740
+
+step: 25, objective value: 7.948024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2680 GC 0.2680 AU 0.0000 UA 0.0000 GU 0.2320 UG 0.2320
+(1, 2): CG 0.2680 GC 0.2680 AU 0.0000 UA 0.0000 GU 0.2320 UG 0.2320
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4640 CG 7.4640 AU 11.7159 UA 11.7159 GU 8.4640 UG 8.4640
+0 3 (paired), grad: CG 7.4640 CG 7.4640 AU 11.7159 UA 11.7159 GU 8.4640 UG 8.4640
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4640 CG 7.4640 AU 11.7159 UA 11.7159 GU 8.4640 UG 8.4640
+0 3 (paired), grad: CG 7.4640 CG 7.4640 AU 11.7159 UA 11.7159 GU 8.4640 UG 8.4640
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4640 CG 7.4640 AU 11.7159 UA 11.7159 GU 8.4640 UG 8.4640
+0 3 (paired), grad: CG 7.4640 CG 7.4640 AU 11.7159 UA 11.7159 GU 8.4640 UG 8.4640
+
+step: 26, objective value: 7.928024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2730 GC 0.2730 AU 0.0000 UA 0.0000 GU 0.2270 UG 0.2270
+(1, 2): CG 0.2730 GC 0.2730 AU 0.0000 UA 0.0000 GU 0.2270 UG 0.2270
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4540 CG 7.4540 AU 11.7759 UA 11.7759 GU 8.4540 UG 8.4540
+0 3 (paired), grad: CG 7.4540 CG 7.4540 AU 11.7759 UA 11.7759 GU 8.4540 UG 8.4540
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4540 CG 7.4540 AU 11.7759 UA 11.7759 GU 8.4540 UG 8.4540
+0 3 (paired), grad: CG 7.4540 CG 7.4540 AU 11.7759 UA 11.7759 GU 8.4540 UG 8.4540
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4540 CG 7.4540 AU 11.7759 UA 11.7759 GU 8.4540 UG 8.4540
+0 3 (paired), grad: CG 7.4540 CG 7.4540 AU 11.7759 UA 11.7759 GU 8.4540 UG 8.4540
+
+step: 27, objective value: 7.908024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2780 GC 0.2780 AU 0.0000 UA 0.0000 GU 0.2220 UG 0.2220
+(1, 2): CG 0.2780 GC 0.2780 AU 0.0000 UA 0.0000 GU 0.2220 UG 0.2220
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4440 CG 7.4440 AU 11.8359 UA 11.8359 GU 8.4440 UG 8.4440
+0 3 (paired), grad: CG 7.4440 CG 7.4440 AU 11.8359 UA 11.8359 GU 8.4440 UG 8.4440
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4440 CG 7.4440 AU 11.8359 UA 11.8359 GU 8.4440 UG 8.4440
+0 3 (paired), grad: CG 7.4440 CG 7.4440 AU 11.8359 UA 11.8359 GU 8.4440 UG 8.4440
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4440 CG 7.4440 AU 11.8359 UA 11.8359 GU 8.4440 UG 8.4440
+0 3 (paired), grad: CG 7.4440 CG 7.4440 AU 11.8359 UA 11.8359 GU 8.4440 UG 8.4440
+
+step: 28, objective value: 7.888024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2830 GC 0.2830 AU 0.0000 UA 0.0000 GU 0.2170 UG 0.2170
+(1, 2): CG 0.2830 GC 0.2830 AU 0.0000 UA 0.0000 GU 0.2170 UG 0.2170
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4340 CG 7.4340 AU 11.8959 UA 11.8959 GU 8.4340 UG 8.4340
+0 3 (paired), grad: CG 7.4340 CG 7.4340 AU 11.8959 UA 11.8959 GU 8.4340 UG 8.4340
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4340 CG 7.4340 AU 11.8959 UA 11.8959 GU 8.4340 UG 8.4340
+0 3 (paired), grad: CG 7.4340 CG 7.4340 AU 11.8959 UA 11.8959 GU 8.4340 UG 8.4340
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4340 CG 7.4340 AU 11.8959 UA 11.8959 GU 8.4340 UG 8.4340
+0 3 (paired), grad: CG 7.4340 CG 7.4340 AU 11.8959 UA 11.8959 GU 8.4340 UG 8.4340
+
+step: 29, objective value: 7.868024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2880 GC 0.2880 AU 0.0000 UA 0.0000 GU 0.2120 UG 0.2120
+(1, 2): CG 0.2880 GC 0.2880 AU 0.0000 UA 0.0000 GU 0.2120 UG 0.2120
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4240 CG 7.4240 AU 11.9559 UA 11.9559 GU 8.4240 UG 8.4240
+0 3 (paired), grad: CG 7.4240 CG 7.4240 AU 11.9559 UA 11.9559 GU 8.4240 UG 8.4240
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4240 CG 7.4240 AU 11.9559 UA 11.9559 GU 8.4240 UG 8.4240
+0 3 (paired), grad: CG 7.4240 CG 7.4240 AU 11.9559 UA 11.9559 GU 8.4240 UG 8.4240
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4240 CG 7.4240 AU 11.9559 UA 11.9559 GU 8.4240 UG 8.4240
+0 3 (paired), grad: CG 7.4240 CG 7.4240 AU 11.9559 UA 11.9559 GU 8.4240 UG 8.4240
+
+step: 30, objective value: 7.848024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2930 GC 0.2930 AU 0.0000 UA 0.0000 GU 0.2070 UG 0.2070
+(1, 2): CG 0.2930 GC 0.2930 AU 0.0000 UA 0.0000 GU 0.2070 UG 0.2070
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4140 CG 7.4140 AU 12.0159 UA 12.0159 GU 8.4140 UG 8.4140
+0 3 (paired), grad: CG 7.4140 CG 7.4140 AU 12.0159 UA 12.0159 GU 8.4140 UG 8.4140
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4140 CG 7.4140 AU 12.0159 UA 12.0159 GU 8.4140 UG 8.4140
+0 3 (paired), grad: CG 7.4140 CG 7.4140 AU 12.0159 UA 12.0159 GU 8.4140 UG 8.4140
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4140 CG 7.4140 AU 12.0159 UA 12.0159 GU 8.4140 UG 8.4140
+0 3 (paired), grad: CG 7.4140 CG 7.4140 AU 12.0159 UA 12.0159 GU 8.4140 UG 8.4140
+
+step: 31, objective value: 7.828024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.2980 GC 0.2980 AU 0.0000 UA 0.0000 GU 0.2020 UG 0.2020
+(1, 2): CG 0.2980 GC 0.2980 AU 0.0000 UA 0.0000 GU 0.2020 UG 0.2020
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4040 CG 7.4040 AU 12.0759 UA 12.0759 GU 8.4040 UG 8.4040
+0 3 (paired), grad: CG 7.4040 CG 7.4040 AU 12.0759 UA 12.0759 GU 8.4040 UG 8.4040
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.4040 CG 7.4040 AU 12.0759 UA 12.0759 GU 8.4040 UG 8.4040
+0 3 (paired), grad: CG 7.4040 CG 7.4040 AU 12.0759 UA 12.0759 GU 8.4040 UG 8.4040
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.4040 CG 7.4040 AU 12.0759 UA 12.0759 GU 8.4040 UG 8.4040
+0 3 (paired), grad: CG 7.4040 CG 7.4040 AU 12.0759 UA 12.0759 GU 8.4040 UG 8.4040
+
+step: 32, objective value: 7.808024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3030 GC 0.3030 AU 0.0000 UA 0.0000 GU 0.1970 UG 0.1970
+(1, 2): CG 0.3030 GC 0.3030 AU 0.0000 UA 0.0000 GU 0.1970 UG 0.1970
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3940 CG 7.3940 AU 12.1359 UA 12.1359 GU 8.3940 UG 8.3940
+0 3 (paired), grad: CG 7.3940 CG 7.3940 AU 12.1359 UA 12.1359 GU 8.3940 UG 8.3940
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3940 CG 7.3940 AU 12.1359 UA 12.1359 GU 8.3940 UG 8.3940
+0 3 (paired), grad: CG 7.3940 CG 7.3940 AU 12.1359 UA 12.1359 GU 8.3940 UG 8.3940
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3940 CG 7.3940 AU 12.1359 UA 12.1359 GU 8.3940 UG 8.3940
+0 3 (paired), grad: CG 7.3940 CG 7.3940 AU 12.1359 UA 12.1359 GU 8.3940 UG 8.3940
+
+step: 33, objective value: 7.788024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3080 GC 0.3080 AU 0.0000 UA 0.0000 GU 0.1920 UG 0.1920
+(1, 2): CG 0.3080 GC 0.3080 AU 0.0000 UA 0.0000 GU 0.1920 UG 0.1920
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3840 CG 7.3840 AU 12.1959 UA 12.1959 GU 8.3840 UG 8.3840
+0 3 (paired), grad: CG 7.3840 CG 7.3840 AU 12.1959 UA 12.1959 GU 8.3840 UG 8.3840
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3840 CG 7.3840 AU 12.1959 UA 12.1959 GU 8.3840 UG 8.3840
+0 3 (paired), grad: CG 7.3840 CG 7.3840 AU 12.1959 UA 12.1959 GU 8.3840 UG 8.3840
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3840 CG 7.3840 AU 12.1959 UA 12.1959 GU 8.3840 UG 8.3840
+0 3 (paired), grad: CG 7.3840 CG 7.3840 AU 12.1959 UA 12.1959 GU 8.3840 UG 8.3840
+
+step: 34, objective value: 7.768024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3130 GC 0.3130 AU 0.0000 UA 0.0000 GU 0.1870 UG 0.1870
+(1, 2): CG 0.3130 GC 0.3130 AU 0.0000 UA 0.0000 GU 0.1870 UG 0.1870
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3740 CG 7.3740 AU 12.2559 UA 12.2559 GU 8.3740 UG 8.3740
+0 3 (paired), grad: CG 7.3740 CG 7.3740 AU 12.2559 UA 12.2559 GU 8.3740 UG 8.3740
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3740 CG 7.3740 AU 12.2559 UA 12.2559 GU 8.3740 UG 8.3740
+0 3 (paired), grad: CG 7.3740 CG 7.3740 AU 12.2559 UA 12.2559 GU 8.3740 UG 8.3740
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3740 CG 7.3740 AU 12.2559 UA 12.2559 GU 8.3740 UG 8.3740
+0 3 (paired), grad: CG 7.3740 CG 7.3740 AU 12.2559 UA 12.2559 GU 8.3740 UG 8.3740
+
+step: 35, objective value: 7.748024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3180 GC 0.3180 AU 0.0000 UA 0.0000 GU 0.1820 UG 0.1820
+(1, 2): CG 0.3180 GC 0.3180 AU 0.0000 UA 0.0000 GU 0.1820 UG 0.1820
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3640 CG 7.3640 AU 12.3159 UA 12.3159 GU 8.3640 UG 8.3640
+0 3 (paired), grad: CG 7.3640 CG 7.3640 AU 12.3159 UA 12.3159 GU 8.3640 UG 8.3640
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3640 CG 7.3640 AU 12.3159 UA 12.3159 GU 8.3640 UG 8.3640
+0 3 (paired), grad: CG 7.3640 CG 7.3640 AU 12.3159 UA 12.3159 GU 8.3640 UG 8.3640
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3640 CG 7.3640 AU 12.3159 UA 12.3159 GU 8.3640 UG 8.3640
+0 3 (paired), grad: CG 7.3640 CG 7.3640 AU 12.3159 UA 12.3159 GU 8.3640 UG 8.3640
+
+step: 36, objective value: 7.728024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3230 GC 0.3230 AU 0.0000 UA 0.0000 GU 0.1770 UG 0.1770
+(1, 2): CG 0.3230 GC 0.3230 AU 0.0000 UA 0.0000 GU 0.1770 UG 0.1770
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3540 CG 7.3540 AU 12.3759 UA 12.3759 GU 8.3540 UG 8.3540
+0 3 (paired), grad: CG 7.3540 CG 7.3540 AU 12.3759 UA 12.3759 GU 8.3540 UG 8.3540
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3540 CG 7.3540 AU 12.3759 UA 12.3759 GU 8.3540 UG 8.3540
+0 3 (paired), grad: CG 7.3540 CG 7.3540 AU 12.3759 UA 12.3759 GU 8.3540 UG 8.3540
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3540 CG 7.3540 AU 12.3759 UA 12.3759 GU 8.3540 UG 8.3540
+0 3 (paired), grad: CG 7.3540 CG 7.3540 AU 12.3759 UA 12.3759 GU 8.3540 UG 8.3540
+
+step: 37, objective value: 7.708024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3280 GC 0.3280 AU 0.0000 UA 0.0000 GU 0.1720 UG 0.1720
+(1, 2): CG 0.3280 GC 0.3280 AU 0.0000 UA 0.0000 GU 0.1720 UG 0.1720
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3440 CG 7.3440 AU 12.4359 UA 12.4359 GU 8.3440 UG 8.3440
+0 3 (paired), grad: CG 7.3440 CG 7.3440 AU 12.4359 UA 12.4359 GU 8.3440 UG 8.3440
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3440 CG 7.3440 AU 12.4359 UA 12.4359 GU 8.3440 UG 8.3440
+0 3 (paired), grad: CG 7.3440 CG 7.3440 AU 12.4359 UA 12.4359 GU 8.3440 UG 8.3440
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3440 CG 7.3440 AU 12.4359 UA 12.4359 GU 8.3440 UG 8.3440
+0 3 (paired), grad: CG 7.3440 CG 7.3440 AU 12.4359 UA 12.4359 GU 8.3440 UG 8.3440
+
+step: 38, objective value: 7.688024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3330 GC 0.3330 AU 0.0000 UA 0.0000 GU 0.1670 UG 0.1670
+(1, 2): CG 0.3330 GC 0.3330 AU 0.0000 UA 0.0000 GU 0.1670 UG 0.1670
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3340 CG 7.3340 AU 12.4959 UA 12.4959 GU 8.3340 UG 8.3340
+0 3 (paired), grad: CG 7.3340 CG 7.3340 AU 12.4959 UA 12.4959 GU 8.3340 UG 8.3340
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3340 CG 7.3340 AU 12.4959 UA 12.4959 GU 8.3340 UG 8.3340
+0 3 (paired), grad: CG 7.3340 CG 7.3340 AU 12.4959 UA 12.4959 GU 8.3340 UG 8.3340
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3340 CG 7.3340 AU 12.4959 UA 12.4959 GU 8.3340 UG 8.3340
+0 3 (paired), grad: CG 7.3340 CG 7.3340 AU 12.4959 UA 12.4959 GU 8.3340 UG 8.3340
+
+step: 39, objective value: 7.668024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3380 GC 0.3380 AU 0.0000 UA 0.0000 GU 0.1620 UG 0.1620
+(1, 2): CG 0.3380 GC 0.3380 AU 0.0000 UA 0.0000 GU 0.1620 UG 0.1620
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3240 CG 7.3240 AU 12.5559 UA 12.5559 GU 8.3240 UG 8.3240
+0 3 (paired), grad: CG 7.3240 CG 7.3240 AU 12.5559 UA 12.5559 GU 8.3240 UG 8.3240
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3240 CG 7.3240 AU 12.5559 UA 12.5559 GU 8.3240 UG 8.3240
+0 3 (paired), grad: CG 7.3240 CG 7.3240 AU 12.5559 UA 12.5559 GU 8.3240 UG 8.3240
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3240 CG 7.3240 AU 12.5559 UA 12.5559 GU 8.3240 UG 8.3240
+0 3 (paired), grad: CG 7.3240 CG 7.3240 AU 12.5559 UA 12.5559 GU 8.3240 UG 8.3240
+
+step: 40, objective value: 7.648024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3430 GC 0.3430 AU 0.0000 UA 0.0000 GU 0.1570 UG 0.1570
+(1, 2): CG 0.3430 GC 0.3430 AU 0.0000 UA 0.0000 GU 0.1570 UG 0.1570
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3140 CG 7.3140 AU 12.6159 UA 12.6159 GU 8.3140 UG 8.3140
+0 3 (paired), grad: CG 7.3140 CG 7.3140 AU 12.6159 UA 12.6159 GU 8.3140 UG 8.3140
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3140 CG 7.3140 AU 12.6159 UA 12.6159 GU 8.3140 UG 8.3140
+0 3 (paired), grad: CG 7.3140 CG 7.3140 AU 12.6159 UA 12.6159 GU 8.3140 UG 8.3140
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3140 CG 7.3140 AU 12.6159 UA 12.6159 GU 8.3140 UG 8.3140
+0 3 (paired), grad: CG 7.3140 CG 7.3140 AU 12.6159 UA 12.6159 GU 8.3140 UG 8.3140
+
+step: 41, objective value: 7.628024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3480 GC 0.3480 AU 0.0000 UA 0.0000 GU 0.1520 UG 0.1520
+(1, 2): CG 0.3480 GC 0.3480 AU 0.0000 UA 0.0000 GU 0.1520 UG 0.1520
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3040 CG 7.3040 AU 12.6759 UA 12.6759 GU 8.3040 UG 8.3040
+0 3 (paired), grad: CG 7.3040 CG 7.3040 AU 12.6759 UA 12.6759 GU 8.3040 UG 8.3040
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.3040 CG 7.3040 AU 12.6759 UA 12.6759 GU 8.3040 UG 8.3040
+0 3 (paired), grad: CG 7.3040 CG 7.3040 AU 12.6759 UA 12.6759 GU 8.3040 UG 8.3040
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.3040 CG 7.3040 AU 12.6759 UA 12.6759 GU 8.3040 UG 8.3040
+0 3 (paired), grad: CG 7.3040 CG 7.3040 AU 12.6759 UA 12.6759 GU 8.3040 UG 8.3040
+
+step: 42, objective value: 7.608024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3530 GC 0.3530 AU 0.0000 UA 0.0000 GU 0.1470 UG 0.1470
+(1, 2): CG 0.3530 GC 0.3530 AU 0.0000 UA 0.0000 GU 0.1470 UG 0.1470
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2940 CG 7.2940 AU 12.7359 UA 12.7359 GU 8.2940 UG 8.2940
+0 3 (paired), grad: CG 7.2940 CG 7.2940 AU 12.7359 UA 12.7359 GU 8.2940 UG 8.2940
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2940 CG 7.2940 AU 12.7359 UA 12.7359 GU 8.2940 UG 8.2940
+0 3 (paired), grad: CG 7.2940 CG 7.2940 AU 12.7359 UA 12.7359 GU 8.2940 UG 8.2940
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2940 CG 7.2940 AU 12.7359 UA 12.7359 GU 8.2940 UG 8.2940
+0 3 (paired), grad: CG 7.2940 CG 7.2940 AU 12.7359 UA 12.7359 GU 8.2940 UG 8.2940
+
+step: 43, objective value: 7.588024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3580 GC 0.3580 AU 0.0000 UA 0.0000 GU 0.1420 UG 0.1420
+(1, 2): CG 0.3580 GC 0.3580 AU 0.0000 UA 0.0000 GU 0.1420 UG 0.1420
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2840 CG 7.2840 AU 12.7959 UA 12.7959 GU 8.2840 UG 8.2840
+0 3 (paired), grad: CG 7.2840 CG 7.2840 AU 12.7959 UA 12.7959 GU 8.2840 UG 8.2840
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2840 CG 7.2840 AU 12.7959 UA 12.7959 GU 8.2840 UG 8.2840
+0 3 (paired), grad: CG 7.2840 CG 7.2840 AU 12.7959 UA 12.7959 GU 8.2840 UG 8.2840
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2840 CG 7.2840 AU 12.7959 UA 12.7959 GU 8.2840 UG 8.2840
+0 3 (paired), grad: CG 7.2840 CG 7.2840 AU 12.7959 UA 12.7959 GU 8.2840 UG 8.2840
+
+step: 44, objective value: 7.568024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3630 GC 0.3630 AU 0.0000 UA 0.0000 GU 0.1370 UG 0.1370
+(1, 2): CG 0.3630 GC 0.3630 AU 0.0000 UA 0.0000 GU 0.1370 UG 0.1370
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2740 CG 7.2740 AU 12.8559 UA 12.8559 GU 8.2740 UG 8.2740
+0 3 (paired), grad: CG 7.2740 CG 7.2740 AU 12.8559 UA 12.8559 GU 8.2740 UG 8.2740
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2740 CG 7.2740 AU 12.8559 UA 12.8559 GU 8.2740 UG 8.2740
+0 3 (paired), grad: CG 7.2740 CG 7.2740 AU 12.8559 UA 12.8559 GU 8.2740 UG 8.2740
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2740 CG 7.2740 AU 12.8559 UA 12.8559 GU 8.2740 UG 8.2740
+0 3 (paired), grad: CG 7.2740 CG 7.2740 AU 12.8559 UA 12.8559 GU 8.2740 UG 8.2740
+
+step: 45, objective value: 7.548024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3680 GC 0.3680 AU 0.0000 UA 0.0000 GU 0.1320 UG 0.1320
+(1, 2): CG 0.3680 GC 0.3680 AU 0.0000 UA 0.0000 GU 0.1320 UG 0.1320
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2640 CG 7.2640 AU 12.9159 UA 12.9159 GU 8.2640 UG 8.2640
+0 3 (paired), grad: CG 7.2640 CG 7.2640 AU 12.9159 UA 12.9159 GU 8.2640 UG 8.2640
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2640 CG 7.2640 AU 12.9159 UA 12.9159 GU 8.2640 UG 8.2640
+0 3 (paired), grad: CG 7.2640 CG 7.2640 AU 12.9159 UA 12.9159 GU 8.2640 UG 8.2640
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2640 CG 7.2640 AU 12.9159 UA 12.9159 GU 8.2640 UG 8.2640
+0 3 (paired), grad: CG 7.2640 CG 7.2640 AU 12.9159 UA 12.9159 GU 8.2640 UG 8.2640
+
+step: 46, objective value: 7.528024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3730 GC 0.3730 AU 0.0000 UA 0.0000 GU 0.1270 UG 0.1270
+(1, 2): CG 0.3730 GC 0.3730 AU 0.0000 UA 0.0000 GU 0.1270 UG 0.1270
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2540 CG 7.2540 AU 12.9759 UA 12.9759 GU 8.2540 UG 8.2540
+0 3 (paired), grad: CG 7.2540 CG 7.2540 AU 12.9759 UA 12.9759 GU 8.2540 UG 8.2540
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2540 CG 7.2540 AU 12.9759 UA 12.9759 GU 8.2540 UG 8.2540
+0 3 (paired), grad: CG 7.2540 CG 7.2540 AU 12.9759 UA 12.9759 GU 8.2540 UG 8.2540
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2540 CG 7.2540 AU 12.9759 UA 12.9759 GU 8.2540 UG 8.2540
+0 3 (paired), grad: CG 7.2540 CG 7.2540 AU 12.9759 UA 12.9759 GU 8.2540 UG 8.2540
+
+step: 47, objective value: 7.508024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3780 GC 0.3780 AU 0.0000 UA 0.0000 GU 0.1220 UG 0.1220
+(1, 2): CG 0.3780 GC 0.3780 AU 0.0000 UA 0.0000 GU 0.1220 UG 0.1220
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2440 CG 7.2440 AU 13.0359 UA 13.0359 GU 8.2440 UG 8.2440
+0 3 (paired), grad: CG 7.2440 CG 7.2440 AU 13.0359 UA 13.0359 GU 8.2440 UG 8.2440
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2440 CG 7.2440 AU 13.0359 UA 13.0359 GU 8.2440 UG 8.2440
+0 3 (paired), grad: CG 7.2440 CG 7.2440 AU 13.0359 UA 13.0359 GU 8.2440 UG 8.2440
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2440 CG 7.2440 AU 13.0359 UA 13.0359 GU 8.2440 UG 8.2440
+0 3 (paired), grad: CG 7.2440 CG 7.2440 AU 13.0359 UA 13.0359 GU 8.2440 UG 8.2440
+
+step: 48, objective value: 7.488024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3830 GC 0.3830 AU 0.0000 UA 0.0000 GU 0.1170 UG 0.1170
+(1, 2): CG 0.3830 GC 0.3830 AU 0.0000 UA 0.0000 GU 0.1170 UG 0.1170
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2340 CG 7.2340 AU 13.0959 UA 13.0959 GU 8.2340 UG 8.2340
+0 3 (paired), grad: CG 7.2340 CG 7.2340 AU 13.0959 UA 13.0959 GU 8.2340 UG 8.2340
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2340 CG 7.2340 AU 13.0959 UA 13.0959 GU 8.2340 UG 8.2340
+0 3 (paired), grad: CG 7.2340 CG 7.2340 AU 13.0959 UA 13.0959 GU 8.2340 UG 8.2340
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2340 CG 7.2340 AU 13.0959 UA 13.0959 GU 8.2340 UG 8.2340
+0 3 (paired), grad: CG 7.2340 CG 7.2340 AU 13.0959 UA 13.0959 GU 8.2340 UG 8.2340
+
+step: 49, objective value: 7.468024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3880 GC 0.3880 AU 0.0000 UA 0.0000 GU 0.1120 UG 0.1120
+(1, 2): CG 0.3880 GC 0.3880 AU 0.0000 UA 0.0000 GU 0.1120 UG 0.1120
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2240 CG 7.2240 AU 13.1559 UA 13.1559 GU 8.2240 UG 8.2240
+0 3 (paired), grad: CG 7.2240 CG 7.2240 AU 13.1559 UA 13.1559 GU 8.2240 UG 8.2240
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2240 CG 7.2240 AU 13.1559 UA 13.1559 GU 8.2240 UG 8.2240
+0 3 (paired), grad: CG 7.2240 CG 7.2240 AU 13.1559 UA 13.1559 GU 8.2240 UG 8.2240
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2240 CG 7.2240 AU 13.1559 UA 13.1559 GU 8.2240 UG 8.2240
+0 3 (paired), grad: CG 7.2240 CG 7.2240 AU 13.1559 UA 13.1559 GU 8.2240 UG 8.2240
+
+step: 50, objective value: 7.448024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3930 GC 0.3930 AU 0.0000 UA 0.0000 GU 0.1070 UG 0.1070
+(1, 2): CG 0.3930 GC 0.3930 AU 0.0000 UA 0.0000 GU 0.1070 UG 0.1070
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2140 CG 7.2140 AU 13.2159 UA 13.2159 GU 8.2140 UG 8.2140
+0 3 (paired), grad: CG 7.2140 CG 7.2140 AU 13.2159 UA 13.2159 GU 8.2140 UG 8.2140
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2140 CG 7.2140 AU 13.2159 UA 13.2159 GU 8.2140 UG 8.2140
+0 3 (paired), grad: CG 7.2140 CG 7.2140 AU 13.2159 UA 13.2159 GU 8.2140 UG 8.2140
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2140 CG 7.2140 AU 13.2159 UA 13.2159 GU 8.2140 UG 8.2140
+0 3 (paired), grad: CG 7.2140 CG 7.2140 AU 13.2159 UA 13.2159 GU 8.2140 UG 8.2140
+
+step: 51, objective value: 7.428024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.3980 GC 0.3980 AU 0.0000 UA 0.0000 GU 0.1020 UG 0.1020
+(1, 2): CG 0.3980 GC 0.3980 AU 0.0000 UA 0.0000 GU 0.1020 UG 0.1020
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2040 CG 7.2040 AU 13.2759 UA 13.2759 GU 8.2040 UG 8.2040
+0 3 (paired), grad: CG 7.2040 CG 7.2040 AU 13.2759 UA 13.2759 GU 8.2040 UG 8.2040
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.2040 CG 7.2040 AU 13.2759 UA 13.2759 GU 8.2040 UG 8.2040
+0 3 (paired), grad: CG 7.2040 CG 7.2040 AU 13.2759 UA 13.2759 GU 8.2040 UG 8.2040
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.2040 CG 7.2040 AU 13.2759 UA 13.2759 GU 8.2040 UG 8.2040
+0 3 (paired), grad: CG 7.2040 CG 7.2040 AU 13.2759 UA 13.2759 GU 8.2040 UG 8.2040
+
+step: 52, objective value: 7.408024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4030 GC 0.4030 AU 0.0000 UA 0.0000 GU 0.0970 UG 0.0970
+(1, 2): CG 0.4030 GC 0.4030 AU 0.0000 UA 0.0000 GU 0.0970 UG 0.0970
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1940 CG 7.1940 AU 13.3359 UA 13.3359 GU 8.1940 UG 8.1940
+0 3 (paired), grad: CG 7.1940 CG 7.1940 AU 13.3359 UA 13.3359 GU 8.1940 UG 8.1940
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1940 CG 7.1940 AU 13.3359 UA 13.3359 GU 8.1940 UG 8.1940
+0 3 (paired), grad: CG 7.1940 CG 7.1940 AU 13.3359 UA 13.3359 GU 8.1940 UG 8.1940
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1940 CG 7.1940 AU 13.3359 UA 13.3359 GU 8.1940 UG 8.1940
+0 3 (paired), grad: CG 7.1940 CG 7.1940 AU 13.3359 UA 13.3359 GU 8.1940 UG 8.1940
+
+step: 53, objective value: 7.388024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4080 GC 0.4080 AU 0.0000 UA 0.0000 GU 0.0920 UG 0.0920
+(1, 2): CG 0.4080 GC 0.4080 AU 0.0000 UA 0.0000 GU 0.0920 UG 0.0920
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1840 CG 7.1840 AU 13.3959 UA 13.3959 GU 8.1840 UG 8.1840
+0 3 (paired), grad: CG 7.1840 CG 7.1840 AU 13.3959 UA 13.3959 GU 8.1840 UG 8.1840
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1840 CG 7.1840 AU 13.3959 UA 13.3959 GU 8.1840 UG 8.1840
+0 3 (paired), grad: CG 7.1840 CG 7.1840 AU 13.3959 UA 13.3959 GU 8.1840 UG 8.1840
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1840 CG 7.1840 AU 13.3959 UA 13.3959 GU 8.1840 UG 8.1840
+0 3 (paired), grad: CG 7.1840 CG 7.1840 AU 13.3959 UA 13.3959 GU 8.1840 UG 8.1840
+
+step: 54, objective value: 7.368024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4130 GC 0.4130 AU 0.0000 UA 0.0000 GU 0.0870 UG 0.0870
+(1, 2): CG 0.4130 GC 0.4130 AU 0.0000 UA 0.0000 GU 0.0870 UG 0.0870
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1740 CG 7.1740 AU 13.4559 UA 13.4559 GU 8.1740 UG 8.1740
+0 3 (paired), grad: CG 7.1740 CG 7.1740 AU 13.4559 UA 13.4559 GU 8.1740 UG 8.1740
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1740 CG 7.1740 AU 13.4559 UA 13.4559 GU 8.1740 UG 8.1740
+0 3 (paired), grad: CG 7.1740 CG 7.1740 AU 13.4559 UA 13.4559 GU 8.1740 UG 8.1740
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1740 CG 7.1740 AU 13.4559 UA 13.4559 GU 8.1740 UG 8.1740
+0 3 (paired), grad: CG 7.1740 CG 7.1740 AU 13.4559 UA 13.4559 GU 8.1740 UG 8.1740
+
+step: 55, objective value: 7.348024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4180 GC 0.4180 AU 0.0000 UA 0.0000 GU 0.0820 UG 0.0820
+(1, 2): CG 0.4180 GC 0.4180 AU 0.0000 UA 0.0000 GU 0.0820 UG 0.0820
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1640 CG 7.1640 AU 13.5159 UA 13.5159 GU 8.1640 UG 8.1640
+0 3 (paired), grad: CG 7.1640 CG 7.1640 AU 13.5159 UA 13.5159 GU 8.1640 UG 8.1640
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1640 CG 7.1640 AU 13.5159 UA 13.5159 GU 8.1640 UG 8.1640
+0 3 (paired), grad: CG 7.1640 CG 7.1640 AU 13.5159 UA 13.5159 GU 8.1640 UG 8.1640
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1640 CG 7.1640 AU 13.5159 UA 13.5159 GU 8.1640 UG 8.1640
+0 3 (paired), grad: CG 7.1640 CG 7.1640 AU 13.5159 UA 13.5159 GU 8.1640 UG 8.1640
+
+step: 56, objective value: 7.328024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4230 GC 0.4230 AU 0.0000 UA 0.0000 GU 0.0770 UG 0.0770
+(1, 2): CG 0.4230 GC 0.4230 AU 0.0000 UA 0.0000 GU 0.0770 UG 0.0770
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1540 CG 7.1540 AU 13.5759 UA 13.5759 GU 8.1540 UG 8.1540
+0 3 (paired), grad: CG 7.1540 CG 7.1540 AU 13.5759 UA 13.5759 GU 8.1540 UG 8.1540
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1540 CG 7.1540 AU 13.5759 UA 13.5759 GU 8.1540 UG 8.1540
+0 3 (paired), grad: CG 7.1540 CG 7.1540 AU 13.5759 UA 13.5759 GU 8.1540 UG 8.1540
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1540 CG 7.1540 AU 13.5759 UA 13.5759 GU 8.1540 UG 8.1540
+0 3 (paired), grad: CG 7.1540 CG 7.1540 AU 13.5759 UA 13.5759 GU 8.1540 UG 8.1540
+
+step: 57, objective value: 7.308024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4280 GC 0.4280 AU 0.0000 UA 0.0000 GU 0.0720 UG 0.0720
+(1, 2): CG 0.4280 GC 0.4280 AU 0.0000 UA 0.0000 GU 0.0720 UG 0.0720
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1440 CG 7.1440 AU 13.6359 UA 13.6359 GU 8.1440 UG 8.1440
+0 3 (paired), grad: CG 7.1440 CG 7.1440 AU 13.6359 UA 13.6359 GU 8.1440 UG 8.1440
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1440 CG 7.1440 AU 13.6359 UA 13.6359 GU 8.1440 UG 8.1440
+0 3 (paired), grad: CG 7.1440 CG 7.1440 AU 13.6359 UA 13.6359 GU 8.1440 UG 8.1440
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1440 CG 7.1440 AU 13.6359 UA 13.6359 GU 8.1440 UG 8.1440
+0 3 (paired), grad: CG 7.1440 CG 7.1440 AU 13.6359 UA 13.6359 GU 8.1440 UG 8.1440
+
+step: 58, objective value: 7.288024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4330 GC 0.4330 AU 0.0000 UA 0.0000 GU 0.0670 UG 0.0670
+(1, 2): CG 0.4330 GC 0.4330 AU 0.0000 UA 0.0000 GU 0.0670 UG 0.0670
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1340 CG 7.1340 AU 13.6959 UA 13.6959 GU 8.1340 UG 8.1340
+0 3 (paired), grad: CG 7.1340 CG 7.1340 AU 13.6959 UA 13.6959 GU 8.1340 UG 8.1340
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1340 CG 7.1340 AU 13.6959 UA 13.6959 GU 8.1340 UG 8.1340
+0 3 (paired), grad: CG 7.1340 CG 7.1340 AU 13.6959 UA 13.6959 GU 8.1340 UG 8.1340
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1340 CG 7.1340 AU 13.6959 UA 13.6959 GU 8.1340 UG 8.1340
+0 3 (paired), grad: CG 7.1340 CG 7.1340 AU 13.6959 UA 13.6959 GU 8.1340 UG 8.1340
+
+step: 59, objective value: 7.268024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4380 GC 0.4380 AU 0.0000 UA 0.0000 GU 0.0620 UG 0.0620
+(1, 2): CG 0.4380 GC 0.4380 AU 0.0000 UA 0.0000 GU 0.0620 UG 0.0620
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1240 CG 7.1240 AU 13.7559 UA 13.7559 GU 8.1240 UG 8.1240
+0 3 (paired), grad: CG 7.1240 CG 7.1240 AU 13.7559 UA 13.7559 GU 8.1240 UG 8.1240
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1240 CG 7.1240 AU 13.7559 UA 13.7559 GU 8.1240 UG 8.1240
+0 3 (paired), grad: CG 7.1240 CG 7.1240 AU 13.7559 UA 13.7559 GU 8.1240 UG 8.1240
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1240 CG 7.1240 AU 13.7559 UA 13.7559 GU 8.1240 UG 8.1240
+0 3 (paired), grad: CG 7.1240 CG 7.1240 AU 13.7559 UA 13.7559 GU 8.1240 UG 8.1240
+
+step: 60, objective value: 7.248024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4430 GC 0.4430 AU 0.0000 UA 0.0000 GU 0.0570 UG 0.0570
+(1, 2): CG 0.4430 GC 0.4430 AU 0.0000 UA 0.0000 GU 0.0570 UG 0.0570
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1140 CG 7.1140 AU 13.8159 UA 13.8159 GU 8.1140 UG 8.1140
+0 3 (paired), grad: CG 7.1140 CG 7.1140 AU 13.8159 UA 13.8159 GU 8.1140 UG 8.1140
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1140 CG 7.1140 AU 13.8159 UA 13.8159 GU 8.1140 UG 8.1140
+0 3 (paired), grad: CG 7.1140 CG 7.1140 AU 13.8159 UA 13.8159 GU 8.1140 UG 8.1140
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1140 CG 7.1140 AU 13.8159 UA 13.8159 GU 8.1140 UG 8.1140
+0 3 (paired), grad: CG 7.1140 CG 7.1140 AU 13.8159 UA 13.8159 GU 8.1140 UG 8.1140
+
+step: 61, objective value: 7.228024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4480 GC 0.4480 AU 0.0000 UA 0.0000 GU 0.0520 UG 0.0520
+(1, 2): CG 0.4480 GC 0.4480 AU 0.0000 UA 0.0000 GU 0.0520 UG 0.0520
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1040 CG 7.1040 AU 13.8759 UA 13.8759 GU 8.1040 UG 8.1040
+0 3 (paired), grad: CG 7.1040 CG 7.1040 AU 13.8759 UA 13.8759 GU 8.1040 UG 8.1040
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.1040 CG 7.1040 AU 13.8759 UA 13.8759 GU 8.1040 UG 8.1040
+0 3 (paired), grad: CG 7.1040 CG 7.1040 AU 13.8759 UA 13.8759 GU 8.1040 UG 8.1040
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.1040 CG 7.1040 AU 13.8759 UA 13.8759 GU 8.1040 UG 8.1040
+0 3 (paired), grad: CG 7.1040 CG 7.1040 AU 13.8759 UA 13.8759 GU 8.1040 UG 8.1040
+
+step: 62, objective value: 7.208024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4530 GC 0.4530 AU 0.0000 UA 0.0000 GU 0.0470 UG 0.0470
+(1, 2): CG 0.4530 GC 0.4530 AU 0.0000 UA 0.0000 GU 0.0470 UG 0.0470
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0940 CG 7.0940 AU 13.9359 UA 13.9359 GU 8.0940 UG 8.0940
+0 3 (paired), grad: CG 7.0940 CG 7.0940 AU 13.9359 UA 13.9359 GU 8.0940 UG 8.0940
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0940 CG 7.0940 AU 13.9359 UA 13.9359 GU 8.0940 UG 8.0940
+0 3 (paired), grad: CG 7.0940 CG 7.0940 AU 13.9359 UA 13.9359 GU 8.0940 UG 8.0940
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0940 CG 7.0940 AU 13.9359 UA 13.9359 GU 8.0940 UG 8.0940
+0 3 (paired), grad: CG 7.0940 CG 7.0940 AU 13.9359 UA 13.9359 GU 8.0940 UG 8.0940
+
+step: 63, objective value: 7.188024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4580 GC 0.4580 AU 0.0000 UA 0.0000 GU 0.0420 UG 0.0420
+(1, 2): CG 0.4580 GC 0.4580 AU 0.0000 UA 0.0000 GU 0.0420 UG 0.0420
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0840 CG 7.0840 AU 13.9959 UA 13.9959 GU 8.0840 UG 8.0840
+0 3 (paired), grad: CG 7.0840 CG 7.0840 AU 13.9959 UA 13.9959 GU 8.0840 UG 8.0840
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0840 CG 7.0840 AU 13.9959 UA 13.9959 GU 8.0840 UG 8.0840
+0 3 (paired), grad: CG 7.0840 CG 7.0840 AU 13.9959 UA 13.9959 GU 8.0840 UG 8.0840
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0840 CG 7.0840 AU 13.9959 UA 13.9959 GU 8.0840 UG 8.0840
+0 3 (paired), grad: CG 7.0840 CG 7.0840 AU 13.9959 UA 13.9959 GU 8.0840 UG 8.0840
+
+step: 64, objective value: 7.168024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4630 GC 0.4630 AU 0.0000 UA 0.0000 GU 0.0370 UG 0.0370
+(1, 2): CG 0.4630 GC 0.4630 AU 0.0000 UA 0.0000 GU 0.0370 UG 0.0370
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0740 CG 7.0740 AU 14.0559 UA 14.0559 GU 8.0740 UG 8.0740
+0 3 (paired), grad: CG 7.0740 CG 7.0740 AU 14.0559 UA 14.0559 GU 8.0740 UG 8.0740
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0740 CG 7.0740 AU 14.0559 UA 14.0559 GU 8.0740 UG 8.0740
+0 3 (paired), grad: CG 7.0740 CG 7.0740 AU 14.0559 UA 14.0559 GU 8.0740 UG 8.0740
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0740 CG 7.0740 AU 14.0559 UA 14.0559 GU 8.0740 UG 8.0740
+0 3 (paired), grad: CG 7.0740 CG 7.0740 AU 14.0559 UA 14.0559 GU 8.0740 UG 8.0740
+
+step: 65, objective value: 7.148024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4680 GC 0.4680 AU 0.0000 UA 0.0000 GU 0.0320 UG 0.0320
+(1, 2): CG 0.4680 GC 0.4680 AU 0.0000 UA 0.0000 GU 0.0320 UG 0.0320
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0640 CG 7.0640 AU 14.1159 UA 14.1159 GU 8.0640 UG 8.0640
+0 3 (paired), grad: CG 7.0640 CG 7.0640 AU 14.1159 UA 14.1159 GU 8.0640 UG 8.0640
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0640 CG 7.0640 AU 14.1159 UA 14.1159 GU 8.0640 UG 8.0640
+0 3 (paired), grad: CG 7.0640 CG 7.0640 AU 14.1159 UA 14.1159 GU 8.0640 UG 8.0640
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0640 CG 7.0640 AU 14.1159 UA 14.1159 GU 8.0640 UG 8.0640
+0 3 (paired), grad: CG 7.0640 CG 7.0640 AU 14.1159 UA 14.1159 GU 8.0640 UG 8.0640
+
+step: 66, objective value: 7.128024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4730 GC 0.4730 AU 0.0000 UA 0.0000 GU 0.0270 UG 0.0270
+(1, 2): CG 0.4730 GC 0.4730 AU 0.0000 UA 0.0000 GU 0.0270 UG 0.0270
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0540 CG 7.0540 AU 14.1759 UA 14.1759 GU 8.0540 UG 8.0540
+0 3 (paired), grad: CG 7.0540 CG 7.0540 AU 14.1759 UA 14.1759 GU 8.0540 UG 8.0540
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0540 CG 7.0540 AU 14.1759 UA 14.1759 GU 8.0540 UG 8.0540
+0 3 (paired), grad: CG 7.0540 CG 7.0540 AU 14.1759 UA 14.1759 GU 8.0540 UG 8.0540
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0540 CG 7.0540 AU 14.1759 UA 14.1759 GU 8.0540 UG 8.0540
+0 3 (paired), grad: CG 7.0540 CG 7.0540 AU 14.1759 UA 14.1759 GU 8.0540 UG 8.0540
+
+step: 67, objective value: 7.108024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4780 GC 0.4780 AU 0.0000 UA 0.0000 GU 0.0220 UG 0.0220
+(1, 2): CG 0.4780 GC 0.4780 AU 0.0000 UA 0.0000 GU 0.0220 UG 0.0220
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0440 CG 7.0440 AU 14.2359 UA 14.2359 GU 8.0440 UG 8.0440
+0 3 (paired), grad: CG 7.0440 CG 7.0440 AU 14.2359 UA 14.2359 GU 8.0440 UG 8.0440
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0440 CG 7.0440 AU 14.2359 UA 14.2359 GU 8.0440 UG 8.0440
+0 3 (paired), grad: CG 7.0440 CG 7.0440 AU 14.2359 UA 14.2359 GU 8.0440 UG 8.0440
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0440 CG 7.0440 AU 14.2359 UA 14.2359 GU 8.0440 UG 8.0440
+0 3 (paired), grad: CG 7.0440 CG 7.0440 AU 14.2359 UA 14.2359 GU 8.0440 UG 8.0440
+
+step: 68, objective value: 7.088024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4830 GC 0.4830 AU 0.0000 UA 0.0000 GU 0.0170 UG 0.0170
+(1, 2): CG 0.4830 GC 0.4830 AU 0.0000 UA 0.0000 GU 0.0170 UG 0.0170
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0340 CG 7.0340 AU 14.2959 UA 14.2959 GU 8.0340 UG 8.0340
+0 3 (paired), grad: CG 7.0340 CG 7.0340 AU 14.2959 UA 14.2959 GU 8.0340 UG 8.0340
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0340 CG 7.0340 AU 14.2959 UA 14.2959 GU 8.0340 UG 8.0340
+0 3 (paired), grad: CG 7.0340 CG 7.0340 AU 14.2959 UA 14.2959 GU 8.0340 UG 8.0340
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0340 CG 7.0340 AU 14.2959 UA 14.2959 GU 8.0340 UG 8.0340
+0 3 (paired), grad: CG 7.0340 CG 7.0340 AU 14.2959 UA 14.2959 GU 8.0340 UG 8.0340
+
+step: 69, objective value: 7.068024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4880 GC 0.4880 AU 0.0000 UA 0.0000 GU 0.0120 UG 0.0120
+(1, 2): CG 0.4880 GC 0.4880 AU 0.0000 UA 0.0000 GU 0.0120 UG 0.0120
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0240 CG 7.0240 AU 14.3559 UA 14.3559 GU 8.0240 UG 8.0240
+0 3 (paired), grad: CG 7.0240 CG 7.0240 AU 14.3559 UA 14.3559 GU 8.0240 UG 8.0240
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0240 CG 7.0240 AU 14.3559 UA 14.3559 GU 8.0240 UG 8.0240
+0 3 (paired), grad: CG 7.0240 CG 7.0240 AU 14.3559 UA 14.3559 GU 8.0240 UG 8.0240
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0240 CG 7.0240 AU 14.3559 UA 14.3559 GU 8.0240 UG 8.0240
+0 3 (paired), grad: CG 7.0240 CG 7.0240 AU 14.3559 UA 14.3559 GU 8.0240 UG 8.0240
+
+step: 70, objective value: 7.048024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4930 GC 0.4930 AU 0.0000 UA 0.0000 GU 0.0070 UG 0.0070
+(1, 2): CG 0.4930 GC 0.4930 AU 0.0000 UA 0.0000 GU 0.0070 UG 0.0070
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0140 CG 7.0140 AU 14.4159 UA 14.4159 GU 8.0140 UG 8.0140
+0 3 (paired), grad: CG 7.0140 CG 7.0140 AU 14.4159 UA 14.4159 GU 8.0140 UG 8.0140
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0140 CG 7.0140 AU 14.4159 UA 14.4159 GU 8.0140 UG 8.0140
+0 3 (paired), grad: CG 7.0140 CG 7.0140 AU 14.4159 UA 14.4159 GU 8.0140 UG 8.0140
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0140 CG 7.0140 AU 14.4159 UA 14.4159 GU 8.0140 UG 8.0140
+0 3 (paired), grad: CG 7.0140 CG 7.0140 AU 14.4159 UA 14.4159 GU 8.0140 UG 8.0140
+
+step: 71, objective value: 7.028024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.4980 GC 0.4980 AU 0.0000 UA 0.0000 GU 0.0020 UG 0.0020
+(1, 2): CG 0.4980 GC 0.4980 AU 0.0000 UA 0.0000 GU 0.0020 UG 0.0020
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0040 CG 7.0040 AU 14.4759 UA 14.4759 GU 8.0040 UG 8.0040
+0 3 (paired), grad: CG 7.0040 CG 7.0040 AU 14.4759 UA 14.4759 GU 8.0040 UG 8.0040
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0040 CG 7.0040 AU 14.4759 UA 14.4759 GU 8.0040 UG 8.0040
+0 3 (paired), grad: CG 7.0040 CG 7.0040 AU 14.4759 UA 14.4759 GU 8.0040 UG 8.0040
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0040 CG 7.0040 AU 14.4759 UA 14.4759 GU 8.0040 UG 8.0040
+0 3 (paired), grad: CG 7.0040 CG 7.0040 AU 14.4759 UA 14.4759 GU 8.0040 UG 8.0040
+
+step: 72, objective value: 7.008024410176, seq: CCGG, time: 0.00
+(0, 3): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+(1, 2): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+0 3 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+0 3 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+0 3 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+
+step: 73, objective value: 7.000000000000, seq: CCGG, time: 0.00
+(0, 3): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+(1, 2): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+0 3 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+
+E[log Q(x)] gradient
+1 2 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+0 3 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+
+E[Delta G(x, y)] gradient
+1 2 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+0 3 (paired), grad: CG 7.0000 CG 7.0000 AU 14.5000 UA 14.5000 GU 8.0000 UG 8.0000
+
+step: 74, objective value: 7.000000000000, seq: CCGG, time: 0.00
+(0, 3): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+(1, 2): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+Final Distribution
+(0, 3): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+(1, 2): CG 0.5000 GC 0.5000 AU 0.0000 UA 0.0000 GU 0.0000 UG 0.0000
+Optimal Sequence
+(())
+CCGG
+Total Elapsed Time
+0.03

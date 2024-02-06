@@ -1,0 +1,26 @@
+()
+Learning Rate: 0.01, Number of Steps: 1, Sharpturn: 0, Penalty: 10, Coupled: True
+Initialization: uniform, Objective: pyx_noapprox
+step: 0, objective value: 4.458004442173, seq: CG, time: 0.00
+(0, 1): CG 0.1667 GC 0.1667 AU 0.1667 UA 0.1667 GU 0.1667 UG 0.1667
+ 0: A 0.2500, C 0.2500, G 0.2500, U 0.2500
+ 1: A 0.2500, C 0.2500, G 0.2500, U 0.2500
+
+E[Delta G(x, y)] + E[log Q(x)] gradient
+0 1 (paired), grad: CG 10.0155 CG 10.0155 AU 10.0212 UA 10.0212 GU 8.0305 UG 8.0305
+
+E[log Q(x)] gradient
+0 1 (paired), grad: CG -0.7345 CG -0.7345 AU -1.2288 UA -1.2288 GU -0.2195 UG -0.2195
+
+E[Delta G(x, y)] gradient
+0 1 (paired), grad: CG 10.7500 CG 10.7500 AU 11.2500 UA 11.2500 GU 8.2500 UG 8.2500
+
+step: 1, objective value: 5.009181578498, seq: GU, time: 0.00
+(0, 1): CG 0.1601 GC 0.1601 AU 0.1600 UA 0.1600 GU 0.1799 UG 0.1799
+Final Distribution
+(0, 1): CG 0.1601 GC 0.1601 AU 0.1600 UA 0.1600 GU 0.1799 UG 0.1799
+Optimal Sequence
+()
+GU
+Total Elapsed Time
+0.00
