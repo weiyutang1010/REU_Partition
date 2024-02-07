@@ -3,12 +3,17 @@ import argparse
 import numpy as np
 
 import RNA
-
-from utils import Mode, generate_sequences
 import concurrent.futures
 
 sequences = {}
 log_Q_cached = {}
+
+def generate_sequences(*args, n):
+    pools = [tuple(pool) for pool in args] * n
+    result = [[]]
+    for pool in pools:
+        result = [x+[y] for x in result for y in pool]
+    return result
 
 def log_Q(x):
     fc = RNA.fold_compound(x)
@@ -20,6 +25,7 @@ def probability(D, x):
     for idx, c in enumerate(x):
         p *= D[idx][nuc_to_idx[c]]
     return p
+
 
 def E_log_Q(D):
     """Brute Force"""
@@ -59,7 +65,7 @@ def compare(n, k):
     print(f"{entropy}, {partition_exact - partition_sampled}")
     sys.stdout.flush()
 
-def test(n, k, t, mode):
+def approximation_gap(n, k, t):
     # length - n, sample size - k
     print("Entropy, Approximation Gap")
 
@@ -74,7 +80,29 @@ def test(n, k, t, mode):
         futures = [executor.submit(compare, n, k) for _ in range(t)]
         concurrent.futures.wait(futures)
     
+def sampling_test(n, k):
+    # Given a distribution of length n
+    # D = np.random.dirichlet(np.ones(4), size=n) # random distribution
+    D = np.array([[.25,.25,.25,.25] for _ in range(n)]) # random distribution
+    print(D)
 
+    sequences[n] = generate_sequences('ACGU', n=n)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        futures = [executor.submit(log_Q, "".join(seq)) for seq in sequences[n]]
+        concurrent.futures.wait(futures)
+    partition_exact = E_log_Q(D)
+    print("Exact value: ", partition_exact)
+
+    samples = []
+    for x in D:
+        samples.append(np.random.choice(['A','C','G','U'], k, p=x))
+    samples = np.array(samples).transpose()
+    seqs = ["".join(sample) for sample in samples]
+
+    curr_sum = 0.
+    for i, seq in enumerate(seqs):
+        curr_sum += log_Q_cached[seq]
+        print(i+1, curr_sum / (i + 1))
     
 if __name__ == '__main__':
     np.random.seed(seed=42)
@@ -93,11 +121,15 @@ if __name__ == '__main__':
     parser.add_argument("--threads", type=int, default=8)
     parser.add_argument("--init", type=str, default='uniform')
 
+    parser.add_argument("--mode", type=int, default=1)
     parser.add_argument("--n", type=int, default=9)
-    parser.add_argument("--k", type=int, default=1000)
+    parser.add_argument("--k", type=int, default=10000)
     parser.add_argument("--t", type=int, default=1000)
     args = parser.parse_args()
 
-    mode = Mode(args.lr, args.step, args.sharpturn, args.penalty, not args.nocoupled, args.test, args.init, args.obj)
     print(f"n: {args.n}, k: {args.k}, t: {args.t}")
-    test(args.n, args.k, args.t, mode)
+
+    if args.mode == 1:
+        approximation_gap(args.n, args.k, args.t)
+    else:
+        sampling_test(args.n, args.k)
