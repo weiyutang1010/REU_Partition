@@ -119,11 +119,36 @@ def sampling_test(n, k):
     for i, seq in enumerate(seqs):
         curr_sum += log_Q_cached[seq]
         print(i+1, curr_sum / (i + 1))
+
+kT = 61.63207755
+def log_E_Q(D):
+    """Brute Force"""
+    n = len(D)
+
+    if n not in sequences:
+        sequences[n] = generate_sequences('ACGU', n=n)
+
+    value = 0.
+    for seq in sequences[n]:
+        value += probability(D, seq) * np.exp(log_Q_cached["".join(seq)] * 100 / -kT)
+
+    return value
+
+def jensen_approx(n):
+    D = np.array([[.25,.25,.25,.25] for _ in range(n)]) # random distribution
+    print(D)
+
+    sequences[n] = generate_sequences('ACGU', n=n)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        futures = [executor.submit(log_Q, "".join(seq)) for seq in sequences[n]]
+        concurrent.futures.wait(futures)
+    partition_jensen = log_E_Q(D)
+    print("Jensen value: ", np.log(partition_jensen) * -kT / 100.0)
     
 if __name__ == '__main__':
     np.random.seed(seed=42)
     parser = argparse.ArgumentParser()
-    
+
     # parser.add_argument("--id", type=int, default=0)
     # parser.add_argument("--lr", type=float, default=0.001)
     # parser.add_argument("--step", type=int, default=2000)
