@@ -106,8 +106,9 @@ def compare(n, k):
 
     partition_sampled = np.sum([log_Q_cached[seq] for seq in seqs]) / k
     partition_exact = E_log_Q(D)
+    partition_jensen = log_E_Q(D)
 
-    print(f"{entropy}, {partition_exact - partition_sampled}")
+    print(f"{entropy}, {partition_exact - partition_sampled}, {partition_exact - partition_jensen}")
     sys.stdout.flush()
 
 def approximation_gap(n, k, t):
@@ -161,7 +162,7 @@ def log_E_Q(D):
     for seq in sequences[n]:
         value += probability(D, seq) * np.exp(log_Q_cached["".join(seq)] * 100 / -kT)
 
-    return value
+    return np.log(value) * -kT / 100.0
 
 def jensen_approx(n):
     D = np.array([[.25,.25,.25,.25] for _ in range(n)]) # random distribution
@@ -172,7 +173,7 @@ def jensen_approx(n):
         futures = [executor.submit(log_Q, "".join(seq)) for seq in sequences[n]]
         concurrent.futures.wait(futures)
     partition_jensen = log_E_Q(D)
-    print("Jensen value: ", np.log(partition_jensen) * -kT / 100.0)
+    print("Jensen value: ", partition_jensen)
     
 if __name__ == '__main__':
     np.random.seed(seed=42)
