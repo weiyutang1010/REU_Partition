@@ -18,16 +18,44 @@ def generate_sequences(*args, n):
 def generate_distribution(n):
     test_distribution = []
 
-    for _ in range(n):
-        rand = np.concatenate((np.random.sample(3), np.array([1., 0.])), axis=0)
-        rand.sort()
+    rand_int = np.random.randint(2, 5)
 
-        test_distribution.append([
-            rand[1] - rand[0],
-            rand[2] - rand[1],
-            rand[3] - rand[2],
-            rand[4] - rand[3]
-        ])
+    for _ in range(n):
+
+        if rand_int == 2:
+            rand = np.concatenate((np.random.sample(2), np.array([1., 0.])), axis=0)
+            rand.sort()
+
+            test_distribution.append([
+                rand[1] - rand[0],
+                rand[2] - rand[1],
+                0.,
+                0.,
+            ])
+            np.random.shuffle(test_distribution[-1])
+
+        if rand_int == 3:
+            rand = np.concatenate((np.random.sample(2), np.array([1., 0.])), axis=0)
+            rand.sort()
+
+            test_distribution.append([
+                rand[1] - rand[0],
+                rand[2] - rand[1],
+                rand[3] - rand[2],
+                0.,
+            ])
+            np.random.shuffle(test_distribution[-1])
+
+        if rand_int == 4:
+            rand = np.concatenate((np.random.sample(3), np.array([1., 0.])), axis=0)
+            rand.sort()
+
+            test_distribution.append([
+                rand[1] - rand[0],
+                rand[2] - rand[1],
+                rand[3] - rand[2],
+                rand[4] - rand[3]
+            ])
 
     return np.array(test_distribution)
 
@@ -64,7 +92,8 @@ def compare(n, k):
     entropy = 0.
     for x in D:
         for x_i in x:
-            entropy -= x_i * np.log2(x_i)
+            if x_i > 0.:
+                entropy -= x_i * np.log2(x_i)
     entropy /= n
 
     # Sampling
