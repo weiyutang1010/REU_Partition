@@ -51,9 +51,9 @@ def inside_prob(x, sharpturn=0):
 
     return Q
 
-def get_boltz_prob(rna_seq, rna_struct):
+def get_boltz_prob(rna_seq, rna_struct, sharpturn=0):
     n = len(rna_seq)
-    Q = inside_prob(rna_seq)
+    Q = inside_prob(rna_seq, sharpturn)
     delta_G =  free_energy(rna_seq, rna_struct)
 
     return np.exp(-delta_G) / Q[n][1]
@@ -104,6 +104,8 @@ def process_result_file(rna_id, result_file):
     lines = result_file.read().split('\n')
     n, rna_struct = len(lines[0]), lines[0]
 
+    sharpturn = int(lines[1].split(', ')[2].split(': ')[1])
+
     objs, seqs, pyx = [], [], []
     for line in lines:
         if line.startswith("step:"):
@@ -114,7 +116,7 @@ def process_result_file(rna_id, result_file):
     for idx, seq in enumerate(seqs):
         if seq != prev_seq:
             prev_seq = seq
-            prev_score = get_boltz_prob(seq, rna_struct)
+            prev_score = get_boltz_prob(seq, rna_struct, sharpturn)
             pyx.append(prev_score)
             print(f"{idx}, {seq}, {prev_score:.4f}")
         else:
@@ -131,8 +133,8 @@ def process_result_file(rna_id, result_file):
     # ax1.set_ylabel(r'$\mathbb{E}[\Delta G(x, y)]$', color='red')
     ax1.set_ylabel('Conditional Probability')
     # ax1.plot(objs, color='red', alpha=0.7, label=r'$\mathbb{E}[\Delta G(x, y)]$ expected free energy (simple)')
-    ax1.plot(objs_exp, color='orange', alpha=0.6, label=r'Fractional $\exp \mathbb{E}[\log p(y|x)]$')
-    ax1.plot(pyx, color='blue', alpha=0.6, label=r'Integral $p(y \mid x)$')
+    ax1.plot(objs_exp, color='blue', alpha=0.6, label=r'Fractional $\exp \mathbb{E}[\log p(y|x)]$')
+    ax1.plot(pyx, color='orange', alpha=0.6, label=r'Integral $p(y \mid x)$')
     # ax1.tick_params(axis='y', labelcolor='red')
     ax1.tick_params(axis='y')
     ax1.legend(fontsize="8")
@@ -143,13 +145,20 @@ def process_result_file(rna_id, result_file):
 def main():
     # find best solutions
     # arr = []
-    # for seq in generate_sequences('ACGU', n=4):
-    #     prob = get_boltz_prob(seq, '(())')
+    # sol = {}
+    # for seq in generate_sequences('ACGU', n=5):
+    #     if "".join(seq[1:4]) != 'AAA':
+    #         continue
+    #     prob = get_boltz_prob(seq, '(...)', sharpturn=3)
     #     seq = "".join(seq)
     #     arr.append((-prob, seq))
+    #     sol[seq] = prob
     # arr.sort()
-    # for x in arr[:30]:
+    # for x in arr[:100]:
     #     print(f"{x[1]} {-x[0]:.4f}")
+
+    # print("AAAAU", sol["AAAAU"])
+    # print("UAAAG", sol["UAAAG"])
     # return
 
     # graph

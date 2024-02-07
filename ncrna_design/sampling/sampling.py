@@ -108,12 +108,12 @@ def compare(n, k):
     partition_exact = E_log_Q(D)
     partition_jensen = log_E_Q(D)
 
-    print(f"{entropy}, {partition_exact - partition_sampled}, {partition_exact - partition_jensen}")
+    print(f"{entropy}, {partition_sampled}, {partition_jensen}, {partition_exact}")
     sys.stdout.flush()
 
 def approximation_gap(n, k, t):
     # length - n, sample size - k
-    print("Entropy, Approximation Gap")
+    print("Entropy, Sampling, Jensen, Exact")
 
     sequences[n] = generate_sequences('ACGU', n=n)
     

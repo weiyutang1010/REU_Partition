@@ -17,7 +17,7 @@ if sys.argv[2] == 'samples':
                 k.append(int(line.split()[0]))
                 val.append(float(line.split()[1]))
 
-        plt.ylim(exact_value-0.05, exact_value+0.05)
+        plt.ylim(exact_value-0.2, exact_value+0.2)
 
         plt.axhline(y=exact_value, color='r', label='Exact Value (Full model)')
         plt.axhline(y=jensen_value_simple, color='orange', label='Jensen Approximation (Simple model)')
@@ -33,19 +33,32 @@ if sys.argv[2] == 'samples':
 else:
     with open(f'approx_gap/{sys.argv[1]}.txt', 'r') as file:
         lines = file.read().split('\n')
+
         
         entropy = []
-        gap = []
+        sampling = []
+        jensen = []
+        exact = []
         n = int(lines[0].split(', ')[0].split(': ')[1])
+        k = int(lines[0].split(', ')[1].split(': ')[1])
         for line in lines[2:200]:
             if len(line) > 0:
                 entropy.append(float(line.split(", ")[0]))
-                gap.append(float(line.split(", ")[1]))
+                sampling.append(float(line.split(", ")[1]))
+                if len(line.split(", ")) > 2:
+                    jensen.append(float(line.split(", ")[2]))
+                    exact.append(float(line.split(", ")[3]))
 
-        plt.xlabel('Entropy')
-        plt.ylabel('Exact - Approximation')
+        sampling_gap = [x - y for x, y in zip(sampling, exact)]
+        jensen_gap = [x - y for x, y in zip(jensen, exact)]
+
+        plt.xlabel('Avg Positional Entropy')
+        plt.ylabel('Approximation Gap (Approx - Exact)')
         plt.title(f'Approximation Gap vs. Avg Positional Entropy, n = {n}')
 
-        plt.scatter(entropy, gap, label='k = 2000', marker='x', alpha=0.6)
+        plt.axhline(y=0.0, color='r')
+        plt.scatter(entropy, sampling_gap, label=f'Sampling k = {k}', marker='x', alpha=0.6)
+        if len(jensen) > 0:
+            plt.scatter(entropy, jensen_gap, label='Jensen\'s Approx', marker='x', alpha=0.6)
         plt.legend()
         plt.savefig(f'approx_gap/{sys.argv[1]}.png', format='png', bbox_inches='tight')

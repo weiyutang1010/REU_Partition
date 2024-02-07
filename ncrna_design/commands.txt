@@ -10,3 +10,13 @@ echo '(())' | python rna_design.py --step 7000 --sharpturn 0 --penalty 0 --lr 0.
 echo '(())' | python rna_design.py --step 2500 --sharpturn 0 --penalty 10 --lr 0.01 --id 4 --obj deltaG
 5
 echo '(())' | python rna_design.py --step 1 --sharpturn 0 --penalty 10 --lr 0.01 --id 5 --obj pyx_noapprox
+6
+echo '(())' | python rna_design.py --step 2500 --sharpturn 0 --penalty 0 --lr 0.01 --nocoupled --id 6 --obj pyx_noapprox
+7
+echo '(())' | python rna_design.py --step 2500 --sharpturn 0 --penalty 0 --lr 0.01 --id 7 --obj deltaG
+8
+echo '(...)' | python rna_design.py --step 2500 --sharpturn 3 --penalty 10 --lr 0.01 --id 8 --obj pyx_jensen
+9
+echo '(...)' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 9 --obj pyx_noapprox
+10
+echo '(...)' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 10 --obj pyx_jensen

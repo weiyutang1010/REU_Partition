@@ -107,7 +107,7 @@ def get_intergral_solution(rna_struct, dist, n, mode):
                 prob = -1.
 
                 for nuci, nucj in _allowed_pairs:
-                    if round(dist[i][nuci], 4) * round(dist[j][nucj], 4) > prob:
+                    if dist[i][nuci] * dist[j][nucj] > prob:
                         prob = dist[i][nuci] * dist[j][nucj]
                         seq[i] = nucs[nuci]
                         seq[j] = nucs[nucj]

@@ -59,6 +59,8 @@ def gradient_descent(rna_struct, dist, mode, results_file):
     if mode.coupled:
         X = np.array([[.0, .0, .0, .0] for i in range(n)]) # n x 4 distribution
         marginalize(dist, X)
+    else:
+        X = dist
     objective_value, grad, grad1, grad2 = objective(rna_struct, X, mode)
     results_file.write(f'step: {0}, objective value: {objective_value:.12f}, seq: {curr_seq}, time: {0.:.2f}\n')
     print_distribution(dist, mode, results_file)
@@ -68,7 +70,8 @@ def gradient_descent(rna_struct, dist, mode, results_file):
 
         if mode.coupled:
             marginalize(dist, X)
-            X = np.array([[.25, .25, .25, .25] for i in range(n)]) # n x 4 distribution
+        else:
+            X = dist
         
         objective_value, grad, grad1, grad2 = objective(rna_struct, X, mode)
 
