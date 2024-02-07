@@ -169,7 +169,7 @@ def jensen_approx(n):
     print(D)
 
     sequences[n] = generate_sequences('ACGU', n=n)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
         futures = [executor.submit(log_Q, "".join(seq)) for seq in sequences[n]]
         concurrent.futures.wait(futures)
     partition_jensen = log_E_Q(D)
@@ -178,6 +178,9 @@ def jensen_approx(n):
 if __name__ == '__main__':
     np.random.seed(seed=42)
     parser = argparse.ArgumentParser()
+
+    jensen_approx(7)
+    exit(0)
 
     # parser.add_argument("--id", type=int, default=0)
     # parser.add_argument("--lr", type=float, default=0.001)
