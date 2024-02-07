@@ -15,6 +15,22 @@ def generate_sequences(*args, n):
         result = [x+[y] for x in result for y in pool]
     return result
 
+def generate_distribution(n):
+    test_distribution = []
+
+    for _ in range(n):
+        rand = np.concatenate((np.random.sample(3), np.array([1., 0.])), axis=0)
+        rand.sort()
+
+        test_distribution.append([
+            rand[1] - rand[0],
+            rand[2] - rand[1],
+            rand[3] - rand[2],
+            rand[4] - rand[3]
+        ])
+
+    return np.array(test_distribution)
+
 def log_Q(x):
     fc = RNA.fold_compound(x)
     log_Q_cached[x] = fc.pf()[1]
@@ -42,14 +58,14 @@ def E_log_Q(D):
 
 def compare(n, k):
     # Given a distribution of length n
-    D = np.random.dirichlet(np.ones(4), size=n) # random distribution
+    D = generate_distribution(n) # random distribution
 
     # Calculate entropy
     entropy = 0.
-    for seq in sequences[n]:
-        prob = probability(D, seq)
-        if prob > 0:
-            entropy -= prob * np.log2(prob)
+    for x in D:
+        for x_i in x:
+            entropy -= x_i * np.log2(x_i)
+    entropy /= n
 
     # Sampling
     samples = []
@@ -124,7 +140,7 @@ if __name__ == '__main__':
     parser.add_argument("--mode", type=int, default=1)
     parser.add_argument("--n", type=int, default=9)
     parser.add_argument("--k", type=int, default=2000)
-    parser.add_argument("--t", type=int, default=1000)
+    parser.add_argument("--t", type=int, default=500)
     args = parser.parse_args()
 
     print(f"n: {args.n}, k: {args.k}, t: {args.t}")
