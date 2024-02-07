@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--mode", type=int, default=1)
     parser.add_argument("--n", type=int, default=9)
-    parser.add_argument("--k", type=int, default=10000)
+    parser.add_argument("--k", type=int, default=2000)
     parser.add_argument("--t", type=int, default=1000)
     args = parser.parse_args()
 
