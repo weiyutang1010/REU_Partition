@@ -22,7 +22,7 @@ def generate_distribution(n):
     test_distribution = []
 
     for _ in range(n):
-        rand_int = np.random.randint(3, 5)
+        rand_int = np.random.randint(1, 5)
 
         if rand_int == 1:
             rand = np.array([1., 0.])
@@ -177,7 +177,6 @@ def approximation_gap(n, k, t):
     print("Entropy, Sampling, Jensen, Exact")
 
     read_sequences(n)
-
     with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
         # Define tasks to be executed concurrently
         futures = [executor.submit(compare, n, k) for _ in range(t)]
