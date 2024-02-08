@@ -17,7 +17,7 @@ if sys.argv[2] == 'samples':
                 k.append(int(line.split()[0]))
                 val.append(float(line.split()[1]))
 
-        plt.ylim(exact_value-0.2, exact_value+0.2)
+        plt.ylim(exact_value-0.001, exact_value+0.005)
 
         plt.axhline(y=exact_value, color='r', label='Exact Value (Full model)')
         plt.axhline(y=jensen_value_simple, color='orange', label='Jensen Approximation (Simple model)')
