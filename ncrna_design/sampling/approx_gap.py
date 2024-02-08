@@ -212,7 +212,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     original_stdout = sys.stdout
-    for n in range(5, 11):
+    for n in range(6, 7):
         with open(f'approx_gap/n{n}.txt', 'w') as f:
             sys.stdout = f
             print(f"n: {n}, k: {args.k}, t: {args.t}")
