@@ -54,31 +54,33 @@ def gradient_descent(rna_struct, dist, mode, results_file):
     total_start_time = time.time()
     n = len(rna_struct)
     log = []
+
         
     curr_seq =  get_intergral_solution(rna_struct, dist, n, mode)
-    if mode.coupled:
-        X = np.array([[.0, .0, .0, .0] for i in range(n)]) # n x 4 distribution
-        marginalize(dist, X)
-    else:
-        X = dist
-    objective_value, grad, grad1, grad2 = objective(rna_struct, X, mode)
+
+    objective_value, grad, grad1, grad2 = objective(rna_struct, dist, mode)
     results_file.write(f'step: {0}, objective value: {objective_value:.12f}, seq: {curr_seq}, time: {0.:.2f}\n')
     print_distribution(dist, mode, results_file)
 
     for epoch in range(mode.num_steps):
         start_time = time.time()
 
-        if mode.coupled:
-            marginalize(dist, X)
-        else:
-            X = dist
+        # if mode.coupled:
+        #     marginalize(dist, X)
+        # else:
+        #     X = dist
         
-        objective_value, grad, grad1, grad2 = objective(rna_struct, X, mode)
+        objective_value, grad, grad1, grad2 = objective(rna_struct, dist, mode)
 
-        if mode.coupled:
+        if mode.obj == 'pyx_jensen_Dy':
             for idx, prob in dist.items():
                 i, j = idx
-                if i == j:
+                dist[i, j] -= mode.lr * grad[i, j]
+                projection_simplex_np_batch_coupled(dist)
+        elif mode.coupled:
+            for idx, prob in dist.items():
+                i, j = idx
+                if j == j:
                     dist[i, j] -= mode.lr * grad[i]
                 else:
                     dist[i, j] -= mode.lr * np.array([grad[i][C] + grad[j][G],
@@ -95,39 +97,66 @@ def gradient_descent(rna_struct, dist, mode, results_file):
             dist = X
 
         # Debug: Print Gradient
-        if mode.coupled:
-            mode.coupled = False
-            print_distribution(X, mode, results_file)
-            mode.coupled = True
-            results_file.write('\nE[Delta G(x, y)] + E[log Q(x)] gradient\n')
-
-            for idx, prob in dist.items():
-                i, j = idx
+        if mode.obj == 'pyx_jensen_Dy':
+            results_file.write('\nE[Delta G(D_y, y)] + E[log Q(D_y)] gradient\n')
+            for idx, prob in sorted(dist.items()):
                 if i == j:
-                    results_file.write(f"{idx[0]} (unpaired), grad: A {grad[i][A]:.4f} C {grad[i][C]:.4f} G {grad[i][G]:.4f} U {grad[i][U]:.4f}\n")
+                    results_file.write(f"{i}, grad: A {grad[i, j][A]:.4f} C {grad[i, j][C]:.4f} G {grad[i, j][G]:.4f} U {grad[i, j][U]:.4f}\n")
                 else:
-                    results_file.write(f"{idx[0]} {idx[1]} (paired), grad: CG {grad[i][C] + grad[j][G]:.4f} CG {grad[i][G] + grad[j][C]:.4f} AU {grad[i][A] + grad[j][U]:.4f} UA {grad[i][U] + grad[j][A]:.4f} GU {grad[i][G] + grad[j][U]:.4f} UG {grad[i][U] + grad[j][G]:.4f}\n")
-            results_file.write('\n')
-
-            grad = grad1
-            results_file.write('E[log Q(x)] gradient\n')
-            for idx, prob in dist.items():
-                i, j = idx
-                if i == j:
-                    results_file.write(f"{idx[0]} (unpaired), grad: A {grad[i][A]:.4f} C {grad[i][C]:.4f} G {grad[i][G]:.4f} U {grad[i][U]:.4f}\n")
-                else:
-                    results_file.write(f"{idx[0]} {idx[1]} (paired), grad: CG {grad[i][C] + grad[j][G]:.4f} CG {grad[i][G] + grad[j][C]:.4f} AU {grad[i][A] + grad[j][U]:.4f} UA {grad[i][U] + grad[j][A]:.4f} GU {grad[i][G] + grad[j][U]:.4f} UG {grad[i][U] + grad[j][G]:.4f}\n")
+                    results_file.write(f"{i, j}, grad: CG {grad[i, j][CG]:.4f} CG {grad[i, j][GC]:.4f} AU {grad[i, j][AU]:.4f} UA {grad[i, j][UA]:.4f} GU {grad[i, j][GU]:.4f} UG {grad[i, j][UG]:.4f}\n")
             results_file.write('\n')
 
             grad = grad2
-            results_file.write('E[Delta G(x, y)] gradient\n')
-            for idx, prob in dist.items():
-                i, j = idx
+            results_file.write('E[Delta G(D_y, y)]gradient\n')
+            for idx, prob in sorted(dist.items()):
                 if i == j:
-                    results_file.write(f"{idx[0]} (unpaired), grad: A {grad[i][A]:.4f} C {grad[i][C]:.4f} G {grad[i][G]:.4f} U {grad[i][U]:.4f}\n")
+                    results_file.write(f"{i}, grad: A {grad[i, j][A]:.4f} C {grad[i, j][C]:.4f} G {grad[i, j][G]:.4f} U {grad[i, j][U]:.4f}\n")
                 else:
-                    results_file.write(f"{idx[0]} {idx[1]} (paired), grad: CG {grad[i][C] + grad[j][G]:.4f} CG {grad[i][G] + grad[j][C]:.4f} AU {grad[i][A] + grad[j][U]:.4f} UA {grad[i][U] + grad[j][A]:.4f} GU {grad[i][G] + grad[j][U]:.4f} UG {grad[i][U] + grad[j][G]:.4f}\n")
+                    results_file.write(f"{i, j}, grad: CG {grad[i, j][CG]:.4f} CG {grad[i, j][GC]:.4f} AU {grad[i, j][AU]:.4f} UA {grad[i, j][UA]:.4f} GU {grad[i, j][GU]:.4f} UG {grad[i, j][UG]:.4f}\n")
             results_file.write('\n')
+
+            grad = grad1
+            results_file.write('E[log Q(D_y)] gradient\n')
+            for idx, prob in sorted(dist.items()):
+                if i == j:
+                    results_file.write(f"{i}, grad: A {grad[i, j][A]:.4f} C {grad[i, j][C]:.4f} G {grad[i, j][G]:.4f} U {grad[i, j][U]:.4f}\n")
+                else:
+                    results_file.write(f"{i, j}, grad: CG {grad[i, j][CG]:.4f} CG {grad[i, j][GC]:.4f} AU {grad[i, j][AU]:.4f} UA {grad[i, j][UA]:.4f} GU {grad[i, j][GU]:.4f} UG {grad[i, j][UG]:.4f}\n")
+            results_file.write('\n')
+
+        # if mode.coupled:
+        #     mode.coupled = False
+        #     # print_distribution(X, mode, results_file)
+        #     mode.coupled = True
+        #     results_file.write('\nE[Delta G(x, y)] + E[log Q(x)] gradient\n')
+
+        #     for idx, prob in dist.items():
+        #         i, j = idx
+        #         if i == j:
+        #             results_file.write(f"{idx[0]} (unpaired), grad: A {grad[i][A]:.4f} C {grad[i][C]:.4f} G {grad[i][G]:.4f} U {grad[i][U]:.4f}\n")
+        #         else:
+        #             results_file.write(f"{idx[0]} {idx[1]} (paired), grad: CG {grad[i][C] + grad[j][G]:.4f} CG {grad[i][G] + grad[j][C]:.4f} AU {grad[i][A] + grad[j][U]:.4f} UA {grad[i][U] + grad[j][A]:.4f} GU {grad[i][G] + grad[j][U]:.4f} UG {grad[i][U] + grad[j][G]:.4f}\n")
+        #     results_file.write('\n')
+
+            # grad = grad1
+            # results_file.write('E[log Q(x)] gradient\n')
+            # for idx, prob in dist.items():
+            #     i, j = idx
+            #     if i == j:
+            #         results_file.write(f"{idx[0]} (unpaired), grad: A {grad[i][A]:.4f} C {grad[i][C]:.4f} G {grad[i][G]:.4f} U {grad[i][U]:.4f}\n")
+            #     else:
+            #         results_file.write(f"{idx[0]} {idx[1]} (paired), grad: CG {grad[i][C] + grad[j][G]:.4f} CG {grad[i][G] + grad[j][C]:.4f} AU {grad[i][A] + grad[j][U]:.4f} UA {grad[i][U] + grad[j][A]:.4f} GU {grad[i][G] + grad[j][U]:.4f} UG {grad[i][U] + grad[j][G]:.4f}\n")
+            # results_file.write('\n')
+
+            # grad = grad2
+            # results_file.write('E[Delta G(x, y)] gradient\n')
+            # for idx, prob in dist.items():
+            #     i, j = idx
+            #     if i == j:
+            #         results_file.write(f"{idx[0]} (unpaired), grad: A {grad[i][A]:.4f} C {grad[i][C]:.4f} G {grad[i][G]:.4f} U {grad[i][U]:.4f}\n")
+            #     else:
+            #         results_file.write(f"{idx[0]} {idx[1]} (paired), grad: CG {grad[i][C] + grad[j][G]:.4f} CG {grad[i][G] + grad[j][C]:.4f} AU {grad[i][A] + grad[j][U]:.4f} UA {grad[i][U] + grad[j][A]:.4f} GU {grad[i][G] + grad[j][U]:.4f} UG {grad[i][U] + grad[j][G]:.4f}\n")
+            # results_file.write('\n')
 
         end_time = time.time()
         elapsed_time = end_time - start_time

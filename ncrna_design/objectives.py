@@ -24,8 +24,14 @@ def paired(c1, c2, mode):
 def unpaired(c='A'):
     return 1. # for now set every unpaired to same score
 
-def objective(rna_struct, X, mode):
-    n = len(X)
+def objective(rna_struct, dist, mode):
+    n = len(rna_struct)
+
+    X = np.array([[.0, .0, .0, .0] for i in range(n)])
+    if mode.coupled:
+        marginalize(dist, X)
+    else:
+        X = dist
 
     objective_value, gradient = 0.0, []
     if mode.obj == 'pyx_jensen':
@@ -56,7 +62,19 @@ def objective(rna_struct, X, mode):
     elif mode.obj == 'deltaG':
         Delta_G, grad2 = expected_free_energy(rna_struct, X, mode)
 
-        return Delta_G, grad2, grad2, grad2
+        objective_value = Delta_G
+
+    elif mode.obj == 'pyx_jensen_Dy':
+        # E[Delta G(D_y, y)] + log E[Q(D_y)]
+        log_Q_hat = expected_inside_partition_log_Dy(rna_struct, dist, X, mode)
+        grad1 = expected_outside_partition_log_Dy(rna_struct, log_Q_hat, dist, X, mode)
+        Delta_G, grad2 = expected_free_energy_Dy(rna_struct, dist, mode)
+
+        objective_value = Delta_G + log_Q_hat[n-1][0]
+        
+        gradient = {}
+        for idx in grad1:
+            gradient[idx] = grad1[idx] + grad2[idx]
     else:
         print("Error: Objective Not Found")
         exit(1)
@@ -163,6 +181,33 @@ def expected_free_energy(struct, X, mode):
 
     return free_energy, gradient
 
+def expected_free_energy_Dy(struct, dist, mode):
+    """E[Delta G(x, y)]"""
+    n = len(struct)
+    free_energy = 0.
+
+    gradient = {}
+
+    stack = []
+    for j in range(n):
+        if struct[j] == '(':
+            stack.append(j)
+        elif struct[j] == ')':
+            i = stack.pop()
+
+            score_ij = 0.
+            
+            gradient[i, j] = np.array([0.] * 6)
+            for nuci, nucj in _allowed_pairs:
+                score_ij += dist[i, j][pairs(nuci, nucj)] * paired(nuci, nucj, mode)
+                gradient[i, j][pairs(nuci, nucj)] += paired(nuci, nucj, mode)
+
+            free_energy += score_ij
+        else:
+            free_energy += unpaired()
+
+    return free_energy, gradient
+
 def log_Q(x, mode):
     n = len(x)
     Q = defaultdict(lambda: defaultdict(lambda: NEG_INF))
@@ -222,6 +267,7 @@ def E_exp_DeltaG(X, mode):
     """
     n = len(X)
     obj = 0.
+    # grad = np.array([[0., 0., 0., 0.] for _ in range(n)])
     grad = np.array([[0., 0., 0., 0.] for _ in range(n)])
 
     if n not in sequences:
@@ -256,7 +302,7 @@ def pairs(a, b):
     table = {(1, 2): 0, (2, 1): 1, (0, 3): 2, (3, 0): 3, (2, 3): 4, (3, 2): 5}
     return table[a, b]
 
-def expected_inside_partition_log(rna_struct, dist, mode):
+def expected_inside_partition_log_Dy(rna_struct, dist, X, mode):
     """
         log E[Q(D_y)]
     """
@@ -280,7 +326,7 @@ def expected_inside_partition_log(rna_struct, dist, mode):
                 paired_sc = NEG_INF # calculate weighted paired score
                 if rna_struct[i-1] == '(' and rna_struct[j] == ')':
                     for nuci_1, nucj in _allowed_pairs:
-                        paired_sc = np.logaddexp(paired_sc, np.log(dist[pairs(nuci_1, nucj)] + SMALL_NUM) + (-paired(nuci_1, nucj, mode) / RT))
+                        paired_sc = np.logaddexp(paired_sc, np.log(dist[i-1, j][pairs(nuci_1, nucj)] + SMALL_NUM) + (-paired(nuci_1, nucj, mode) / RT))
                 else:
                     for nuci_1, nucj in _allowed_pairs:
                         paired_sc = np.logaddexp(paired_sc, np.log(X[i-1][nuci_1] + SMALL_NUM) + np.log(X[j][nucj] + SMALL_NUM) + (-paired(nuci_1, nucj, mode) / RT))
@@ -289,3 +335,81 @@ def expected_inside_partition_log(rna_struct, dist, mode):
                     Q_hat[j][k] = np.logaddexp(Q_hat[j][k], Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc)
 
     return Q_hat
+
+def expected_outside_partition_log_Dy(rna_struct, Q_hat, dist, X, mode):
+    """
+    log E[Q(x)]
+    Backpropagation of Expected Inside Partition. Q_hat, O_hat, and gradient are calculated in log space.
+       The dynet result is given by exp(gradient)."""
+    n = len(rna_struct)
+    O_hat = defaultdict(lambda: defaultdict(lambda: NEG_INF))
+
+    gradient = np.array([[NEG_INF, NEG_INF, NEG_INF, NEG_INF] for _ in range(n)])
+    gradient_pairs = {}
+
+    stack = []
+    for j, c in enumerate(rna_struct):
+        if c == '(': stack.append(j)
+        elif c == ')': gradient_pairs[stack.pop(), j] = np.array([NEG_INF] * 6)
+
+    O_hat[n-1][0] = 0.
+    for j in range(n-1, -1, -1):
+        for i in Q_hat[j-1]:
+            unpaired_sc = NEG_INF # calculate weighted unpaired score
+            for nucj in range(4):
+                unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][nucj] + SMALL_NUM) + (-unpaired(nucj) / RT))
+            O_hat[j-1][i] = np.logaddexp(O_hat[j-1][i], O_hat[j][i] + Q_hat[j-1][i] + unpaired_sc - Q_hat[j][i])
+
+            for nucj in range(4):
+                # gradient of Q_hat[1][n] with respect to unpaired_sc
+                grad = O_hat[j][i] + Q_hat[j-1][i] + unpaired_sc - Q_hat[j][i]
+                # gradient of unpaired_sc with respect to nucj
+                softmax = np.log(X[j][nucj] + SMALL_NUM) + (-unpaired(nucj) / RT) - unpaired_sc
+                gradient[j][nucj] =  np.logaddexp(gradient[j][nucj], grad - np.log(X[j][nucj] + SMALL_NUM) + softmax)
+
+            if i > 0 and j-(i-1) > mode.sharpturn:
+                paired_sc = NEG_INF # calculate weighted paired score
+                if rna_struct[i-1] == '(' and rna_struct[j] == ')':
+                    for c1, c2 in _allowed_pairs:
+                        paired_sc = np.logaddexp(paired_sc, np.log(dist[i-1, j][pairs(c1, c2)] + SMALL_NUM) + (-paired(c1, c2, mode) / RT))
+
+                    for k in Q_hat[i-2]:
+                        O_hat[i-2][k] = np.logaddexp(O_hat[i-2][k], O_hat[j][k] + Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc - Q_hat[j][k])
+                        O_hat[j-1][i] = np.logaddexp(O_hat[j-1][i], O_hat[j][k] + Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc - Q_hat[j][k])
+
+                        # gradient of Q_hat[1][n] with respect to paired_sc
+                        grad = O_hat[j][k] + Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc - Q_hat[j][k]
+
+                        # gradient of Q_hat[1][n] with respect to nuci_1, nucj
+                        for nuci_1, nucj in _allowed_pairs:
+                            softmax = np.log(dist[i-1, j][pairs(nuci_1, nucj)] + SMALL_NUM) + (-paired(nuci_1, nucj, mode)) - paired_sc
+                            gradient_pairs[i-1, j][pairs(nuci_1, nucj)] = np.logaddexp(gradient_pairs[i-1, j][pairs(nuci_1, nucj)], grad - np.log(dist[i-1, j][pairs(nuci_1, nucj)] + SMALL_NUM) + softmax)
+                            # gradient[i-1][nuci_1] = np.logaddexp(gradient[i-1][nuci_1], grad - np.log(X[i-1][nuci_1] + SMALL_NUM) + softmax)
+                            # gradient[j][nucj] = np.logaddexp(gradient[j][nucj], grad - np.log(X[j][nucj] + SMALL_NUM) + softmax)
+                else:
+                    for c1, c2 in _allowed_pairs:
+                        paired_sc = np.logaddexp(paired_sc, np.log(X[i-1][c1] + SMALL_NUM) + np.log(X[j][c2] + SMALL_NUM) + (-paired(c1, c2, mode) / RT))
+
+                    for k in Q_hat[i-2]:
+                        O_hat[i-2][k] = np.logaddexp(O_hat[i-2][k], O_hat[j][k] + Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc - Q_hat[j][k])
+                        O_hat[j-1][i] = np.logaddexp(O_hat[j-1][i], O_hat[j][k] + Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc - Q_hat[j][k])
+
+                        # gradient of Q_hat[1][n] with respect to paired_sc
+                        grad = O_hat[j][k] + Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc - Q_hat[j][k]
+
+                        # gradient of Q_hat[1][n] with respect to nuci_1, nucj
+                        for nuci_1, nucj in _allowed_pairs:
+                            softmax = np.log(X[i-1][nuci_1] + SMALL_NUM) + np.log(X[j][nucj] + SMALL_NUM) + (-paired(nuci_1, nucj, mode)) - paired_sc
+                            gradient[i-1][nuci_1] = np.logaddexp(gradient[i-1][nuci_1], grad - np.log(X[i-1][nuci_1] + SMALL_NUM) + softmax)
+                            gradient[j][nucj] = np.logaddexp(gradient[j][nucj], grad - np.log(X[j][nucj] + SMALL_NUM) + softmax)
+
+    for idx, grad in gradient_pairs.items():
+        i, j = idx
+        gradient_pairs[idx] = np.exp(grad) + np.exp(np.array([gradient[i][C] + gradient[j][G],
+                                                gradient[i][G] + gradient[j][C],
+                                                gradient[i][A] + gradient[j][U],
+                                                gradient[i][U] + gradient[j][A],
+                                                gradient[i][G] + gradient[j][U],
+                                                gradient[i][U] + gradient[j][G]]))
+
+    return gradient_pairs
