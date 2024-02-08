@@ -22,7 +22,7 @@ def generate_distribution(n):
     test_distribution = []
 
     for _ in range(n):
-        rand_int = np.random.randint(1, 5)
+        rand_int = np.random.randint(3, 5)
 
         if rand_int == 1:
             rand = np.array([1., 0.])
