@@ -268,10 +268,10 @@ def E_log_Q(X, mode):
 
     return obj, grad
 
-def E_log_Q(X, mode):
-    n = len(X)
+def E_log_Q_Dy(rna_struct, D, mode):
+    n = len(rna_struct)
     obj = 0.
-    grad = np.array([[0., 0., 0., 0.] for _ in range(n)])
+    grad = defaultdict(lambda: np.array([0., 0., 0., 0.]))
 
     if n not in sequences:
         # Generate all 4^n sequences
