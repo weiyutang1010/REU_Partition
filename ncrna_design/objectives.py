@@ -398,6 +398,7 @@ def expected_outside_partition_log_Dy(rna_struct, Q_hat, dist, X, mode):
     for j, c in enumerate(rna_struct):
         if c == '(': stack.append(j)
         elif c == ')': gradient_pairs[stack.pop(), j] = np.array([NEG_INF] * 6)
+        else: gradient_pairs[j, j] = np.array([NEG_INF] * 4)
 
     stack = []
     pairs_idx = set()
@@ -418,10 +419,7 @@ def expected_outside_partition_log_Dy(rna_struct, Q_hat, dist, X, mode):
                 grad = O_hat[j][i] + Q_hat[j-1][i] + unpaired_sc - Q_hat[j][i]
                 # gradient of unpaired_sc with respect to nucj
                 softmax = np.log(X[j][nucj] + SMALL_NUM) + (-unpaired(nucj) / RT) - unpaired_sc
-                
-                if (j, j) not in gradient_pairs:
-                    gradient_pairs[j, j] = np.array([NEG_INF, NEG_INF, NEG_INF, NEG_INF])
-                gradient_pairs[j, j][nucj] =  np.logaddexp(gradient_pairs[j, j][nucj], grad - np.log(X[j][nucj] + SMALL_NUM) + softmax)
+                gradient[j][nucj] =  np.logaddexp(gradient[j][nucj], grad - np.log(X[j][nucj] + SMALL_NUM) + softmax)
 
             if i > 0 and j-(i-1) > mode.sharpturn:
                 paired_sc = NEG_INF # calculate weighted paired score
@@ -468,5 +466,7 @@ def expected_outside_partition_log_Dy(rna_struct, Q_hat, dist, X, mode):
                                                 gradient[i][U] + gradient[j][A],
                                                 gradient[i][G] + gradient[j][U],
                                                 gradient[i][U] + gradient[j][G]]))
+        else:
+            gradient_pairs[idx] = np.exp(gradient[j])
 
     return gradient_pairs
