@@ -23,8 +23,8 @@ echo '(...)' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0
 11
 echo '()' | python rna_design.py --step 2500 --sharpturn 0 --penalty 0 --nocoupled --lr 0.01 --id 11 --obj pyx_noapprox
 12
-echo '()' | python rna_design.py --step 2500 --sharpturn 0 --penalty 0 --lr 0.01 --id 12 --obj pyx_jensen_Dy
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 12 --obj pyx_jensen_Dy
 13
-echo '((((...)))).' | python rna_design.py --step 5000 --sharpturn 0 --penalty 0 --lr 0.01 --id 13 --obj pyx_jensen_Dy
+echo '((((...)))).' | python rna_design.py --step 5000 --sharpturn 3 --penalty 0 --lr 0.01 --id 13 --obj pyx_jensen_Dy
 
 

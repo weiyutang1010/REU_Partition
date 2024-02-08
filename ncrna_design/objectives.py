@@ -13,6 +13,9 @@ SMALL_NUM = float('1e-18')
 CG,GC,AU,UA,GU,UG = range(6)
 A,C,G,U = range(4)
 
+sequences = []
+log_Q_cached = {}
+
 def paired(c1, c2, mode):
     _allowed_pairs = {"CG": -3, "GC": -3, "AU": -2, "UA":-2, "GU": -1, "UG":-1}
     c1, c2 = nucs[c1], nucs[c2]
@@ -60,7 +63,6 @@ def objective(rna_struct, dist, mode):
 
     elif mode.obj == 'deltaG':
         Delta_G, grad2 = expected_free_energy(rna_struct, X, mode)
-
         objective_value = Delta_G
 
     elif mode.obj == 'pyx_jensen_Dy':
@@ -233,7 +235,6 @@ def log_Q(x, mode):
 
     return Q[n-1][0]
 
-sequences = {}
 def E_log_Q(X, mode):
     n = len(X)
     obj = 0.
@@ -267,7 +268,39 @@ def E_log_Q(X, mode):
 
     return obj, grad
 
-sequences = {}
+def E_log_Q(X, mode):
+    n = len(X)
+    obj = 0.
+    grad = np.array([[0., 0., 0., 0.] for _ in range(n)])
+
+    if n not in sequences:
+        # Generate all 4^n sequences
+        sequences[n] = generate_sequences(range(4), n=n)
+
+    for seq in sequences[n]:
+        prob = 1.
+        for j, nuc in enumerate(seq):
+            prob *= X[j][nuc]
+
+        log_Qx = log_Q(seq, mode)
+        obj += prob * log_Qx
+
+        prob_grad = [1. for _ in range(n)]
+        # Compute products to the left of each element
+        for j in range(1, n):
+            prob_grad[j] *= X[j-1][seq[j-1]] * prob_grad[j-1]
+
+        # Compute products to the right of each element
+        right_prod = 1.
+        for j in range(n - 2, -1, -1):
+            right_prod *= X[j+1][seq[j+1]]
+            prob_grad[j] *= right_prod
+
+        for j, nuc in enumerate(seq):
+            grad[j][nuc] += prob_grad[j] * log_Qx
+
+    return obj, grad
+
 def E_exp_DeltaG(X, mode):
     """
         - log E[e^{-Delta G(x, y)}]
