@@ -9,7 +9,7 @@ n: 8, k: 2000
  [0.25 0.25 0.25 0.25]]
 Exact value (full):  -0.009318093009703718
 Jensen value (full):  -0.010576842551987393
-Second Order Approximation (full):  0.0
+Second Order Approximation (full):  -0.008534097855634254
 1 -0.03384925425052643
 2 -0.01828997174743563
 3 -0.01379056298173964
