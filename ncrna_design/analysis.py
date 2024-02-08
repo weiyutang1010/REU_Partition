@@ -128,7 +128,7 @@ def process_result_file(rna_id, result_file):
     plt.rcParams["figure.autolayout"] = True
 
     fig, ax1 = plt.subplots()
-    plt.axvline(x=48, color='r', linestyle='--')
+    # plt.axvline(x=48, color='r', linestyle='--')
 
     ax1.set_xlabel('Step')
     # ax1.set_ylabel(r'$\mathbb{E}[\Delta G(x, y)]$', color='red')
