@@ -124,10 +124,11 @@ def process_result_file(rna_id, result_file):
 
     objs_exp = [np.exp(-1 * obj) for obj in objs]
 
-    plt.rcParams["figure.figsize"] = [7.50, 3.50]
+    plt.rcParams["figure.figsize"] = [7.50, 4.50]
     plt.rcParams["figure.autolayout"] = True
 
     fig, ax1 = plt.subplots()
+    plt.axvline(x=48, color='r', linestyle='--')
 
     ax1.set_xlabel('Step')
     # ax1.set_ylabel(r'$\mathbb{E}[\Delta G(x, y)]$', color='red')
