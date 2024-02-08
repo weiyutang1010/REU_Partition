@@ -178,7 +178,6 @@ def approximation_gap(n, k, t):
 
     read_sequences(n)
 
-    
     with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
         # Define tasks to be executed concurrently
         futures = [executor.submit(compare, n, k) for _ in range(t)]
@@ -209,11 +208,11 @@ if __name__ == '__main__':
 
     parser.add_argument("--mode", type=int, default=0)
     parser.add_argument("--n", type=int, default=5)
-    parser.add_argument("--k", type=int, default=1000)
+    parser.add_argument("--k", type=int, default=2000)
     parser.add_argument("--t", type=int, default=500)
     args = parser.parse_args()
 
-    for n in range(10, 11):
+    for n in range(5, 11):
         with open(f'approx_gap/n{n}.txt', 'w') as f:
             sys.stdout = f
             print(f"n: {args.n}, k: {args.k}, t: {args.t}")
