@@ -211,10 +211,14 @@ if __name__ == '__main__':
     parser.add_argument("--t", type=int, default=500)
     args = parser.parse_args()
 
+    original_stdout = sys.stdout
     for n in range(5, 11):
         with open(f'approx_gap/n{n}.txt', 'w') as f:
             sys.stdout = f
-            print(f"n: {args.n}, k: {args.k}, t: {args.t}")
-            approximation_gap(args.n, args.k, args.t)
+            print(f"n: {n}, k: {args.k}, t: {args.t}")
+            approximation_gap(n, args.k, args.t)
+        sys.stdout = original_stdout
+        print(f"n = {n} done")
+
 
     

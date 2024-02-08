@@ -113,11 +113,12 @@ def sampling_test(n, k):
 
     partition_jensen, E_Qx = log_E_Q(D)
     partition_exact = E_log_Q(D)
-    partition_second = second_order_approx(D, E_Qx)
+    # partition_second = second_order_approx(D, E_Qx)
 
     print("Exact value (full): ", partition_exact)
     print("Jensen value (full): ", partition_jensen)
-    print("Second Order Approximation (full): ", partition_second)
+    # print("Second Order Approximation (full): ", partition_second)
+    print("Second Order Approximation (full): ", 0.)
 
     samples = [np.random.choice(['A','C','G','U'], k, p=x) for x in D]
     samples = np.array(samples).transpose()
@@ -150,7 +151,7 @@ if __name__ == '__main__':
     parser.add_argument("--k", type=int, default=2000)
     args = parser.parse_args()
 
-    for n in range(8, 10):
+    for n in range(6, 11):
         with open(f'samples/n{n}.txt', 'w') as f:
             sys.stdout = f
             print(f"n: {n}, k: {args.k}")
