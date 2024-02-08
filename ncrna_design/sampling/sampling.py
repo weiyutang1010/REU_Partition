@@ -155,6 +155,8 @@ def second_order_approx(D, E_Qx):
     var_Qx = E_Qx_squared - (E_Qx * E_Qx)
     second_order = np.log(E_Qx) - (var_Qx / (2 * E_Qx * E_Qx))
 
+    print(var_Qx, E_Qx, second_order)
+
     return second_order * -kT / 100.0
 
 # def second_order_approx(n):
@@ -169,6 +171,11 @@ def second_order_approx(D, E_Qx):
 #     print("Second Order value: ", partition_second_order)
 
 def read_sequences(n):
+    global sequences
+    sequences = []
+    global log_Q_cached
+    log_Q_cached = {}
+
     with open(f'Qx/n{n}.txt', 'r') as file:
         lines = file.read().split('\n')
         for line in lines[:-1]:
@@ -186,8 +193,6 @@ def sampling_test(n, k):
     #     futures = [executor.submit(log_Q, "".join(seq)) for seq in sequences[n]]
     #     concurrent.futures.wait(futures)
 
-    sequences.clear()
-    log_Q_cached.clear()
     read_sequences(n)
 
     partition_jensen, E_Qx = log_E_Q(D)
@@ -198,16 +203,14 @@ def sampling_test(n, k):
     print("Jensen value (full): ", partition_jensen)
     print("Second Order Approximation (full): ", partition_second)
 
-    samples = []
-    for x in D:
-        samples.append(np.random.choice(['A','C','G','U'], k, p=x))
+    samples = [np.random.choice(['A','C','G','U'], k, p=x) for x in D]
     samples = np.array(samples).transpose()
     seqs = ["".join(sample) for sample in samples]
 
     curr_sum = 0.
     for i, seq in enumerate(seqs):
         curr_sum += log_Q_cached[seq]
-        print(i+1, curr_sum / (i + 1))
+        # print(i+1, curr_sum / (i + 1))
 
 if __name__ == '__main__':
     np.random.seed(seed=42)
@@ -228,7 +231,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--mode", type=int, default=0)
     parser.add_argument("--n", type=int, default=5)
-    parser.add_argument("--k", type=int, default=1000)
+    parser.add_argument("--k", type=int, default=2000)
     parser.add_argument("--t", type=int, default=500)
     args = parser.parse_args()
 
@@ -237,8 +240,8 @@ if __name__ == '__main__':
         print(f"n: {args.n}, k: {args.k}, t: {args.t}")
         approximation_gap(args.n, args.k, args.t)
     else:
-        for n in range(5, 8):
-            with open(f'samples/n{n}.txt', 'w') as f:
-                sys.stdout = f
+        for n in range(8, 10):
+            # with open(f'samples/n{n}.txt', 'w') as f:
+            #     sys.stdout = f
                 print(f"n: {n}, k: {args.k}")
                 sampling_test(n, args.k)
