@@ -15,7 +15,49 @@ def generate_sequences(*args, n):
         result = [x+[y] for x in result for y in pool]
     return result
 
+def generate_distribution(n):
+    test_distribution = []
 
+    rand_int = np.random.randint(2, 5)
+
+    for _ in range(n):
+
+        if rand_int == 2:
+            rand = np.concatenate((np.random.sample(2), np.array([1., 0.])), axis=0)
+            rand.sort()
+
+            test_distribution.append([
+                rand[1] - rand[0],
+                rand[2] - rand[1],
+                0.,
+                0.,
+            ])
+            np.random.shuffle(test_distribution[-1])
+
+        if rand_int == 3:
+            rand = np.concatenate((np.random.sample(2), np.array([1., 0.])), axis=0)
+            rand.sort()
+
+            test_distribution.append([
+                rand[1] - rand[0],
+                rand[2] - rand[1],
+                rand[3] - rand[2],
+                0.,
+            ])
+            np.random.shuffle(test_distribution[-1])
+
+        if rand_int == 4:
+            rand = np.concatenate((np.random.sample(3), np.array([1., 0.])), axis=0)
+            rand.sort()
+
+            test_distribution.append([
+                rand[1] - rand[0],
+                rand[2] - rand[1],
+                rand[3] - rand[2],
+                rand[4] - rand[3]
+            ])
+
+    return np.array(test_distribution)
 
 def log_Q(x):
     fc = RNA.fold_compound(x)
