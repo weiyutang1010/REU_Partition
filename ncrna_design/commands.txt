@@ -20,3 +20,8 @@ echo '(...)' | python rna_design.py --step 2500 --sharpturn 3 --penalty 10 --lr 
 echo '(...)' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 9 --obj pyx_noapprox
 10
 echo '(...)' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 10 --obj pyx_jensen
+11
+echo '()' | python rna_design.py --step 2500 --sharpturn 0 --penalty 0 --nocoupled --lr 0.01 --id 11 --obj pyx_noapprox
+
+
+
