@@ -49,7 +49,6 @@ def objective(rna_struct, dist, mode):
         
         objective_value = Delta_G + log_Q_hat
         gradient = grad1 + grad2
-
     elif mode.obj == 'pyx_max':
         # - log E[e^{-Delta G(x, y)}] + log E[Q(x)]
         log_Q_hat = expected_inside_partition_log(X, mode)
@@ -72,6 +71,15 @@ def objective(rna_struct, dist, mode):
 
         objective_value = Delta_G + log_Q_hat[n-1][0]
         
+        gradient = {}
+        for idx in grad1:
+            gradient[idx] = grad1[idx] + grad2[idx]
+    elif mode.obj == 'pyx_noapprox_Dy':
+        # E[Delta G(x, y)] + E[log Q(x)]
+        log_Q_hat, grad1 = E_log_Q_Dy(X, mode)
+        Delta_G, grad2 = expected_free_energy_Dy(rna_struct, dist, mode)
+        
+        objective_value = Delta_G + log_Q_hat
         gradient = {}
         for idx in grad1:
             gradient[idx] = grad1[idx] + grad2[idx]
@@ -186,7 +194,7 @@ def expected_free_energy_Dy(struct, dist, mode):
     n = len(struct)
     free_energy = 0.
 
-    gradient = {}
+    gradient = defaultdict(lambda: np.array([0., 0., 0., 0.]))
 
     stack = []
     for j in range(n):
@@ -309,6 +317,12 @@ def expected_inside_partition_log_Dy(rna_struct, dist, X, mode):
     n = len(rna_struct)
     Q_hat = defaultdict(lambda: defaultdict(lambda: NEG_INF))
 
+    stack = []
+    pairs_idx = set()
+    for j, c in enumerate(rna_struct):
+        if c == '(': stack.append(j)
+        elif c == ')': pairs_idx.add((stack.pop(), j))
+
     X = [0 for _ in range(n)]
     marginalize(dist, X)
 
@@ -324,7 +338,7 @@ def expected_inside_partition_log_Dy(rna_struct, dist, X, mode):
 
             if i > 0 and j-(i-1) > mode.sharpturn:
                 paired_sc = NEG_INF # calculate weighted paired score
-                if rna_struct[i-1] == '(' and rna_struct[j] == ')':
+                if (i-1, j) in pairs_idx:
                     for nuci_1, nucj in _allowed_pairs:
                         paired_sc = np.logaddexp(paired_sc, np.log(dist[i-1, j][pairs(nuci_1, nucj)] + SMALL_NUM) + (-paired(nuci_1, nucj, mode) / RT))
                 else:
@@ -352,6 +366,12 @@ def expected_outside_partition_log_Dy(rna_struct, Q_hat, dist, X, mode):
         if c == '(': stack.append(j)
         elif c == ')': gradient_pairs[stack.pop(), j] = np.array([NEG_INF] * 6)
 
+    stack = []
+    pairs_idx = set()
+    for j, c in enumerate(rna_struct):
+        if c == '(': stack.append(j)
+        elif c == ')': pairs_idx.add((stack.pop(), j))
+
     O_hat[n-1][0] = 0.
     for j in range(n-1, -1, -1):
         for i in Q_hat[j-1]:
@@ -365,11 +385,14 @@ def expected_outside_partition_log_Dy(rna_struct, Q_hat, dist, X, mode):
                 grad = O_hat[j][i] + Q_hat[j-1][i] + unpaired_sc - Q_hat[j][i]
                 # gradient of unpaired_sc with respect to nucj
                 softmax = np.log(X[j][nucj] + SMALL_NUM) + (-unpaired(nucj) / RT) - unpaired_sc
-                gradient[j][nucj] =  np.logaddexp(gradient[j][nucj], grad - np.log(X[j][nucj] + SMALL_NUM) + softmax)
+                
+                if (j, j) not in gradient_pairs:
+                    gradient_pairs[j, j] = np.array([NEG_INF, NEG_INF, NEG_INF, NEG_INF])
+                gradient_pairs[j, j][nucj] =  np.logaddexp(gradient_pairs[j, j][nucj], grad - np.log(X[j][nucj] + SMALL_NUM) + softmax)
 
             if i > 0 and j-(i-1) > mode.sharpturn:
                 paired_sc = NEG_INF # calculate weighted paired score
-                if rna_struct[i-1] == '(' and rna_struct[j] == ')':
+                if (i-1, j) in pairs_idx:
                     for c1, c2 in _allowed_pairs:
                         paired_sc = np.logaddexp(paired_sc, np.log(dist[i-1, j][pairs(c1, c2)] + SMALL_NUM) + (-paired(c1, c2, mode) / RT))
 
@@ -405,7 +428,8 @@ def expected_outside_partition_log_Dy(rna_struct, Q_hat, dist, X, mode):
 
     for idx, grad in gradient_pairs.items():
         i, j = idx
-        gradient_pairs[idx] = np.exp(grad) + np.exp(np.array([gradient[i][C] + gradient[j][G],
+        if i != j:
+            gradient_pairs[idx] = np.exp(grad) + np.exp(np.array([gradient[i][C] + gradient[j][G],
                                                 gradient[i][G] + gradient[j][C],
                                                 gradient[i][A] + gradient[j][U],
                                                 gradient[i][U] + gradient[j][A],
