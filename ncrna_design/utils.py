@@ -126,7 +126,6 @@ def marginalize(params, X):
         if i == j:
             X[j] = prob
         else:
-            # 0-CG, 1-GC, 2-AU, 3-UA, 4-GU, 5-UG
             X[i] = np.array([prob[AU], prob[CG], prob[GC] + prob[GU], prob[UA] + prob[UG]])
             X[j] = np.array([prob[UA], prob[GC], prob[CG] + prob[UG], prob[AU] + prob[GU]])
 

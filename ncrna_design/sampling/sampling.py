@@ -174,6 +174,36 @@ def jensen_approx(n):
         concurrent.futures.wait(futures)
     partition_jensen = log_E_Q(D)
     print("Jensen value: ", partition_jensen)
+
+def V_Q(D):
+    """Brute Force"""
+    n = len(D)
+
+    if n not in sequences:
+        sequences[n] = generate_sequences('ACGU', n=n)
+
+    value = 0. # E[Q(x)]
+    value_squared = 0. # E[Q(x)^2]
+    for seq in sequences[n]:
+        Q_x = np.exp(log_Q_cached["".join(seq)] * 100 / -kT)
+        value += probability(D, seq) * Q_x
+        value_squared += probability(D, seq) * (Q_x * Q_x)
+
+    var_Qx = value_squared - (value * value)
+    var_Qx / (2 * value * value)
+
+    return np.log(value) * -kT / 100.0
+
+def second_order_approx(n):
+    D = np.array([[.25,.25,.25,.25] for _ in range(n)]) # random distribution
+    print(D)
+
+    sequences[n] = generate_sequences('ACGU', n=n)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
+        futures = [executor.submit(log_Q, "".join(seq)) for seq in sequences[n]]
+        concurrent.futures.wait(futures)
+    partition_second_order = V_Q(D)
+    print("Second Order value: ", partition_second_order)
     
 if __name__ == '__main__':
     np.random.seed(seed=42)

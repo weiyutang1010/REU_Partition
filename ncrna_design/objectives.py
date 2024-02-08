@@ -1,7 +1,7 @@
 import numpy as np
 from collections import defaultdict
 
-from utils import generate_sequences
+from utils import generate_sequences, marginalize
 
 RT = 1.
 nucs = 'ACGU'
@@ -251,3 +251,41 @@ def E_exp_DeltaG(X, mode):
             grad[j][nuc] += prob_grad[j] * log_Qx
 
     return obj, grad
+
+def pairs(a, b):
+    table = {(1, 2): 0, (2, 1): 1, (0, 3): 2, (3, 0): 3, (2, 3): 4, (3, 2): 5}
+    return table[a, b]
+
+def expected_inside_partition_log(rna_struct, dist, mode):
+    """
+        log E[Q(D_y)]
+    """
+    n = len(rna_struct)
+    Q_hat = defaultdict(lambda: defaultdict(lambda: NEG_INF))
+
+    X = [0 for _ in range(n)]
+    marginalize(dist, X)
+
+    for j in range(n):
+        Q_hat[j-1][j] = 0.
+
+    for j in range(n):
+        for i in Q_hat[j-1]:
+            unpaired_sc = NEG_INF
+            for nucj in range(4):
+                unpaired_sc = np.logaddexp(unpaired_sc, np.log(X[j][nucj] + SMALL_NUM) + (-unpaired(nucj) / RT))
+            Q_hat[j][i] = np.logaddexp(Q_hat[j][i], Q_hat[j-1][i] + unpaired_sc)
+
+            if i > 0 and j-(i-1) > mode.sharpturn:
+                paired_sc = NEG_INF # calculate weighted paired score
+                if rna_struct[i-1] == '(' and rna_struct[j] == ')':
+                    for nuci_1, nucj in _allowed_pairs:
+                        paired_sc = np.logaddexp(paired_sc, np.log(dist[pairs(nuci_1, nucj)] + SMALL_NUM) + (-paired(nuci_1, nucj, mode) / RT))
+                else:
+                    for nuci_1, nucj in _allowed_pairs:
+                        paired_sc = np.logaddexp(paired_sc, np.log(X[i-1][nuci_1] + SMALL_NUM) + np.log(X[j][nucj] + SMALL_NUM) + (-paired(nuci_1, nucj, mode) / RT))
+                
+                for k in Q_hat[i-2]:
+                    Q_hat[j][k] = np.logaddexp(Q_hat[j][k], Q_hat[i-2][k] + Q_hat[j-1][i] + paired_sc)
+
+    return Q_hat

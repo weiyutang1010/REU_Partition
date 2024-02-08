@@ -20,11 +20,11 @@ if sys.argv[2] == 'samples':
         plt.ylim(exact_value-0.001, exact_value+0.005)
 
         plt.axhline(y=exact_value, color='r', label='Exact Value (Full model)')
-        plt.axhline(y=jensen_value_simple, color='orange', label='Jensen Approximation (Simple model)')
+        # plt.axhline(y=jensen_value_simple, color='orange', label='Jensen Approximation (Simple model)')
         plt.axhline(y=jensen_value_full, color='g', label='Jensen Approximation (Full model)')
 
         plt.xlabel('Number of Samples')
-        plt.ylabel('E[log Q(x)] (kcal/mol)')
+        plt.ylabel('Free Energy of Ensemble (kcal/mol)')
         plt.title(f'Monte Carlo Sampling, n = {n}, Uniform Distribution')
 
         plt.plot(k, val, label='Sample Approximation (Full model)')
