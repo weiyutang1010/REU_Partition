@@ -8,6 +8,7 @@ if sys.argv[2] == 'samples':
         n = int(lines[0].split(', ')[0].split(': ')[1])
         exact_value = float(lines[n+1].split(': ')[1])
         jensen_value_full = float(lines[n+2].split(': ')[1])
+        second_order = float(lines[n+3].split(': ')[1])
 
         k = []
         val = []
@@ -16,11 +17,12 @@ if sys.argv[2] == 'samples':
                 k.append(int(line.split()[0]))
                 val.append(float(line.split()[1]))
 
-        plt.ylim(exact_value-0.0002, exact_value+0.0002)
+        plt.ylim(exact_value-0.002, exact_value+0.002)
 
         plt.axhline(y=exact_value, color='r', alpha=1.0, label='Exact Value (Full model)')
         # plt.axhline(y=jensen_value_simple, color='orange', label='Jensen Approximation (Simple model)')
         plt.axhline(y=jensen_value_full, color='g', alpha=0.6, label='Jensen Approximation (Full model)')
+        plt.axhline(y=second_order, color='orange', alpha=0.6, label='Second Order Approximation (Full model)')
 
         plt.xlabel('Number of Samples')
         plt.ylabel('Expected Free Energy of Ensemble (kcal/mol)')

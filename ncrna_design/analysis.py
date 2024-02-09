@@ -152,22 +152,22 @@ def valid(x, y):
     return True
 
 def main():
-    find best solutions
-    arr = []
-    sol = {}
-    for seq in generate_sequences('ACGU', n=12):
-        if "".join(seq[1:4]) != 'AAA':
-            continue
-        prob = get_boltz_prob(seq, '(...)', sharpturn=3)
-        seq = "".join(seq)
-        arr.append((-prob, seq))
-        sol[seq] = prob
-    arr.sort()
+    # # find best solutions
+    # arr = []
+    # sol = {}
+    # for seq in generate_sequences('ACGU', n=12):
+    #     if "".join(seq[1:4]) != 'AAA':
+    #         continue
+    #     prob = get_boltz_prob(seq, '(...)', sharpturn=3)
+    #     seq = "".join(seq)
+    #     arr.append((-prob, seq))
+    #     sol[seq] = prob
+    # arr.sort()
 
-    for x in arr[:5000]:
-        print(f"{x[1]} {-x[0]:.6f}")
+    # for x in arr[:5000]:
+    #     print(f"{x[1]} {-x[0]:.6f}")
 
-    return
+    # return
 
     # graph
     results_path = f'./results/{sys.argv[1]}/{sys.argv[2]}.txt'
