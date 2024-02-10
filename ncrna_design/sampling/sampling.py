@@ -16,7 +16,6 @@ def generate_sequences(*args, n):
     return result
 
 
-
 def log_Q(x):
     fc = RNA.fold_compound(x)
     log_Q_cached[x] = fc.pf()[1]
@@ -27,8 +26,6 @@ def probability(D, x):
     for idx, c in enumerate(x):
         p *= D[idx][nuc_to_idx[c]]
     return p
-
-
 
 def E_log_Q(D):
     """Brute Force"""
@@ -65,14 +62,12 @@ def second_order_approx(D, E_Qx):
     """Brute Force, E_Qx = E[Q(x)]"""
     n = len(D)
 
-    E_Qx_squared = 0. # E[Q(x)^2]
+    var = 0.
     for seq in sequences:
-        Q_x = np.exp(log_Q_cached[seq] * 100.0 / -kT)
-        E_Qx_squared += probability(D, seq) * (Q_x * Q_x)
+        Q_x = np.exp(log_Q_cached[seq] * 100.0 / -kT) # convert (-kT / 100.0) * log Q(x) to Q(x)
+        var += probability(D, seq) * (Q_x - E_Qx) * (Q_x - E_Qx) # compute E[(x - Q(x))^2]
 
-    var_Qx = E_Qx_squared - (E_Qx * E_Qx)
-    second_order = np.log(E_Qx) - (var_Qx / (2 * E_Qx * E_Qx))
-
+    second_order = np.log(E_Qx) - (var / (2 * E_Qx * E_Qx))
     return second_order * -kT / 100.0
 
 # def second_order_approx(n):
@@ -151,8 +146,12 @@ if __name__ == '__main__':
     parser.add_argument("--k", type=int, default=2000)
     args = parser.parse_args()
 
-    for n in range(6, 9):
+    original_stdout = sys.stdout
+
+    for n in range(8, 10):
         with open(f'samples/n{n}.txt', 'w') as f:
             sys.stdout = f
             print(f"n: {n}, k: {args.k}")
             sampling_test(n, args.k)
+        sys.stdout = original_stdout
+        print(f"n = {n} done")
