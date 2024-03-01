@@ -1,5 +1,6 @@
 import os, sys
 import numpy as np
+import argparse
 import matplotlib.pyplot as plt
 from collections import defaultdict
 
@@ -105,6 +106,7 @@ def process_result_file(rna_id, result_file):
     n, rna_struct = len(lines[0]), lines[0]
 
     sharpturn = int(lines[1].split(', ')[2].split(': ')[1])
+    lr = float(lines[1].split(', ')[0].split(': ')[1])
 
     objs, seqs, pyx = [], [], []
     for line in lines:
@@ -112,15 +114,21 @@ def process_result_file(rna_id, result_file):
             objs.append(float(line.split(', ')[1].split(': ')[1]))
             seqs.append(line.split(', ')[2].split(': ')[1])
 
+    best_seq, best_score = '', 0.
     prev_seq, prev_score = '', 0.
     for idx, seq in enumerate(seqs):
         if seq != prev_seq:
             prev_seq = seq
             prev_score = get_boltz_prob(seq, rna_struct, sharpturn)
             pyx.append(prev_score)
-            print(f"{idx}, {seq}, {prev_score:.4f}")
+            print(f"{idx}, {seq}, {prev_score:.6f}")
+            if prev_score > best_score:
+                best_seq = prev_seq
+                best_score = prev_score
         else:
             pyx.append(prev_score)
+
+    print(best_seq, best_score, len(np.unique(seqs)))
 
     objs_exp = [np.exp(-1 * obj) for obj in objs]
 
@@ -140,63 +148,70 @@ def process_result_file(rna_id, result_file):
     ax1.tick_params(axis='y')
     ax1.legend(fontsize="8")
 
-    plt.title(f'Puzzle {rna_struct}')
+    plt.title(f'id {rna_id}, Puzzle {rna_struct}, lr={lr}')
     plt.savefig(f'graphs/puzzle_{rna_id}.png', format="png", bbox_inches="tight")
 
-def valid(x, y):
-    _allowed_pairs = {'CG', 'GC', 'AU', 'UA', 'GU', 'UG'}
-    # for i, j in [(0, 10), (1, 9), (2, 8), (3, 7)]:
-    for i, j in [(0, 8), (1, 7), (2, 6)]:
-        if x[i] + x[j] not in _allowed_pairs:
-            return False
-    return True
-
 def main():
-    # # find best solutions
-    # arr = []
-    # sol = {}
-    # for seq in generate_sequences('ACGU', n=12):
-    #     if "".join(seq[1:4]) != 'AAA':
-    #         continue
-    #     prob = get_boltz_prob(seq, '(...)', sharpturn=3)
-    #     seq = "".join(seq)
-    #     arr.append((-prob, seq))
-    #     sol[seq] = prob
-    # arr.sort()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--y", type=str, default="")
+    parser.add_argument("--folder", type=str, default="temp")
+    parser.add_argument("--file", type=str, default="0")
 
-    # for x in arr[:5000]:
-    #     print(f"{x[1]} {-x[0]:.6f}")
+    parser.add_argument("--mode", type=str, default="best")
+    args = parser.parse_args()
 
-    # return
+    # find best solutions
+    if args.mode == "best":
+        arr = []
+        sol = {}
 
+        rna_struct = args.y
+        n = len(rna_struct)
+
+        with open(f'./Qx_nussinov/n{n}_y.txt', 'r') as file:
+            lines = file.read().split('\n')
+
+            for line in lines:
+                if len(line) > 0:
+                    seq = line.split(' ')[0]
+                    log_Q = float(line.split(' ')[1])
+                    delta_G = free_energy(seq, rna_struct)
+                    arr.append((-(np.exp(-delta_G) / np.exp(log_Q)), seq))
+        arr.sort()
+
+        prev_score = 0.
+        for idx, x in enumerate(arr[:200]):
+            if -x[0] != prev_score:
+                print(f"{idx}, {x[1]} {-x[0]:.3f}")
+                prev_score = -x[0]
     # graph
-    results_path = f'./results/{sys.argv[1]}/{sys.argv[2]}.txt'
-    with open(results_path, 'r') as result_file:
-        process_result_file(sys.argv[2], result_file)
-    return
+    elif args.mode == "graph":
+        results_path = f'./results/{args.folder}/{args.file}.txt'
+        with open(results_path, 'r') as result_file:
+            process_result_file(args.file, result_file)
 
-    baseline_path = ''
-    if len(sys.argv) > 2:
-        baseline_path = f'./results/{sys.argv[2]}'
+    # baseline_path = ''
+    # if len(sys.argv) > 2:
+    #     baseline_path = f'./results/{sys.argv[2]}'
     
-    ids = []
-    if os.path.exists(results_path):
-        for folder_path, _, filenames in os.walk(results_path):
-            for filename in filenames:
-                rna_id, extension = os.path.splitext(filename)
-                ids.append(int(rna_id))
+    # ids = []
+    # if os.path.exists(results_path):
+    #     for folder_path, _, filenames in os.walk(results_path):
+    #         for filename in filenames:
+    #             rna_id, extension = os.path.splitext(filename)
+    #             ids.append(int(rna_id))
         
-        sort_by_len = [8, 1, 23, 26, 15, 30, 88, 41, 3, 11, 57, 66, 40, 65, 20, 10, 33, 47]
-        # for rna_id in ids:
-        for rna_id in sort_by_len:
-            results_filepath = os.path.join(results_path, f'{rna_id}.txt')
-            baseline_filepath = os.path.join(baseline_path, f'{rna_id}.txt')
+    #     sort_by_len = [8, 1, 23, 26, 15, 30, 88, 41, 3, 11, 57, 66, 40, 65, 20, 10, 33, 47]
+    #     # for rna_id in ids:
+    #     for rna_id in sort_by_len:
+    #         results_filepath = os.path.join(results_path, f'{rna_id}.txt')
+    #         baseline_filepath = os.path.join(baseline_path, f'{rna_id}.txt')
 
-            with open(results_filepath, 'r') as result_file:
-                with open(baseline_filepath, 'r') as baseline_file:
-                    process_result_file(rna_id, result_file, baseline_file)
-    else:
-        print('Folder does not exist.')
+    #         with open(results_filepath, 'r') as result_file:
+    #             with open(baseline_filepath, 'r') as baseline_file:
+    #                 process_result_file(rna_id, result_file, baseline_file)
+    # else:
+    #     print('Folder does not exist.')
 
 
 if __name__ == '__main__':

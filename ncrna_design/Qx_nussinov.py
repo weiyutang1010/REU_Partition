@@ -50,7 +50,7 @@ def log_Q(x, y, file):
                     Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x[i-1], x[j])))
 
     with file_lock:
-        file.write(f"{x} {Q[n-1][0]:.20f}\n")
+        file.write(f"{x} {Q[n-1][0]:.10f}\n")
 
 def generate_sequences(*args, n):
     pools = [tuple(pool) for pool in args] * n
@@ -66,10 +66,10 @@ def generate_sequences(*args, n):
 #             futures = [executor.submit(log_Q, "".join(seq), file) for seq in sequences]
 #             concurrent.futures.wait(futures)
 
-y = "((((...))))."
+y = sys.argv[1]
 n = len(y)
 
-with open(f'Qx/n{n}_y.txt', 'w') as file:
+with open(f'Qx_nussinov/n{n}_y.txt', 'w') as file:
     sequences = generate_sequences('ACGU', n=n)
     print("Generation Done")
 

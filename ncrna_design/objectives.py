@@ -1,7 +1,9 @@
+import time
 import numpy as np
 from collections import defaultdict
 
 from utils import generate_sequences, marginalize
+from utils import read_sequences_Dy, get_probability_Dy, get_gradient_Dy
 
 RT = 1.
 nucs = 'ACGU'
@@ -17,8 +19,12 @@ sequences = []
 log_Q_cached = {}
 
 def paired(c1, c2, mode):
+    _allowed_pairs_idx = {(0, 3), (3, 0), (1, 2), (2, 1), (2, 3), (3, 2)}
     _allowed_pairs = {"CG": -3, "GC": -3, "AU": -2, "UA":-2, "GU": -1, "UG":-1}
-    c1, c2 = nucs[c1], nucs[c2]
+
+    if (c1, c2) in _allowed_pairs_idx:
+        c1, c2 = nucs[c1], nucs[c2]
+
     if c1 + c2 in _allowed_pairs:
         return _allowed_pairs[c1 + c2]
     else:
@@ -78,8 +84,18 @@ def objective(rna_struct, dist, mode):
             gradient[idx] = grad1[idx] + grad2[idx]
     elif mode.obj == 'pyx_noapprox_Dy':
         # E[Delta G(x, y)] + E[log Q(x)]
-        log_Q_hat, grad1 = E_log_Q_Dy(X, mode)
+        # Only works for (((...))) and ((((...)))). otherwise need to generate new Qx file
+        log_Q_hat, grad1 = E_log_Q_Dy(rna_struct, dist, mode)
         Delta_G, grad2 = expected_free_energy_Dy(rna_struct, dist, mode)
+        
+        objective_value = Delta_G + log_Q_hat
+        gradient = {}
+        for idx in grad1:
+            gradient[idx] = grad1[idx] + grad2[idx]
+    elif mode.obj == 'pyx_sampling_Dy':
+        # TODO: add mode: nussinov or vienna
+        log_Q_hat, grad1 = E_log_Q_Dy_sampling(rna_struct, dist, mode)
+        Delta_G, grad2 = expected_free_energy_Dy(rna_struct, dist, mode) #TODO: create vienna version
         
         objective_value = Delta_G + log_Q_hat
         gradient = {}
@@ -219,21 +235,26 @@ def expected_free_energy_Dy(struct, dist, mode):
     return free_energy, gradient
 
 def log_Q(x, mode):
-    n = len(x)
-    Q = defaultdict(lambda: defaultdict(lambda: NEG_INF))
+    _allowed_pairs = [(0, 3), (3, 0), (1, 2), (2, 1), (2, 3), (3, 2), ('C', 'G'), ('G', 'C'), ('A', 'U'), ('U', 'A'), ('G', 'U'), ('U', 'G')] 
+    if mode.energy_model == 'nussinov':
+        n = len(x)
+        Q = defaultdict(lambda: defaultdict(lambda: NEG_INF))
 
-    for j in range(n):
-        Q[j-1][j] = 0.
+        for j in range(n):
+            Q[j-1][j] = 0.
 
-    for j in range(n):
-        for i in Q[j-1]:
-            Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x[j])))
+        for j in range(n):
+            for i in Q[j-1]:
+                Q[j][i] = np.logaddexp(Q[j][i], Q[j-1][i] + (-unpaired(x[j])))
 
-            if i > 0 and j - (i-1) > mode.sharpturn and (x[i-1], x[j]) in _allowed_pairs:
-                for k in Q[i-2]:
-                    Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x[i-1], x[j], mode)))
+                if i > 0 and j - (i-1) > mode.sharpturn and (x[i-1], x[j]) in _allowed_pairs:
+                    for k in Q[i-2]:
+                        Q[j][k] = np.logaddexp(Q[j][k], Q[i-2][k] + Q[j-1][i] + (-paired(x[i-1], x[j], mode))) 
 
-    return Q[n-1][0]
+        return Q[n-1][0]
+    else:
+        # TODO: calls LinearPartition
+        return 0.
 
 def E_log_Q(X, mode):
     n = len(X)
@@ -268,38 +289,76 @@ def E_log_Q(X, mode):
 
     return obj, grad
 
-def E_log_Q_Dy(rna_struct, D, mode):
+def E_log_Q_Dy(rna_struct, dist, mode):
     n = len(rna_struct)
     obj = 0.
-    grad = defaultdict(lambda: np.array([0., 0., 0., 0.]))
 
-    if n not in sequences:
-        # Generate all 4^n sequences
-        sequences[n] = generate_sequences(range(4), n=n)
+    gradient = {}
+    for idx, probs in dist.items():
+        # initialization
+        i, j = idx
+        if i == j:
+            gradient[i, j] = np.array([0., 0., 0., 0.]) 
+        else:
+            gradient[i, j] = np.array([0., 0., 0., 0., 0., 0.])
 
-    for seq in sequences[n]:
-        prob = 1.
-        for j, nuc in enumerate(seq):
-            prob *= X[j][nuc]
+    global sequences, log_Q_cached
+    if len(sequences) == 0:
+        # Read all 6^pairs * 4^unpairs sequences
+        sequences, log_Q_cached = read_sequences_Dy(n)
 
+    for seq in sequences:
+        obj += get_probability_Dy(dist, seq) * log_Q_cached[seq]
+        grad = get_gradient_Dy(dist, seq)
+
+        for idx, probs in dist.items():
+            gradient[idx] += grad[idx] * log_Q_cached[seq]
+
+    return obj, gradient
+
+def E_log_Q_Dy_sampling(rna_struct, dist, mode):
+    n = len(rna_struct)
+    obj = 0.
+
+    gradient = {}
+    for idx, probs in dist.items():
+        # initialization
+        i, j = idx
+        if i == j:
+            gradient[i, j] = np.array([0., 0., 0., 0.]) 
+        else:
+            gradient[i, j] = np.array([0., 0., 0., 0., 0., 0.])
+
+    # sample k sequences from the distribution
+    samples = []
+    seq = ['A'] * n
+    for _ in range(mode.sample_size):
+        for idx, probs in dist.items():
+            i, j = idx
+            if i == j:
+                seq[j] = np.random.choice(['A','C','G','U'], p=probs)
+            else:
+                rand_pair = np.random.choice(['CG','GC','AU','UA', 'GU', 'UG'], p=probs)
+                seq[i], seq[j] = rand_pair[0], rand_pair[1]
+        samples.append(seq[:])
+
+    # TODO: can run in parallel
+    obj = 0.
+    for seq in samples:
         log_Qx = log_Q(seq, mode)
-        obj += prob * log_Qx
+        obj += log_Qx
 
-        prob_grad = [1. for _ in range(n)]
-        # Compute products to the left of each element
-        for j in range(1, n):
-            prob_grad[j] *= X[j-1][seq[j-1]] * prob_grad[j-1]
+        grad = get_gradient_Dy(dist, seq)
+        prob = get_probability_Dy(dist, seq)
+        for idx, probs in grad.items():
+            gradient[idx] += log_Qx * (grad[idx] / prob) 
 
-        # Compute products to the right of each element
-        right_prod = 1.
-        for j in range(n - 2, -1, -1):
-            right_prod *= X[j+1][seq[j+1]]
-            prob_grad[j] *= right_prod
+    for idx in gradient.keys():
+        gradient[idx] /= mode.sample_size
+    
+    obj /= mode.sample_size
 
-        for j, nuc in enumerate(seq):
-            grad[j][nuc] += prob_grad[j] * log_Qx
-
-    return obj, grad
+    return obj, gradient
 
 def E_exp_DeltaG(X, mode):
     """

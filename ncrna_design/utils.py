@@ -1,25 +1,28 @@
 import numpy as np
+import time
 
 A,C,G,U = range(4)
 CG,GC,AU,UA,GU,UG = range(6)
 
 class Mode:
-    def __init__(self, learning_rate=0.001, num_steps=2000, sharpturn=3, penalty=10, coupled=True, test=False, initialization='uniform', objective='pyx_jensen') -> None:
+    def __init__(self, learning_rate=0.001, num_steps=2000, sharpturn=3, penalty=10, coupled=True, k=500, energy='nussinov', test=False, initialization='uniform', objective='pyx_jensen') -> None:
         self.lr = learning_rate
         self.num_steps = num_steps
         self.sharpturn = sharpturn
         self.penalty = penalty
         self.coupled = coupled
+        self.sample_size = k # only for sampling mode
+        self.energy_model = energy # only for sampling mode
         self.test = test
         self.init = initialization
         self.obj = objective
 
     def print(self, file=None):
         if file:
-            file.write(f"Learning Rate: {self.lr}, Number of Steps: {self.num_steps}, Sharpturn: {self.sharpturn}, Penalty: {self.penalty}, Coupled: {self.coupled}\n")
+            file.write(f"Learning Rate: {self.lr}, Number of Steps: {self.num_steps}, Sharpturn: {self.sharpturn}, Penalty: {self.penalty}, Coupled: {self.coupled}, Sample Size: {self.sample_size}, Energy Model: {self.energy_model}\n")
             file.write(f"Initialization: {self.init}, Objective: {self.obj}\n")
         else:
-            print(f"Learning Rate: {self.lr}, Number of Steps: {self.num_steps}, Sharpturn: {self.sharpturn}, Penalty: {self.penalty}, Coupled: {self.coupled}")
+            print(f"Learning Rate: {self.lr}, Number of Steps: {self.num_steps}, Sharpturn: {self.sharpturn}, Penalty: {self.penalty}, Coupled: {self.coupled}, Sample Size: {self.sample_size}, Energy Model: {self.energy_model}")
             print(f"Initialization: {self.init}, Objective: {self.obj}")
 
 def params_init(rna_struct, mode):
@@ -135,3 +138,58 @@ def generate_sequences(*args, n):
     for pool in pools:
         result = [x+[y] for x in result for y in pool]
     return result
+
+def read_sequences_Dy(n):
+    sequences = []
+    log_Q_cached = {}
+    with open(f'Qx/n{n}_y.txt', 'r') as file:
+        lines = file.read().split('\n')
+        for line in lines[:-1]:
+            seq = line.split(' ')[0]
+            sequences.append(seq)
+            log_Q_cached[seq] = float(line.split(' ')[1])
+
+    return sequences, log_Q_cached
+
+_nucs_to_idx = {'AA': 0, 'CC': 1, 'GG': 2, 'UU': 3, 'CG': 0, 'GC': 1, 'AU': 2, 'UA': 3, 'GU': 4, 'UG': 5}
+def get_probability_Dy(dist, seq):
+    # dist = {(idx): [distribution]}
+    # seq = ['A','C','G','U]^n
+    
+    prob = 1.
+    for idx, probs in dist.items():
+        i, j = idx
+        prob *= dist[i, j][_nucs_to_idx[seq[i] + seq[j]]]
+
+    return prob
+
+def get_gradient_Dy(dist, seq):
+    # objective += probability(dist, seq) * log_Qx
+
+    gradient = {}
+    for idx, probs in dist.items():
+        # initialization
+        i, j = idx
+        if i == j:
+            gradient[idx] = np.array([0., 0., 0., 0.]) 
+        else:
+            gradient[idx] = np.array([0., 0., 0., 0., 0., 0.])
+        
+        gradient[idx][_nucs_to_idx[seq[i] + seq[j]]] = 1.
+
+    # (((...)))
+    # prob(0, 8, seq[0, 8]) * prob(1, 7, seq[1, 7]) * ... * log_Qx
+
+    # compute product of elements except for itself
+    indices = dist.keys()
+
+    # TODO: optimize this to O(n)
+    for idx, probs in dist.items():
+        i, j = idx
+
+        for idx2 in indices:
+            if idx != idx2:
+                p, q = idx2
+                gradient[p, q][_nucs_to_idx[seq[p] + seq[q]]] *= probs[_nucs_to_idx[seq[i] + seq[j]]]
+
+    return gradient

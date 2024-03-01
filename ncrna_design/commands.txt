@@ -26,5 +26,29 @@ echo '()' | python rna_design.py --step 2500 --sharpturn 0 --penalty 0 --nocoupl
 echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 12 --obj pyx_jensen_Dy
 13
 echo '((((...)))).' | python rna_design.py --step 5000 --sharpturn 3 --penalty 0 --lr 0.01 --id 13 --obj pyx_jensen_Dy
-
-
+14
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 14 --obj pyx_noapprox_Dy
+15
+echo '((((...)))).' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --id 15 --obj pyx_noapprox_Dy
+16
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --k 1000 --id 16 --obj pyx_sampling_Dy
+17
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.005 --k 1000 --id 17 --obj pyx_sampling_Dy
+18
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.001 --k 1000 --id 18 --obj pyx_sampling_Dy
+19
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.0001 --k 1000 --id 19 --obj pyx_sampling_Dy
+20
+echo '((((...)))).' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.005 --k 1000 --id 20 --obj pyx_sampling_Dy
+21
+echo '((((...)))).' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.01 --k 1000 --id 21 --obj pyx_sampling_Dy
+22
+echo '((((...)))).' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.005 --k 2000 --id 22 --obj pyx_sampling_Dy
+23
+echo '((((...)))).' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.005 --k 5000 --id 23 --obj pyx_sampling_Dy
+24
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.005 --k 2000 --id 24 --obj pyx_sampling_Dy
+25
+echo '(((...)))' | python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.005 --k 5000 --id 25 --obj pyx_sampling_Dy
+sampling_Dy
+python rna_design.py --step 2500 --sharpturn 3 --penalty 0 --lr 0.005 --k 2000 --test --path sampling_Dy --obj pyx_sampling_Dy

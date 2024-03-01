@@ -50,7 +50,7 @@ def projection_simplex_np_batch_coupled(params, z=1): # Tian Shuo's projection c
         x_proj = np.maximum(x.transpose() - theta[np.arange(len(x)), index], 0)
         params[idx] = x_proj.transpose().flatten()
 
-def gradient_descent(rna_struct, dist, mode, results_file):
+def gradient_descent(rna_id, rna_struct, dist, mode, results_file):
     total_start_time = time.time()
     n = len(rna_struct)
     log = []
@@ -72,7 +72,7 @@ def gradient_descent(rna_struct, dist, mode, results_file):
         
         objective_value, grad, grad1, grad2 = objective(rna_struct, dist, mode)
 
-        if mode.obj == 'pyx_jensen_Dy':
+        if mode.obj[-2:] == 'Dy':
             for idx, prob in dist.items():
                 i, j = idx
                 dist[i, j] -= mode.lr * grad[i, j]
@@ -80,7 +80,7 @@ def gradient_descent(rna_struct, dist, mode, results_file):
         elif mode.coupled:
             for idx, prob in dist.items():
                 i, j = idx
-                if j == j:
+                if i == j:
                     dist[i, j] -= mode.lr * grad[i]
                 else:
                     dist[i, j] -= mode.lr * np.array([grad[i][C] + grad[j][G],
@@ -97,9 +97,10 @@ def gradient_descent(rna_struct, dist, mode, results_file):
             dist = X
 
         # Debug: Print Gradient
-        if mode.obj == 'pyx_jensen_Dy':
+        if mode.obj[-2:] == 'Dy':
             results_file.write('\nE[Delta G(D_y, y)] + E[log Q(D_y)] gradient\n')
             for idx, prob in sorted(dist.items()):
+                i, j = idx
                 if i == j:
                     results_file.write(f"{i}, grad: A {grad[i, j][A]:.4f} C {grad[i, j][C]:.4f} G {grad[i, j][G]:.4f} U {grad[i, j][U]:.4f}\n")
                 else:
@@ -109,6 +110,7 @@ def gradient_descent(rna_struct, dist, mode, results_file):
             grad = grad2
             results_file.write('E[Delta G(D_y, y)]gradient\n')
             for idx, prob in sorted(dist.items()):
+                i, j = idx
                 if i == j:
                     results_file.write(f"{i}, grad: A {grad[i, j][A]:.4f} C {grad[i, j][C]:.4f} G {grad[i, j][G]:.4f} U {grad[i, j][U]:.4f}\n")
                 else:
@@ -118,6 +120,7 @@ def gradient_descent(rna_struct, dist, mode, results_file):
             grad = grad1
             results_file.write('E[log Q(D_y)] gradient\n')
             for idx, prob in sorted(dist.items()):
+                i, j = idx
                 if i == j:
                     results_file.write(f"{i}, grad: A {grad[i, j][A]:.4f} C {grad[i, j][C]:.4f} G {grad[i, j][G]:.4f} U {grad[i, j][U]:.4f}\n")
                 else:
@@ -163,8 +166,10 @@ def gradient_descent(rna_struct, dist, mode, results_file):
 
         curr_seq =  get_intergral_solution(rna_struct, dist, n, mode)
         results_file.write(f'step: {epoch+1}, objective value: {objective_value:.12f}, seq: {curr_seq}, time: {elapsed_time:.2f}\n')
+        print(f'rna_id: {rna_id}, step: {epoch+1}, time: {elapsed_time:.2f}')
         print_distribution(dist, mode, results_file)
         log.append(objective_value)
+        results_file.flush()
 
         if len(log) >= 2 and abs(log[-1] - log[-2]) < 1e-8:
             break
@@ -190,7 +195,7 @@ def optimize(line, initial_distributions, results_folder, mode):
     with open(result_filepath, 'w+') as results_file:
         results_file.write(f'{rna_struct}\n')
         mode.print(results_file)
-        gradient_descent(rna_struct, dist, mode, results_file)
+        gradient_descent(rna_id, rna_struct, dist, mode, results_file)
 
 def main():
     # np.random.seed(seed=42)
@@ -204,12 +209,14 @@ def main():
     parser.add_argument("--obj", type=str, default='pyx_jensen')
     parser.add_argument("--path", type=str, default='temp2')
     parser.add_argument("--nocoupled", action='store_true', default=False)
+    parser.add_argument("--k", type=int, default=500)
+    parser.add_argument("--energy", type=str, default='nussinov')
     parser.add_argument("--test", action='store_true', default=False)
     parser.add_argument("--data", type=str, default='short_eterna.txt')
     parser.add_argument("--threads", type=int, default=8)
     args = parser.parse_args()
 
-    mode = Mode(args.lr, args.step, args.sharpturn, args.penalty, not args.nocoupled, args.test, args.init, args.obj)
+    mode = Mode(args.lr, args.step, args.sharpturn, args.penalty, not args.nocoupled, args.k, args.energy, args.test, args.init, args.obj)
     result_folder = args.path
 
     if args.test:
